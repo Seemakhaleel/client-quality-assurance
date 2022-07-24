@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: username
+    ports:
+      - 5432:5432
+
+  quality-assurance-api:
+    image: kosmodev101/quality-assurance-api
+    environment:
+      Postgresql__connectionString: Host=postgres:5432;Username=username;Password=password;Database=QualityAssuranceDB
+      TokenSettings__Audience: quality-assurance-client
+      TokenSettings__Issuer: quality-assurance-api
+      TokenSettings__AccessTokenExpiration: 5
+      TokenSettings__RefreshTokenExpiration: 10
+      TokenSettings__AccessTokenSecret: 1234567890
+      TokenSettings__RefreshTokenSecret: 0987654321
+    ports:
+      - 8080:80
