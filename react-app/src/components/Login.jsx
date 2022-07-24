@@ -1,35 +1,33 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline'; //cssbaseline component for the footer that is used to make the footer look better
 import TextField from '@mui/material/TextField';
-// import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid'; //the grid component is used to create a grid layout for the sign up page
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import Container from '@mui/material/Container'; // the container component is used to center the content of the page
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Link} from "react-router-dom";
 
 
-function Copyright(props) {
+function Copyright(props) { //copyright component for footer that returns a typography component that dynamically changes the copyright year
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      {/* <Link color="inherit" >
-       Seema
-      </Link>{' '} */}
-      {new Date().getFullYear()}
+      
+      {new Date().getFullYear()} 
       {'.'}
     </Typography>
   );
 }
 
-const theme = createTheme();
+const theme = createTheme();//creates a theme for the app to use  
 
 export default function Login() {
-  const handleSubmit = (event) => {
+  
+  const handleSubmit = (event) => { //handles the submit event of the form
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
@@ -77,10 +75,7 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
+           
             <Button
               type="submit"
               fullWidth
@@ -92,7 +87,7 @@ export default function Login() {
             <Grid container>
         
               <Grid item>
-              <Link to="/signup" variant="body2">
+              <Link to="/signup" variant="body2"> 
                 Already have an account? Sign in
                 </Link>
               </Grid>
