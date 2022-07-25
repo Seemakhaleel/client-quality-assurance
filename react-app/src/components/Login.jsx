@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container'; // the container component is used to center the content of the page
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Link} from "react-router-dom";
-
+import { useState } from 'react';
 
 function Copyright(props) { //copyright component for footer that returns a typography component that dynamically changes the copyright year
   return (
@@ -26,6 +26,8 @@ function Copyright(props) { //copyright component for footer that returns a typo
 const theme = createTheme();//creates a theme for the app to use  
 
 export default function Login() {
+  const [inputText, setInputText] = useState([])  
+
   
   const handleSubmit = (event) => { //handles the submit event of the form
     event.preventDefault();
@@ -39,7 +41,7 @@ export default function Login() {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
+        <CssBaseline /> 
         <Box
           sx={{
             marginTop: 8,
@@ -81,14 +83,16 @@ export default function Login() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+             
             >
+              
               Sign In
             </Button>
             <Grid container>
         
               <Grid item>
               <Link to="/signup" variant="body2"> 
-                Already have an account? Sign in
+                Already have an account? Sign up
                 </Link>
               </Grid>
             </Grid>
