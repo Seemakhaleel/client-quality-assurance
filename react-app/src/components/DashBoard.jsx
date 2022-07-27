@@ -15,9 +15,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-
+import { Link } from "react-router-dom";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
+import { Outlet } from "react-router-dom";
+import LogoutIcon from '@mui/icons-material/Logout';
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -78,91 +80,118 @@ export default function DashBoard() {
   };
 
   return (
-    <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: "flex" }}>
-        <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: "24px",
-              bgcolor: "#5c6bc0", // keep right padding when drawer closed
-            }}
-          >
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
-              sx={{
-                marginRight: "36px",
-                ...(open && { display: "none" }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              AskAway
-            </Typography>
-            <IconButton color="inherit">
-              <AccountCircleIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Drawer variant="permanent" open={open} >
-          <Toolbar
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              px: [1],
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
+    <>
+      <ThemeProvider theme={mdTheme}>
+        <Box sx={{ height: "100vh"}}>
+          <Box sx={{ flexGrow: 1}}>
+            <AppBar position="static" open={open}>
+              <Toolbar
+                sx={{
+                  pr: "24px",
+                  bgcolor: "#5c6bc0", // keep right padding when drawer closed
+                }}
+              >
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={toggleDrawer}
+                  sx={{
+                    marginRight: "36px",
+                    ...(open && { display: "none" }),
+                  }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography
+                  component="h1"
+                  variant="h6"
+                  color="inherit"
+                  noWrap
+                  sx={{ flexGrow: 1 }}
+                >
+                  AskAway
+                </Typography>
+                <IconButton color="inherit">
+                  <AccountCircleIcon />
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+            </Box>
 
-          <Box sx={{ width: "100%", maxWidth: 360, height: "100%" }}>
-            <nav>
-              <List>
-                <ListItem disablePadding>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <QuestionAnswerIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Questions" />
-                  </ListItemButton>
-                </ListItem>
+          <Box display="flex" height="100%" >
+          
+            <Drawer variant="permanent" open={open}>
+              <Toolbar
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                 
+                }}
+              >
+                <IconButton onClick={toggleDrawer}>
+                  <ChevronLeftIcon />
+                </IconButton>
+              </Toolbar>
+              <Divider />
+             
+              <Box sx={{ width: "80%", maxWidth: 360, height: "100%" }}>
+                <nav>
+                  <List>
+                    <ListItem disablePadding>
+                      <Link
+                        to="/dashboard/questions"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <ListItemButton>
+                          <ListItemIcon>
+                            <QuestionAnswerIcon />
+                          </ListItemIcon>
+                          <ListItemText primary="Questions" />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
 
-                <ListItem disablePadding>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <RecentActorsIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Assign Roles" />
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </nav>
+                    <ListItem disablePadding>
+                      <Link to="/dashboard/users" 
+                        style={{ textDecoration: "none", color: "black" }}>
+                      <ListItemButton>
+                        <ListItemIcon>
+                          <RecentActorsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="List of users" />
+                      </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  </List>
+                </nav>
 
-            <nav>
-              <List>
-                <ListItem disablePadding>
-                  <ListItemButton>
-                    <ListItemText primary="Logout" />
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </nav>
+                <nav>
+                  <List>
+                    <ListItem disablePadding>
+                      <Link
+                        to="/login"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <ListItemButton>
+                        <ListItemIcon>
+                          <LogoutIcon />
+                        </ListItemIcon>
+                          <ListItemText primary="Logout" />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  </List>
+                </nav>
+
+              </Box>
+            </Drawer>
+
+            <Outlet />
           </Box>
-        </Drawer>
-      </Box>
-    </ThemeProvider>
+        </Box>
+      </ThemeProvider>
+    </>
   );
 }
