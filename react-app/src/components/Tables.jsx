@@ -5,10 +5,14 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import EditIcon from "@mui/icons-material/Edit";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  // styles for TableCell
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
@@ -19,72 +23,65 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export default function Tables({ users, cols, SelectedRow }) {
-  console.log(users);
   return (
-    <TableContainer component={Paper}>
-      <Table
-        sx={{
-          minWidth: 500,
-          width: 40,
-          height: 50,
-          marginTop: 10,
-          marginLeft: 50,
-          fontStyle: "italic",
-        }}
-        size="huge"
-        aria-label="a dense table"
-      >
-        <TableHead>
-          <TableRow>
-            {cols.map((col, index) => (
-              <StyledTableCell key={index}> {col.name}</StyledTableCell>
-            ))}
-          </TableRow>
-        </TableHead>
+    <>
 
-
-
-     <TableBody>
-      <TableRow> 
-        {users.map((user, index) => (
-          <TableCell key={index}>{user.rows}</TableCell>
-        ))};
-        
-        </TableRow>    
-      
-      
-      </TableBody>
-
-
-
-
-        {/* <TableBody>
-          {users.map((user) => (
-            <TableRow
-              key={user.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              //   onClick={() => console.log(users.id)}
-              onClick={() => SelectedRow(user.id)}
-            >
-              <StyledTableCell component="th" scope="row">
-                {" "}
-                {user.role}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {user.displayName}
-              </StyledTableCell>
-              <StyledTableCell align="right">{user.email}</StyledTableCell>
-              <StyledTableCell align="right">{user.firstname}</StyledTableCell>
-              <StyledTableCell align="right">{user.lastname}</StyledTableCell>
+      {/* <TableContainer sx={{ bgcolor: 'black'}}> */}
+        <Table
+          sx={{
+            minWidth: 650,
+            width: 70,
+            height: 50,
+            marginTop: 10,
+            marginLeft: 50,
+            fontStyle: "italic",
+            border: "1px solid black",
+            bgcolor: "#757575",
+            color: "white",
+          }}
+          
+          aria-label="simple table"
+        >
+          <TableHead>
+            <TableRow>
+              {cols.map((col, index) => (
+                <StyledTableCell key={index}> {col.name}</StyledTableCell>
+              ))}
             </TableRow>
-          ))}
-        </TableBody> */}
+          </TableHead>
 
+          <TableBody>
+            {users.map((user, index) => (
+              <TableRow key={index}
+              onClick={() => SelectedRow(user.id)}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#9e9e9e",
+                  cursor: "pointer",
+                  }
+              }}>
+                <TableCell>{user.role}</TableCell>
+                <TableCell>{user.displayName}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.firstName}</TableCell>
+                <TableCell>{user.lastName}</TableCell>
+              </TableRow>
+            ))}
+           
+          </TableBody>
+          </Table>
+         
+{/*         
+        <IconButton sx={{ marginBottom: 70, marginRight: 60 }}>
+        <EditIcon />
+      
+   
+      </IconButton> */}
+     
+    
+      
 
-
-
-
-      </Table>
-    </TableContainer>
+      
+    </>
   );
 }

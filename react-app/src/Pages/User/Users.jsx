@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Tables from "../../components/Tables";
 
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,6 @@ const Users = () => {
     },
     {
       name: "email",
-
     },
     {
       name: "first name",
@@ -26,37 +25,35 @@ const Users = () => {
     },
   ]);
   const [users, setUsers] = useState([
-    { 
-  
-      id: 1,
-      firstname: "seema",
-      lastname: "khalil",
+    {
       role: "admin",
-      email: "sjdh@",
-      displayName: "seema khalil",
+      displayName: "Seema M",
+      email: "seema@",
+      firstName: "Seema",
+      lastName: "M",
+    },
+
+    {
+      role: "SE",
+      displayName: "Hama M",
+      email: "Hama@",
+      firstName: "Hama",
+      lastName: "M",
     },
     {
-      id: 2,
-      firstname: "Hama",
-      lastname: "khalil",
-      role: "admin",
-      email: "sjdh@",
-      displayName: "seema khalil",
+      role: "QA",
+      displayName: "zhin M",
+      email: "zhin@",
+      firstName: "Hama",
+      lastName: "M",
     },
-    {
-      id: 3,
-      firstname: "Zhin",
-      lastname: "khalil",
-      role: "admin",
-      email: "sjdh@",
-      displayName: "seema khalil",
-    },
+
+   
   ]); //list of users
 
   const SelectedRow = (id) => {
+    // selected row function to navigate to user details page with id as parameter and passing id to user details page
     navigate("/dashboard/users/" + id);
-
-    // console.log(users.id);
   };
 
   // function deleteUser(id) { //delete user

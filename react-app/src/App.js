@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Questions from "./Pages/Questions/Questions";
 import Users from "./Pages/User/Users";
 import User from "./Pages/User/User";
+import Question from "./Pages/Questions/Question";
 
 function App() {
   return (
@@ -13,10 +14,13 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route path="login" element={<Login />} />
+            <Route path="" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="dashboard" element={<DashBoard />}>
-              <Route path="questions" element={<Questions />} />
+              <Route path="questions" >
+                <Route path="" element={<Questions />} />
+                <Route path=":id" element={<Question />} />
+              </Route>
               <Route path="users">
                 <Route path="" element={<Users />} />
                 <Route path=":user" element={<User />} />
