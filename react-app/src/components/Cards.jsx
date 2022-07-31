@@ -21,7 +21,7 @@ export default function Cards({ questions }) {
   const navigate = useNavigate();
   return (
     <>
-      <Container>
+      <Container sx={{marginTop:10}}>
         <Grid container>
           <Grid item  xs={12} md={4}>
             {questions.map((ques) => (
@@ -66,3 +66,5 @@ export default function Cards({ questions }) {
     </>
   );
 }
+
+

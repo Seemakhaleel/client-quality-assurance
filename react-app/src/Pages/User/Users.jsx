@@ -7,46 +7,61 @@ import { useNavigate } from "react-router-dom";
 const Users = () => {
   const navigate = useNavigate();
 
-  const [cols, setCols] = useState([
+  const [cols] = useState([
     {
       name: "role",
+      label: "Role",
     },
     {
-      name: "display name",
+      name: "displayName",
+      label: "Display Name",
     },
     {
       name: "email",
+      label: "Email",
     },
     {
-      name: "first name",
+      name: "firstName",
+      label: "First Name",
     },
     {
-      name: "last name",
+      name: "lastName",
+      label: "Last Name",
     },
+    {
+      name: "action",
+      label: "action",
+    },
+  
   ]);
-  const [users, setUsers] = useState([
-    {
+  const [users,setUsers] = useState([
+    { id:0,
       role: "admin",
-      displayName: "Seema M",
-      email: "seema@",
+      displayName: "Seema Muhammad",
+      email: "seema@.com",
       firstName: "Seema",
-      lastName: "M",
+      lastName: "Muhammad",
+    
     },
 
-    {
-      role: "SE",
-      displayName: "Hama M",
-      email: "Hama@",
+    { id:1,
+      role: "software ",
+      displayName: "Hama ranj",
+      email: "Hama@.com",
       firstName: "Hama",
-      lastName: "M",
+      lastName: "ranj",
+     
     },
     {
-      role: "QA",
-      displayName: "zhin M",
-      email: "zhin@",
-      firstName: "Hama",
-      lastName: "M",
+      id:2,
+      role: "quality assurance",
+      displayName: "zhin ahmad",
+      email: "zhin@.com",
+      firstName: "zhin",
+      lastName: "ahmad",
+     
     },
+  
 
    
   ]); //list of users
@@ -56,9 +71,9 @@ const Users = () => {
     navigate("/dashboard/users/" + id);
   };
 
-  // function deleteUser(id) { //delete user
-  //   setUsers(users.filter((user) => user.id !== id));
-  // }
+  function deleteUser(id) { //delete user
+    setUsers(users.filter((user) => user.id !== id));
+  }
   // function updateUser(user) { //update user
   //   setUsers(users.map((u) => (u.id === user.id ? user : u)));
   // }

@@ -1,4 +1,4 @@
-import "./App.css";
+
 import Login from "./Pages/userAuth/Login";
 import SignUp from "./Pages/userAuth/SignUp";
 import DashBoard from "./components/DashBoard";
@@ -7,6 +7,7 @@ import Questions from "./Pages/Questions/Questions";
 import Users from "./Pages/User/Users";
 import User from "./Pages/User/User";
 import Question from "./Pages/Questions/Question";
+import Categories from "./Pages/Categories/Categories";
 
 function App() {
   return (
@@ -23,12 +24,14 @@ function App() {
               </Route>
               <Route path="users">
                 <Route path="" element={<Users />} />
-                <Route path=":user" element={<User />} />
+                <Route path=":id" element={<User />} />
               </Route>
+              <Route path='categories' element={<Categories/>}/>
             </Route>
           </Route>
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> 
+     
     </>
   );
 }

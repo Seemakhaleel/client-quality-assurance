@@ -17,6 +17,27 @@ const Questions = () => {
         " React Router is a JavaScript routing library for React. It isdesigned with a focus on client-side navigation for use in browsers. React Router is a collection of components that make it easy to build a variety of applications that have a top-down navigation model.",
         
     },
+    {
+      id: 3,
+      name: "What is React Router?",
+      description:
+        " React Router is a JavaScript routing library for React. It isdesigned with a focus on client-side navigation for use in browsers. React Router is a collection of components that make it easy to build a variety of applications that have a top-down navigation model.",
+        
+    },
+    {
+      id: 4,
+      name: "What is React Router?",
+      description:
+        " React Router is a JavaScript routing library for React. It isdesigned with a focus on client-side navigation for use in browsers. React Router is a collection of components that make it easy to build a variety of applications that have a top-down navigation model.",
+        
+    },
+    {
+      id: 5,
+      name: "What is React Router?",
+      description:
+        " React Router is a JavaScript routing library for React. It isdesigned with a focus on client-side navigation for use in browsers. React Router is a collection of components that make it easy to build a variety of applications that have a top-down navigation model.",
+        
+    },
   ]);
   return (
     <>

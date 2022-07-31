@@ -21,7 +21,11 @@ import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import { Outlet } from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
+import CategoryIcon from '@mui/icons-material/Category';
+
 const drawerWidth = 240;
+
+
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -89,37 +93,36 @@ export default function DashBoard() {
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
-    setOpen(true);
+    setOpen(!open);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
+ 
   return (
     <>
       <ThemeProvider theme={mdTheme}>
         <Box sx={{ height: "100vh"}}>
           <Box sx={{ flexGrow: 1}}>
-            <AppBar position="static" open={open}>
+            <AppBar open={open}>
               <Toolbar
                 sx={{
                   pr: "24px",
-                  bgcolor: "#5c6bc0", // keep right padding when drawer closed
+                  bgcolor: "#37474f", // keep right padding when drawer closed
                 }}
               >
                 <IconButton
                   edge="start"
                   color="inherit"
                   aria-label="open drawer"
-                  onClick={toggleDrawer}
-
+                 
+                  onClick={handleDrawerOpen}
+                  
                   sx={{
                     marginRight: "36px",
-                    ...(open && { display: "none" }),
+                   
+                  ...(open && { display: "none" }),
                   }}
                 >
                   <MenuIcon />
@@ -143,7 +146,8 @@ export default function DashBoard() {
 
           <Box display="flex" height="100%" >
           
-            <Drawer variant="permanent" open={open}>
+            <Drawer variant="permanent" open={open}
+            >
              
               <Toolbar
                 sx={{
@@ -156,7 +160,7 @@ export default function DashBoard() {
                 }}
               >
                   <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose }>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
@@ -193,9 +197,23 @@ export default function DashBoard() {
                       </Link>
                     </ListItem>
                   </List>
-                </nav>
-
-                <nav>
+                
+                  <List>
+                    <ListItem disablePadding>
+                      <Link
+                        to="/dashboard/categories"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <ListItemButton>
+                        <ListItemIcon>
+                        <CategoryIcon/>
+                        </ListItemIcon>
+                          <ListItemText primary="Question Categories" />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  </List>
+                  
                   <List>
                     <ListItem disablePadding>
                       <Link
@@ -211,15 +229,21 @@ export default function DashBoard() {
                       </Link>
                     </ListItem>
                   </List>
+
+
                 </nav>
+
+
 
               </Box>
             </Drawer>
 
             <Outlet />
+  
           </Box>
         </Box>
       </ThemeProvider>
     </>
   );
 }
+
