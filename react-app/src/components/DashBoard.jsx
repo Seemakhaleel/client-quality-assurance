@@ -1,5 +1,10 @@
 import * as React from "react";
-import { styled, createTheme, ThemeProvider,useTheme } from "@mui/material/styles";
+import {
+  styled,
+  createTheme,
+  ThemeProvider,
+  useTheme,
+} from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import MuiAppBar from "@mui/material/AppBar";
@@ -16,16 +21,16 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import { Outlet } from "react-router-dom";
-import LogoutIcon from '@mui/icons-material/Logout';
-import CategoryIcon from '@mui/icons-material/Category';
+import LogoutIcon from "@mui/icons-material/Logout";
+import CategoryIcon from "@mui/icons-material/Category";
+import { useDispatch } from "react-redux";
+import { Logout } from "../store/auth";
 
 const drawerWidth = 240;
-
-
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -44,15 +49,14 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
+  justifyContent: "flex-end",
 }));
-
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -85,7 +89,6 @@ const Drawer = styled(MuiDrawer, {
   })
 );
 
-
 const mdTheme = createTheme(); //theme provider is used to pass the theme to the components
 
 export default function DashBoard() {
@@ -99,12 +102,14 @@ export default function DashBoard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
- 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     <>
       <ThemeProvider theme={mdTheme}>
-        <Box sx={{ height: "100vh"}}>
-          <Box sx={{ flexGrow: 1}}>
+        <Box sx={{ height: "100vh" }}>
+          <Box sx={{ flexGrow: 1 }}>
             <AppBar open={open}>
               <Toolbar
                 sx={{
@@ -116,13 +121,11 @@ export default function DashBoard() {
                   edge="start"
                   color="inherit"
                   aria-label="open drawer"
-                 
                   onClick={handleDrawerOpen}
-                  
                   sx={{
                     marginRight: "36px",
-                   
-                  ...(open && { display: "none" }),
+
+                    ...(open && { display: "none" }),
                   }}
                 >
                   <MenuIcon />
@@ -132,7 +135,7 @@ export default function DashBoard() {
                   variant="h6"
                   color="inherit"
                   noWrap
-                  sx={{ flexGrow: 1}}
+                  sx={{ flexGrow: 1 }}
                 >
                   AskAway
                 </Typography>
@@ -142,32 +145,30 @@ export default function DashBoard() {
                 </IconButton>
               </Toolbar>
             </AppBar>
-            </Box>
+          </Box>
 
-          <Box display="flex" height="100%" >
-          
-            <Drawer variant="permanent" open={open}
-            >
-             
+          <Box display="flex" height="100%">
+            <Drawer variant="permanent" open={open}>
               <Toolbar
                 sx={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "flex-end",
                   marginBottom: "0px",
-                
-                 
                 }}
               >
-                  <DrawerHeader>
-          <IconButton onClick={handleDrawerClose }>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        
+                <DrawerHeader>
+                  <IconButton onClick={handleDrawerClose}>
+                    {theme.direction === "ltr" ? (
+                      <ChevronLeftIcon />
+                    ) : (
+                      <ChevronRightIcon />
+                    )}
+                  </IconButton>
+                </DrawerHeader>
               </Toolbar>
               <Divider />
-             
+
               <Box sx={{ width: "80%", maxWidth: 360, height: "100%" }}>
                 <nav>
                   <List>
@@ -186,18 +187,20 @@ export default function DashBoard() {
                     </ListItem>
 
                     <ListItem disablePadding>
-                      <Link to="/dashboard/users" 
-                        style={{ textDecoration: "none", color: "black" }}>
-                      <ListItemButton>
-                        <ListItemIcon>
-                          <RecentActorsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="List of users" />
-                      </ListItemButton>
+                      <Link
+                        to="/dashboard/users"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <ListItemButton>
+                          <ListItemIcon>
+                            <RecentActorsIcon />
+                          </ListItemIcon>
+                          <ListItemText primary="List of users" />
+                        </ListItemButton>
                       </Link>
                     </ListItem>
                   </List>
-                
+
                   <List>
                     <ListItem disablePadding>
                       <Link
@@ -205,45 +208,39 @@ export default function DashBoard() {
                         style={{ textDecoration: "none", color: "black" }}
                       >
                         <ListItemButton>
-                        <ListItemIcon>
-                        <CategoryIcon/>
-                        </ListItemIcon>
+                          <ListItemIcon>
+                            <CategoryIcon />
+                          </ListItemIcon>
                           <ListItemText primary="Question Categories" />
                         </ListItemButton>
                       </Link>
                     </ListItem>
                   </List>
-                  
+
                   <List>
-                    <ListItem disablePadding>
-                      <Link
-                        to="/"
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        <ListItemButton>
+                    <ListItem
+                      disablePadding
+                      onClick={() => {
+                        dispatch(Logout());
+                        navigate("/");
+                      }}
+                    >
+                      <ListItemButton>
                         <ListItemIcon>
                           <LogoutIcon />
                         </ListItemIcon>
-                          <ListItemText primary="Logout" />
-                        </ListItemButton>
-                      </Link>
+                        <ListItemText primary="Logout" />
+                      </ListItemButton>
                     </ListItem>
                   </List>
-
-
                 </nav>
-
-
-
               </Box>
             </Drawer>
 
             <Outlet />
-  
           </Box>
         </Box>
       </ThemeProvider>
     </>
   );
 }
-
