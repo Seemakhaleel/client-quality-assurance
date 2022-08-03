@@ -1,123 +1,147 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { useState } from "react";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import Chip from "@mui/material/Chip";
-import SendIcon from "@mui/icons-material/Send";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { IconButton } from "@mui/material";
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import { useState } from 'react'
+import Typography from '@mui/material/Typography'
+import axiosInstance from '../../axios'
+import { baseUrl } from '../../api'
+import CssBaseline from '@mui/material/CssBaseline'
+
+import { Grid, Card, CardContent, CardActions, Checkbox, Container } from '@mui/material'
 
 const Question = () => {
-  const [inputText, setInputText] = useState("");
-  const [answer, setAnswer] = useState([]);
+    const [inputText, setInputText] = useState('')
+    const [answers, setAnswers] = useState([])
+    const [oneQuestion, setOneQuestion] = useState([])
+    const [answer, setAnswer] = useState([])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setAnswer([...answer, inputText]);
-    console.log(inputText);
-    setInputText("");
-  };
+    const { id } = useParams()
+    console.log(id)
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        setAnswers([...answers, inputText])
+        console.log(inputText)
+        setInputText('')
+    }
+    const getQuestions = async () => {
+        try {
+            const response = await axiosInstance({
+                method: 'get',
+                url: `${baseUrl}/questions/${id}`
+            })
 
-  const { id } = useParams();
+            setOneQuestion(response.data.question)
+        } catch (error) {
+            console.log('error')
+        }
+    }
 
-  return (
-    <>
-      <form onSubmit={handleSubmit}>
-       
-        <Box
-          sx={{
-            width: 500,
-            maxWidth: "100%",
-            marginBottom: "auto",
-           
-           
-          }}
-        >
-          <Box>
-            <h2>Question {id}</h2>
-            <h4> What is React router?</h4>
-          </Box>
+    const getAnswers = async () => {
+        try {
+            const response = await axiosInstance({
+                method: 'get',
+                url: `${baseUrl}/questions/${id}/answers`
+            })
 
-          <Divider
-            orientation="vertical"
-            flexItem
-            sx={{ borderRightWidth: "80px" }}
-          >
-            <Chip label="Answers" />
-          </Divider>
-          <Box sx={{}}>
-            <Typography sx={{ fontSize: 20, width: 900}}>
-              {/* {answer.map((answer) => ( 
-        <Box key={answer}> {answer} </Box>   ))}  */}
-              1- React Router is a JavaScript routing library for React. It is a declarative way to define the routing of your application.
-             
-              <IconButton>
-          <ThumbUpIcon/>
-          </IconButton>
-          
-            </Typography>
-          </Box>
-          <Box sx={{ marginTop: "5px" }}>
-            <Typography sx={{ fontSize: 20 , width: 900}}>
-              {/* {answer.map((answer) => ( 
-        <Box key={answer}> {answer} </Box>   ))}  */}
-              2- React Router is a JavaScript routing library for React. It
-              isdesigned with a focus on client-side navigation for use in
-              browsers.
-              <IconButton>
-          <ThumbUpIcon/>
-          </IconButton>
-         
-            </Typography>
-          </Box>
-          <Box sx={{ marginTop: "5px" }}>
-            <Typography sx={{ fontSize: 20 , width: 900}}>
-              {/* {answer.map((answer) => ( 
-        <Box key={answer}> {answer} </Box>   ))}  */}
-              3- React Router is a JavaScript routing library for React. It
-              isdesigned with a focus on client-side navigation for use in
-              browsers.
-              <IconButton>
-          <ThumbUpIcon/>
-          </IconButton>
-         
-            </Typography>
-          </Box>
+            setAnswer(response.data.answers)
+        } catch (error) {
+            console.log('error')
+        }
+    }
 
-          <TextField
-            fullWidth
-            label="Answer"
-            id="Answer"
-            multiline
-            maxRows={7}
-            onChange={(e) => setInputText(e.target.value)}
-            value={inputText}
-          />
-          <Button
-            variant="contained"
-            type="submit"
-            endIcon={<SendIcon />}
-            sx={{
-              marginTop: "10px",
-              marginLeft: "400px",
-            }}
-          >
-            Submit
-          </Button>
+    const postAnswer = async () => {
+        try {
+            const response = await axiosInstance({
+                method: 'post',
+                url: baseUrl + '/answers',
+                data: {
+                    answer: answer,
+                    questionId: id
+                }
+            })
 
-          <ol>
-            {answer.map((a, index) => {
-              <li key={index}>{a}</li>;
-            })}
-          </ol>
-        </Box>
-      </form>
-    </>
-  );
-};
+            console.log(response)
+        } catch (error) {
+            console.log('error')
+        }
+    }
 
-export default Question;
+    React.useEffect(() => {
+        getQuestions()
+    }, [])
+
+    return (
+        <>
+            <Container sx={{ marginTop: 10, marginLeft: 2 }}>
+                <CssBaseline />
+                <Grid container>
+                    <form onSubmit={handleSubmit}>
+                        <Grid item xs={12}>
+                            <Card sx={{ m: 1 }} variant="outlined">
+                                <CardContent>
+                                    <Typography variant="h5" component="h1">
+                                        Question :
+                                    </Typography>
+                                    <Typography>{oneQuestion?.question}</Typography>
+                                </CardContent>
+                                <CardContent>
+                                    <Typography variant="h5" component="h1">
+                                        description :{' '}
+                                    </Typography>
+                                    <Typography>{oneQuestion?.description}</Typography>
+                                </CardContent>
+                                <CardContent>
+                                    <Typography variant="h5" component="h1">
+                                        category:{' '}
+                                    </Typography>
+                                    <Typography>{oneQuestion?.categoryId}</Typography>
+                                </CardContent>
+
+                                <CardActions>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        size="small"
+                                        onClick={() => {
+                                            axiosInstance({
+                                                method: 'delete',
+                                                url: `${baseUrl}/questions/${id}`
+                                            })
+                                        }}
+                                    >
+                                        Delete this question
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+
+                        <Grid item xs={12}></Grid>
+
+                        <Grid item xs={8}>
+                            <TextField
+                                placeholder="Answer "
+                                multiline
+                                maxRows={4}
+                                variant="outlined"
+                                fullWidth
+                                value={answer}
+                                onChange={(e) => setAnswer(e.target.value)}
+                            />
+
+                            <Grid item xs={12}>
+                                <Button variant="contained" onClick={() => postAnswer()} sx={{ m: 2 }}>
+                                    POST
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </form>
+                </Grid>
+            </Container>
+        </>
+    )
+}
+
+export default Question

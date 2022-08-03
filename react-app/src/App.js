@@ -12,6 +12,7 @@ import RequireAuth from './Pages/userAuth/RequreAuth'
 import UserProfile from './components/UserProfile'
 import Roles from './Pages/Roles/Roles'
 import Role from './Pages/Roles/Role'
+import { styled, createTheme, ThemeProvider, useTheme } from '@mui/material/styles'
 
 /**
  * 1. '/users/0'
@@ -21,43 +22,46 @@ import Role from './Pages/Roles/Role'
  */
 
 function App() {
+    const mdTheme = createTheme()
     return (
         <>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/">
-                        <Route index element={<Login />} />
-                        <Route path="signup" element={<SignUp />} />
+            <ThemeProvider theme={mdTheme}>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/">
+                            <Route index element={<Login />} />
+                            <Route path="signup" element={<SignUp />} />
 
-                        <Route
-                            path="dashboard"
-                            element={
-                                <RequireAuth>
-                                    <DashBoard />
-                                </RequireAuth>
-                            }
-                        >
-                            <Route path="questions">
-                                <Route index element={<Questions />} />
-                                <Route path=":id" element={<Question />} />
-                            </Route>
-                            <Route path="users">
-                                <Route index element={<Users />} />
-                                <Route path=":id" element={<User />} />
-                            </Route>
-                            <Route path="categories" element={<Categories />} />
-                            <Route path="profile" element={<UserProfile />} />
+                            <Route
+                                path="dashboard"
+                                element={
+                                    <RequireAuth>
+                                        <DashBoard />
+                                    </RequireAuth>
+                                }
+                            >
+                                <Route path="questions">
+                                    <Route index element={<Questions />} />
+                                    <Route path=":id" element={<Question />} />
+                                </Route>
+                                <Route path="users">
+                                    <Route index element={<Users />} />
+                                    <Route path=":id" element={<User />} />
+                                </Route>
+                                <Route path="categories" element={<Categories />} />
+                                <Route path="profile" element={<UserProfile />} />
 
-                            <Route path="roles">
-                                <Route index element={<Roles />} />
-                                <Route path="role">
-                                    <Route path=":id" element={<Role />} />
+                                <Route path="roles">
+                                    <Route index element={<Roles />} />
+                                    <Route path="role">
+                                        <Route path=":id" element={<Role />} />
+                                    </Route>
                                 </Route>
                             </Route>
                         </Route>
-                    </Route>
-                </Routes>
-            </BrowserRouter>
+                    </Routes>
+                </BrowserRouter>
+            </ThemeProvider>
         </>
     )
 }

@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
@@ -34,15 +34,18 @@ function Copyright(props) {
 const theme = createTheme()
 
 export default function SignUp() {
-    const [inputEmail, setInputEmail] = useState('') //initializes the state for the input text
     const [password, setPassword] = useState('')
     const [role, setRole] = React.useState('')
     const [firstName, setFirstName] = React.useState('')
     const [lastName, setLastName] = React.useState('')
     const [email, setEmail] = React.useState('')
+    const [roles, setRoles] = React.useState([])
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const handleChange = (event) => {
+    function handleChange(event) {
+        // handle change for select input (role)
+        console.log(event.target)
         setRole(event.target.value)
     }
     const handleSubmit = (event) => {
@@ -54,21 +57,18 @@ export default function SignUp() {
         })
     }
 
-    // const roles = async () => {
-    //     try {
-    //         const response = await axios({
-    //             method: 'get',
-    //             url: baseUrl + 'users/register'
-    //         })
-
-    //         // call /auth/self to ger the currentUser
-
-    //         setAxiosToken(response.data.access)
-    //         dispatch(setToken(response.data.access)) //dispatches the action to set the token in the redux store to the token that was returned from the server
-    //     } catch (error) {
-    //         console.log('error logging in')
-    //     }
-    // }
+    const getRoles = async () => {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: baseUrl + '/roles'
+            })
+            console.log({ response })
+            setRoles(response.data.roles)
+        } catch (error) {
+            console.log('error logging in')
+        }
+    }
 
     const signup = async () => {
         try {
@@ -85,14 +85,15 @@ export default function SignUp() {
                 }
             })
 
-            // call /auth/self to ger the currentUser
-
-            setAxiosToken(response.data.access)
-            dispatch(setToken(response.data.access)) //dispatches the action to set the token in the redux store to the token that was returned from the server
+            navigate('/')
         } catch (error) {
             console.log('error logging in')
         }
     }
+
+    React.useEffect(() => {
+        getRoles()
+    }, [])
 
     return (
         <ThemeProvider theme={theme}>
@@ -163,20 +164,21 @@ export default function SignUp() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={role}
-                                            label="role"
-                                            onChange={handleChange}
-                                        >
-                                            // get role name from list of roles and put it inside value
-                                            <MenuItem value={10}>qa-engineer</MenuItem>
-                                            <MenuItem value={20}>Software engineer</MenuItem>
-                                        </Select>
-                                    </FormControl>
+                                    <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={role}
+                                        label="role"
+                                        onChange={handleChange}
+                                        fullWidth
+                                    >
+                                        {roles?.map((role, index) => (
+                                            <MenuItem key={index} value={role.name}>
+                                                {role.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
                                 </Grid>
                             </Grid>
 
@@ -185,7 +187,9 @@ export default function SignUp() {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                onClick={() => signup()}
+                                onClick={() => {
+                                    signup()
+                                }}
                             >
                                 Sign Up
                             </Button>
