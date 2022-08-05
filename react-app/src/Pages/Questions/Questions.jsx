@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import Cards from '../../components/Cards'
 import { useSelector, useDispatch } from 'react-redux'
@@ -55,6 +55,9 @@ const Questions = () => {
             console.log(error)
         }
     }
+    useEffect(() => {
+        postQuestions()
+    }, [])
 
     return (
         <>

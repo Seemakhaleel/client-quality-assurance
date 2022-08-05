@@ -2,12 +2,11 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import axios, { setAxiosToken } from '../../axios'
 import { baseUrl } from '../../api'
-import { Box, Container, Paper, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Box, Container, Typography } from '@mui/material'
 
 const Role = () => {
     const { id } = useParams()
-    let navigate = useNavigate()
+
     const [onerole, setOneRole] = React.useState([])
     const oneRole = async () => {
         try {
@@ -17,7 +16,6 @@ const Role = () => {
             })
             console.log(response.data.role)
             setOneRole(response.data.role)
-            setAxiosToken(response.data.access)
         } catch (error) {
             console.log('error')
         }

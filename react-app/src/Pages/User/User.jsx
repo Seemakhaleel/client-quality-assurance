@@ -3,18 +3,19 @@ import MenuItem from '@mui/material/MenuItem'
 import FormHelperText from '@mui/material/FormHelperText'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Container from '@mui/system/Container'
-import UpdateIcon from '@mui/icons-material/Update'
+import { useNavigate } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { baseUrl } from '../../api'
 import axiosInstance from '../../axios'
 
 function User() {
     const { id } = useParams()
+    const navigate = useNavigate()
     const [role, setRole] = React.useState('')
 
     const [user, setUser] = React.useState([])
@@ -29,6 +30,7 @@ function User() {
             console.log('error')
         }
     }
+
     React.useEffect(() => {
         oneUser()
     }, [])
@@ -63,24 +65,17 @@ function User() {
                     <Typography> First Name: {user.firstName}</Typography>
                     <Typography> Last Name: {user.lastName}</Typography>
                 </Box>
-                <FormControl sx={{ m: 0, width: 200 }}>
-                    <Select value={role} onChange={handleChange} displayEmpty>
-                        <MenuItem value={10}>Software Engineer</MenuItem>
-                        <MenuItem value={20}>Quality assurance</MenuItem>
-                    </Select>
-                    <FormHelperText>Change Role </FormHelperText>
-                </FormControl>
-
-                <Button type="submit" variant="filled" startIcon={<UpdateIcon />} sx={{ width: 200 }}>
-                    Update Changes
-                </Button>
 
                 <Button
                     variant="filled"
                     type="submit"
                     startIcon={<DeleteIcon />}
                     sx={{ width: 200, marginLeft: 50 }}
-                    onClick={() => deleteUser()}
+                    onClick={() => {
+                        deleteUser()
+
+                        navigate('/dashboard/users')
+                    }}
                 >
                     Delete user {id}
                 </Button>

@@ -17,7 +17,7 @@ import Select from '@mui/material/Select'
 import { useState } from 'react'
 import axios, { setAxiosToken } from '../../axios'
 import { baseUrl } from '../../api'
-import { setToken } from '../../store/auth'
+
 import { useDispatch } from 'react-redux'
 
 function Copyright(props) {

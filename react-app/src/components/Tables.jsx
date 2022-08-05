@@ -30,7 +30,7 @@ export default function Tables({ users, cols, SelectedRow }) {
                     <h3> Users </h3>
                 </Typography>
 
-                <Typography>You can edit or delete users here.</Typography>
+                <Typography>You can delete users here.</Typography>
             </Box>
             <Table
                 sx={{
@@ -69,11 +69,9 @@ export default function Tables({ users, cols, SelectedRow }) {
                         >
                             {cols.map((col, index) => (
                                 <>
-                                    {index === cols.length - 1 ? (
+                                    {index === cols.length - 1 ? ( // -1 because the last col is the edit button
                                         <TableCell
                                             sx={{
-                                                // margin: "0px",
-
                                                 border: '1px solid black'
                                             }}
                                         >
