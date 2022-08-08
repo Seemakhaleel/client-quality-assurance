@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom'
 import axios from '../../axios'
 import { baseUrl } from '../../api'
 import { Box, Container } from '@mui/system'
-import { Typography } from '@mui/material'
+import { IconButton, Typography } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const Category = () => {
     const { id } = useParams()
@@ -20,6 +21,17 @@ const Category = () => {
             console.log('error')
         }
     }
+    const deleteCategory = async () => {
+        try {
+            const response = await axios({
+                method: 'delete',
+                url: baseUrl + '/categories/' + id
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     React.useEffect(() => {
         oneCategory()
     }, [])
@@ -31,6 +43,9 @@ const Category = () => {
                     <Typography variant="h5">{onecategory.name}</Typography>
                     <Typography variant="body1">{onecategory.description}</Typography>
                 </Box>
+                <IconButton aria-label="delete" size="large">
+                    <DeleteIcon fontSize="inherit" onClick={deleteCategory} />
+                </IconButton>
             </Container>
         </>
     )

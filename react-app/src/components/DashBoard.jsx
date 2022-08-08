@@ -25,6 +25,7 @@ import CategoryIcon from '@mui/icons-material/Category'
 import { useDispatch } from 'react-redux'
 import { Logout } from '../store/auth'
 import PeopleIcon from '@mui/icons-material/People'
+import { useSelector } from 'react-redux'
 
 const drawerWidth = 240
 
@@ -90,6 +91,8 @@ const Drawer = styled(MuiDrawer, {
 export default function DashBoard() {
     const theme = useTheme()
     const [open, setOpen] = React.useState(false)
+    const auth = useSelector((state) => state.authentication)
+    console.log(auth?.user?.role)
 
     const handleDrawerOpen = () => {
         setOpen(!open)
@@ -176,7 +179,7 @@ export default function DashBoard() {
                                             </ListItemButton>
                                         </Link>
                                     </ListItem>
-
+                                    {/* {auth?.user?.role?.find((item) => item === 'admin') && ( */}
                                     <ListItem disablePadding>
                                         <Link to="/dashboard/users" style={{ textDecoration: 'none', color: 'black' }}>
                                             <ListItemButton>
@@ -187,6 +190,7 @@ export default function DashBoard() {
                                             </ListItemButton>
                                         </Link>
                                     </ListItem>
+                                    {/*  */}
                                 </List>
 
                                 <List>

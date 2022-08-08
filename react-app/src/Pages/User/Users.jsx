@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import axios, { setAxiosToken } from '../../axios'
 import { baseUrl } from '../../api'
 import { Container } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 const Users = () => {
     const [cols] = useState([
@@ -55,6 +56,13 @@ const Users = () => {
     }, [])
     return (
         <Container sx={{ marginTop: 10, marginLeft: 2 }}>
+            <Box>
+                <Typography sx={{ fontSize: 20 }}>
+                    <h3> Users </h3>
+                </Typography>
+
+                <Typography>You can delete users here.</Typography>
+            </Box>
             <Tables users={users} cols={cols} SelectedRow={SelectedRow} />
         </Container>
     )

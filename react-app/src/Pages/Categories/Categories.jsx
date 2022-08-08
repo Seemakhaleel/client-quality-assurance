@@ -11,6 +11,8 @@ import {
     Typography,
     ListItemButton
 } from '@mui/material'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+
 import { Container } from '@mui/system'
 import React from 'react'
 import axios from '../../axios'
@@ -20,6 +22,8 @@ import { useNavigate } from 'react-router-dom'
 const Categories = () => {
     let navigate = useNavigate()
     const [category, setCategories] = React.useState([])
+    const [title, setTitle] = React.useState('')
+    const [description, setDescription] = React.useState('')
 
     const categoryQuestion = async () => {
         try {
@@ -33,38 +37,27 @@ const Categories = () => {
             console.log('error')
         }
     }
-    // const postCategories = async () => {
-    //     try {
-    //         const response = await axios({
-    //             method: 'post',
-    //             url: baseUrl + '/categories',
-    //             data: {
-    //                 name: 'name',
-    //                 description: 'description'
-    //             }
-    //         })
-    //         console.log(response + 'hiiiiiii')
-    //         setAxiosToken(response.data.access)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+    const postCategories = async () => {
+        try {
+            const response = await axios({
+                method: 'post',
+                url: baseUrl + '/categories',
+                data: {
+                    name: title,
+                    description: description
+                }
+            })
+            categoryQuestion()
+
+            console.log(response + 'this is post categories')
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     React.useEffect(() => {
         categoryQuestion()
     }, [])
-    // const deleteCategory = async () => {
-    //     //doesnt work yet
-    //     try {
-    //         const response = await axios({
-    //             method: 'delete',
-    //             url: baseUrl + '/categories/' + id
-    //         })
-    //         setAxiosToken(response.data.access)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
 
     return (
         <Container sx={{ marginTop: 10, marginLeft: 2 }}>
@@ -89,6 +82,29 @@ const Categories = () => {
                         </ListItemButton>
                     </ListItem>
                 ))}
+            </Box>
+            <Box
+                p={2}
+                sx={{
+                    margin: '10px'
+                }}
+            >
+                <TextField label="Name" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <TextField label="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+
+                <Button
+                    sx={{
+                        marginTop: '1rem',
+                        color: 'black'
+                    }}
+                    onClick={() => {
+                        postCategories()
+                        setTitle('')
+                    }}
+                >
+                    {' '}
+                    <AddCircleIcon /> Add Category
+                </Button>
             </Box>
         </Container>
     )

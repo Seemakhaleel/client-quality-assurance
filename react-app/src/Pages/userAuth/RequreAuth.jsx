@@ -5,6 +5,7 @@ import { setAxiosToken } from '../../axios'
 import { setToken } from '../../store/auth'
 
 const RequireAuth = ({ children }) => {
+    //component that checks if the user is logged in and if they are not, they will be redirected to the login page
     const dispatch = useDispatch() //uses the redux dispatch to dispatch the actions
 
     React.useEffect(() => {
@@ -19,8 +20,8 @@ const RequireAuth = ({ children }) => {
         }
     }, []) //this is   a hook that is used to check if the user is logged in or not
 
-    const auth = useSelector((state) => state.authentication.isAuthenticated) //uses the redux store to get the user, isAuthenticated is the slice name in the store
-    let location = useLocation()
+    const auth = useSelector((state) => state.authentication.isAuthenticated) //uses the redux store to get the user, isAuthenticated is the slice name in the store,useSelector is a hook that is used to get the state from the store
+    let location = useLocation() //uses the location hook to get the current location of the page
     console.log({ auth })
     if (auth) return children // if the user is logged in, return the children
     else return <Navigate to="/" state={{ from: location }} replace /> // if the user is not logged in, redirect to the login page

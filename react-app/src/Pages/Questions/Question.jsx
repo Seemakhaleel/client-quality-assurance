@@ -7,19 +7,31 @@ import Typography from '@mui/material/Typography'
 import axiosInstance from '../../axios'
 import { baseUrl } from '../../api'
 import CssBaseline from '@mui/material/CssBaseline'
-import { Grid, Card, CardContent, CardActions, Select, Container, InputLabel, MenuItem, Divider } from '@mui/material'
+import {
+    Grid,
+    Card,
+    CardContent,
+    CardActions,
+    Select,
+    Container,
+    List,
+    ListItem,
+    IconButton,
+    ListItemText
+} from '@mui/material'
+import EditAlert from './EditAlert'
+import ThumbUpIcon from '@mui/icons-material/ThumbUp'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 
 const Question = () => {
     // const [inputText, setInputText] = useState('')
     // const [answers, setAnswers] = useState([])
-    const [oneQuestion, setOneQuestion] = useState([])
+    const [oneQuestion, setOneQuestion] = useState({})
     const [oneanswer, setOneAnswer] = useState([])
     const [question, setQuestionTitle] = useState('')
     const [description, setDescription] = useState('')
     const [postAnswer, setPostAnswer] = useState('')
-
-    const [categoryList, setCategoryList] = useState([]) //list of categories
-    const [choosedCategory, setChoosedCategory] = useState(2) // the categories that the question belongs to
+    const [open, setOpen] = React.useState(false)
     const navigate = useNavigate()
     const { id } = useParams()
 
@@ -119,43 +131,28 @@ const Question = () => {
     //         console.log('error')
     //     }
     // }
-    const updateQuestion = async () => {
+
+    const deleteAnswer = async (id) => {
         try {
             const { data } = await axiosInstance({
-                method: 'PUT',
-                url: baseUrl + '/questions/' + id,
-                data: {
-                    question: {
-                        question: question,
-                        description: description,
-                        categoryId: choosedCategory
-                    }
-                }
+                method: 'delete',
+                url: baseUrl + '/answers/' + id
             })
-            console.log(data, 'HIiiiiiiiiiiiiii')
-            getOneQuestion()
+            console.log(data, 'Hello delete')
+            getAnswers()
         } catch (error) {
             console.log('not successful')
         }
     }
 
-    // const deleteAnswer = async (id) => {
-    //     try {
-    //         const { data } = await axiosInstance({
-    //             method: 'delete',
-    //             url: baseUrl + '/answers/' + id
-    //         })
-    //         console.log(data, 'Hello delete')
-    //         getAnswers()
-    //     } catch (error) {
-    //         console.log('not successful')
-    //     }
-    // }
-
     React.useEffect(() => {
         getOneQuestion()
         getAnswers()
     }, [])
+
+    const handleClickOpen = () => {
+        setOpen(true)
+    }
 
     return (
         <>
@@ -202,53 +199,19 @@ const Question = () => {
                                         Delete this question
                                     </Button>
                                 </CardActions>
-                                {/* <Card>
-                                    <Divider />
-                                    <Typography sx={{ fontWeight: 'bold' }} variant="h6">
-                                        Edit the Question
-                                    </Typography>
-                                    <TextField
-                                        label="Title"
-                                        variant="outlined"
-                                        value={question}
-                                        onChange={(e) => setQuestionTitle(e.target.value)}
+
+                                <Button variant="outlined" onClick={handleClickOpen}>
+                                    edit Question
+                                </Button>
+
+                                {open && (
+                                    <EditAlert
+                                        open={open}
+                                        setOpen={setOpen}
+                                        getOneQuestion={getOneQuestion}
+                                        oneQuestion={oneQuestion}
                                     />
-                                    <TextField
-                                        label="Content"
-                                        variant="outlined"
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
-                                    />
-                                    <Button
-                                        variant="contained"
-                                        onClick={() => {
-                                            updateQuestion()
-                                            navigate('/dashboard/questions')
-                                        }}
-                                        sx={{ m: 2 }}
-                                    >
-                                        UPDATE
-                                    </Button>
-                                    {/* <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                                    {categoryList.length > 0 && (
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={choosedCategory}
-                                            label="role"
-                                            onChange={(e) => {
-                                                handleChange(e)
-                                            }}
-                                            fullWidth
-                                        >
-                                            {categoryList?.map((role, index) => (
-                                                <MenuItem key={index} value={role?.attributes?.id}>
-                                                    {role?.attributes?.id} : {role?.attributes?.name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select> */}
-                                {/* )} */}
-                                {/* </Card> */}
+                                )}
                             </Card>
                         </Grid>
 
@@ -264,7 +227,14 @@ const Question = () => {
                             />
 
                             <Grid item xs={12}>
-                                <Button variant="contained" onClick={() => postAnAnswer()} sx={{ m: 1 }}>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => {
+                                        postAnAnswer()
+                                        setPostAnswer('')
+                                    }}
+                                    sx={{ m: 1 }}
+                                >
                                     POST
                                 </Button>
 
@@ -275,11 +245,27 @@ const Question = () => {
                                             {oneanswer
                                                 .filter((answer) => answer?.questionId == id)
                                                 .map((answer) => (
-                                                    <li key={answer?.id}>{answer?.answer}</li>
+                                                    <List key={answer?.id}>
+                                                        <ListItem>
+                                                            <ListItemText>{answer?.answer}</ListItemText>
+                                                            <Grid item xs={2}>
+                                                                <ListItem>
+                                                                    <IconButton edge="end">
+                                                                        <ThumbUpIcon />
+                                                                    </IconButton>
+                                                                    <IconButton
+                                                                        edge="end"
+                                                                        onClick={() => {
+                                                                            deleteAnswer(answer?.id)
+                                                                        }}
+                                                                    >
+                                                                        <DeleteOutlineIcon />
+                                                                    </IconButton>
+                                                                </ListItem>
+                                                            </Grid>
+                                                        </ListItem>
+                                                    </List>
                                                 ))}
-                                            {/* // {oneanswer?.map((answer, index) => (
-                                            //     <Typography key={index}>{answer?.answer}</Typography>
-                                            // ))} */}
                                         </CardContent>
                                     </Card>
                                 </Grid>

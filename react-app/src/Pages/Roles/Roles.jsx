@@ -1,12 +1,20 @@
 import * as React from 'react'
 import axios, { setAxiosToken } from '../../axios'
 import { baseUrl } from '../../api'
-import { Box, Container, Paper, Typography } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import Tables from '../../components/Tables'
 
 export default function Roles() {
     let navigate = useNavigate()
     const [role, setRole] = React.useState([])
+
+    const [cols] = useState([
+        { name: 'id', label: 'ID' },
+        { name: 'name', label: 'Name' },
+        { name: 'description', label: 'Description' }
+    ])
     const roles = async () => {
         try {
             const response = await axios({
@@ -22,19 +30,16 @@ export default function Roles() {
     React.useEffect(() => {
         roles()
     }, [])
+    const SelectedRow = (id) => {
+        navigate('/dashboard/roles/role/' + id)
+    }
 
     return (
         <Container sx={{ marginTop: 10, marginLeft: 2 }}>
-            {role.map((role) => {
-                return (
-                    <Paper key={role.id} onClick={() => navigate('/dashboard/roles/role/' + role.id)}>
-                        <Box p={2}>
-                            <Typography variant="h5">{role.name}</Typography>
-                            <Typography variant="body1">{role.description}</Typography>
-                        </Box>
-                    </Paper>
-                )
-            })}
+            <Box p={2}>
+                <Typography variant="h5">List of Roles</Typography>
+                <Tables cols={cols} users={role} SelectedRow={SelectedRow} />
+            </Box>
         </Container>
     )
 }

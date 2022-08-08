@@ -34,7 +34,7 @@ export default function Cards({ questions }) {
                                 <Card variant="bold" sx={{ width: 600, height: 200 }}>
                                     <CardContent>
                                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                            {ques.name}
+                                            {ques.question}
                                         </Typography>
 
                                         <Typography variant="body2">

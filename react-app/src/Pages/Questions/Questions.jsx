@@ -1,19 +1,25 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import Cards from '../../components/Cards'
-import { useSelector, useDispatch } from 'react-redux'
+
 import Alert from './Alert'
 import { Container } from '@mui/system'
 import { Button, Grid } from '@mui/material'
 import axiosInstance from '../../axios'
 import { baseUrl } from '../../api'
 import axios from '../../axios'
+// import { getQuestions } from '../../../src/Service'
 
 import Typography from '@mui/material/Typography'
 
 const Questions = () => {
-    const auth = useSelector((state) => state.authentication)
     const [openPopup, setOpenPopup] = useState(false)
+    const [question, setQuestion] = useState('')
+    const [description, setDescription] = useState('')
+    const [categoryId, setCategoryId] = useState('')
+    const [isClosed, setIsClosed] = useState(false)
+    const [hasBestAnswer, setHasBestAnswer] = useState(false)
+    const [questions, setQuestions] = useState([])
 
     const getQuestions = async () => {
         try {
@@ -27,37 +33,36 @@ const Questions = () => {
             console.log('error')
         }
     }
-    const [questions, setQuestions] = useState([])
+    // const test = async () => {
+    //     const response = await getQuestions()
+    //     console.log(response.data.questions, 'rrrrrrrrrrrrrrrr')
+    //     setQuestions(response.data.questions)
+    // }
+
     React.useEffect(() => {
         getQuestions()
     }, [])
-    const [question, setQuestion] = useState('')
-    const [description, setDescription] = useState('')
-    const [categoryId, setCategoryId] = useState('')
-    const [isClosed, setIsClosed] = useState(false)
-    const [hasBestAnswer, setHasBestAnswer] = useState(false)
-    const postQuestions = async () => {
-        try {
-            const response = await axios({
-                method: 'post',
-                url: baseUrl + '/questions',
-                data: {
-                    question: question,
-                    description: description,
-                    categoryId: categoryId,
 
-                    isClosed: isClosed,
-                    hasBestAnswer: hasBestAnswer
-                }
-            })
-            setOpenPopup(false)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    useEffect(() => {
-        postQuestions()
-    }, [])
+    // const postQuestions = async () => {
+    //     try {
+    //         const response = await axios({
+    //             method: 'post',
+    //             url: baseUrl + '/questions',
+    //             data: {
+    //                 question: question,
+    //                 description: description,
+    //                 categoryId: categoryId,
+
+    //                 isClosed: isClosed,
+    //                 hasBestAnswer: hasBestAnswer
+    //             }
+    //         })
+    //         getQuestions()
+    //         setOpenPopup(false)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     return (
         <>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import axios, { setAxiosToken } from '../../axios'
+import axios from '../../axios'
 import { baseUrl } from '../../api'
 import { Box, Container, Typography } from '@mui/material'
 

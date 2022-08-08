@@ -25,13 +25,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 export default function Tables({ users, cols, SelectedRow }) {
     return (
         <>
-            <Box>
-                <Typography sx={{ fontSize: 20 }}>
-                    <h3> Users </h3>
-                </Typography>
-
-                <Typography>You can delete users here.</Typography>
-            </Box>
             <Table
                 sx={{
                     minWidth: 90,
