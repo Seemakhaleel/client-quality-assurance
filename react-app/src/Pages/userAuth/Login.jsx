@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import axios, { setAxiosToken } from '../../axios'
 import { useNavigate } from 'react-router-dom'
 import { baseUrl } from '../../api'
+import axiosInstance from '../../axios'
 
 function Copyright(props) {
     //copyright component for footer that returns a typography component that dynamically changes the copyright year
@@ -45,7 +46,7 @@ export default function Login() {
 
     const login = async () => {
         try {
-            const response = await axios({
+            const response = await axiosInstance({
                 method: 'post',
                 url: baseUrl + '/auth/login',
                 data: {
@@ -58,8 +59,23 @@ export default function Login() {
 
             setAxiosToken(response.data.access)
             dispatch(setToken(response.data.access)) //dispatches the action to set the token in the redux store to the token that was returned from the server
+            getUsers()
         } catch (error) {
             console.log('error logging in')
+        }
+    }
+    const getUsers = async () => {
+        try {
+            const { data } = await axiosInstance({
+                method: 'get',
+                url: baseUrl + '/auth/self'
+            })
+
+            dispatch(SignIn(data?.user))
+            // setUsers(data)
+            // console.log(data)
+        } catch (error) {
+            console.log(error)
         }
     }
 

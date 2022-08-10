@@ -9,7 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { TextField, Button, Dialog, DialogTitle, Typography } from '@mui/material'
 
 const EditAlert = ({ oneQuestion, getOneQuestion, setOpen, open }) => {
-    const [editQs, setEditQs] = React.useState(oneQuestion?.question)
+    const [editQs, setEditQs] = React.useState(oneQuestion?.question) //
     const [editDesc, setEditDesc] = React.useState(oneQuestion?.description)
     const [categoryId, setCategoryId] = useState(oneQuestion.categoryId)
 

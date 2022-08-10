@@ -8,6 +8,18 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import { useNavigate, useParams } from 'react-router-dom'
 import Categories from '../Categories/Categories'
+export const getCategories = async (setData) => {
+    try {
+        const response = await axiosInstance({
+            method: 'get',
+            url: baseUrl + '/categories'
+        })
+
+        setData(response.data.categories)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export default function Alert(props) {
     const { openPopup, setOpenPopup } = props
@@ -43,20 +55,8 @@ export default function Alert(props) {
         }
     }
 
-    const getCategories = async () => {
-        try {
-            const response = await axiosInstance({
-                method: 'get',
-                url: baseUrl + '/categories'
-            })
-
-            setCategories(response.data.categories)
-        } catch (error) {
-            console.log(error)
-        }
-    }
     useEffect(() => {
-        getCategories()
+        getCategories(setCategories)
     }, [])
 
     return (

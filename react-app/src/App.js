@@ -14,9 +14,12 @@ import UserProfile from './components/UserProfile'
 import Roles from './Pages/Roles/Roles'
 import Role from './Pages/Roles/Role'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import RequireAdmin from './Pages/userAuth/RequireAdmin'
+import Unautharized from './components/Unautharized'
 
 function App() {
     const mdTheme = createTheme()
+
     return (
         <>
             <ThemeProvider theme={mdTheme}>
@@ -39,7 +42,14 @@ function App() {
                                     <Route path=":id" element={<Question />} />
                                 </Route>
                                 <Route path="users">
-                                    <Route index element={<Users />} />
+                                    <Route
+                                        index
+                                        element={
+                                            <RequireAdmin>
+                                                <Users />
+                                            </RequireAdmin>
+                                        }
+                                    />
                                     <Route path=":id" element={<User />} />
                                 </Route>
                                 <Route path="categories">
@@ -55,6 +65,8 @@ function App() {
                                         <Route path=":id" element={<Role />} />
                                     </Route>
                                 </Route>
+                                <Route path="notfound" element={<Unautharized />} />
+                                <Route path="*" />
                             </Route>
                         </Route>
                     </Routes>

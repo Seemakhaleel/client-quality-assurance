@@ -92,7 +92,6 @@ export default function DashBoard() {
     const theme = useTheme()
     const [open, setOpen] = React.useState(false)
     const auth = useSelector((state) => state.authentication)
-    console.log(auth?.user?.role)
 
     const handleDrawerOpen = () => {
         setOpen(!open)
@@ -179,19 +178,24 @@ export default function DashBoard() {
                                             </ListItemButton>
                                         </Link>
                                     </ListItem>
-                                    {/* {auth?.user?.role?.find((item) => item === 'admin') && ( */}
-                                    <ListItem disablePadding>
-                                        <Link to="/dashboard/users" style={{ textDecoration: 'none', color: 'black' }}>
-                                            <ListItemButton>
-                                                <ListItemIcon>
-                                                    <RecentActorsIcon />
-                                                </ListItemIcon>
-                                                <ListItemText primary="List of users" />
-                                            </ListItemButton>
-                                        </Link>
-                                    </ListItem>
-                                    {/*  */}
                                 </List>
+                                {auth?.user?.role === 'admin' && (
+                                    <List>
+                                        <ListItem disablePadding>
+                                            <Link
+                                                to="/dashboard/users"
+                                                style={{ textDecoration: 'none', color: 'black' }}
+                                            >
+                                                <ListItemButton>
+                                                    <ListItemIcon>
+                                                        <RecentActorsIcon />
+                                                    </ListItemIcon>
+                                                    <ListItemText primary="List of users" />
+                                                </ListItemButton>
+                                            </Link>
+                                        </ListItem>
+                                    </List>
+                                )}
 
                                 <List>
                                     <ListItem disablePadding>
@@ -208,18 +212,23 @@ export default function DashBoard() {
                                         </Link>
                                     </ListItem>
                                 </List>
-                                <List>
-                                    <ListItem disablePadding>
-                                        <Link to="/dashboard/roles" style={{ textDecoration: 'none', color: 'black' }}>
-                                            <ListItemButton>
-                                                <ListItemIcon>
-                                                    <PeopleIcon />
-                                                </ListItemIcon>
-                                                <ListItemText primary="roles" />
-                                            </ListItemButton>
-                                        </Link>
-                                    </ListItem>
-                                </List>
+                                {auth?.user?.role === 'admin' && (
+                                    <List>
+                                        <ListItem disablePadding>
+                                            <Link
+                                                to="/dashboard/roles"
+                                                style={{ textDecoration: 'none', color: 'black' }}
+                                            >
+                                                <ListItemButton>
+                                                    <ListItemIcon>
+                                                        <PeopleIcon />
+                                                    </ListItemIcon>
+                                                    <ListItemText primary="roles" />
+                                                </ListItemButton>
+                                            </Link>
+                                        </ListItem>
+                                    </List>
+                                )}
 
                                 <List>
                                     <ListItem
