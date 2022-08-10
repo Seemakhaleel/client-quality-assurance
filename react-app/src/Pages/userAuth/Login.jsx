@@ -17,6 +17,7 @@ import axios, { setAxiosToken } from '../../axios'
 import { useNavigate } from 'react-router-dom'
 import { baseUrl } from '../../api'
 import axiosInstance from '../../axios'
+import { loginSchema, validateUser } from '../../Validations/LoginValidation'
 
 function Copyright(props) {
     //copyright component for footer that returns a typography component that dynamically changes the copyright year
@@ -44,26 +45,6 @@ export default function Login() {
     // let from = location.state?.from?.pathname || "/dashboard/questions"; //gets the location of the page that the user came from
     // //if the user came from the sign up page, the user will be redirected to the home page
 
-    const login = async () => {
-        try {
-            const response = await axiosInstance({
-                method: 'post',
-                url: baseUrl + '/auth/login',
-                data: {
-                    email: inputEmail,
-                    password: password
-                }
-            })
-
-            // call /auth/self to ger the currentUser
-
-            setAxiosToken(response.data.access)
-            dispatch(setToken(response.data.access)) //dispatches the action to set the token in the redux store to the token that was returned from the server
-            getUsers()
-        } catch (error) {
-            console.log('error logging in')
-        }
-    }
     const getUsers = async () => {
         try {
             const { data } = await axiosInstance({
@@ -79,9 +60,43 @@ export default function Login() {
         }
     }
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        login()
+    const handleSubmit = async (event) => {
+        event.preventDefault() //so stuff doesnt refresh when clicked on the submit button
+        //create object
+        try {
+            const user = {
+                email: inputEmail,
+                password: password
+            }
+            console.log(user)
+            const isValid = await validateUser(user, loginSchema)
+
+            console.log('isValid', isValid)
+
+            // TODO: display validation errors
+            if (!isValid) return
+
+            const response = await axiosInstance({
+                method: 'post',
+                url: baseUrl + '/auth/login',
+                data: {
+                    email: inputEmail,
+                    password: password
+                }
+            })
+
+            // call /auth/self to ger the currentUser
+
+            setAxiosToken(response.data.access)
+            dispatch(setToken(response.data.access)) //dispatches the action to set the token in the redux store to the token that was returned from the server
+            getUsers()
+        } catch (error) {
+            console.log('error')
+            console.log('error logging in')
+        }
+        //validate the object
+        // const validation = LoginValidation(user)
+        // console.log(validation)
     }
 
     React.useEffect(() => {

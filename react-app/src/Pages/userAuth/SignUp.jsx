@@ -19,6 +19,7 @@ import axios, { setAxiosToken } from '../../axios'
 import { baseUrl } from '../../api'
 
 import { useDispatch } from 'react-redux'
+import { signupSchema, validateUser } from '../../Validations/LoginValidation'
 
 function Copyright(props) {
     return (
@@ -48,13 +49,41 @@ export default function SignUp() {
         console.log(event.target)
         setRole(event.target.value)
     }
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        const data = new FormData(event.currentTarget)
-        console.log({
-            email: data.get('email'),
-            password: data.get('password')
-        })
+        // const data = new FormData(event.currentTarget)
+        // data.forEach(function (value, key) {
+        //     user[key] = value
+        // })
+
+        const user = {
+            role: role,
+            firstName: firstName,
+            lastName: lastName,
+            displayName: firstName + ' ' + lastName,
+            password: password,
+            email: email
+        }
+
+        const isValid = await validateUser(user, signupSchema)
+
+        console.log('user', user)
+        console.log('isValid', isValid)
+
+        // TODO: display validation errors
+        if (!isValid) return
+
+        try {
+            const response = await axios({
+                method: 'post',
+                url: baseUrl + '/users/register',
+                data: user
+            })
+
+            navigate('/')
+        } catch (error) {
+            console.log('error logging in')
+        }
     }
 
     const getRoles = async () => {
@@ -65,27 +94,6 @@ export default function SignUp() {
             })
             console.log({ response })
             setRoles(response.data.roles)
-        } catch (error) {
-            console.log('error logging in')
-        }
-    }
-
-    const signup = async () => {
-        try {
-            const response = await axios({
-                method: 'post',
-                url: baseUrl + '/users/register',
-                data: {
-                    role: role,
-                    firstName: firstName,
-                    lastName: lastName,
-                    displayName: firstName + ' ' + lastName,
-                    password: password,
-                    email: email
-                }
-            })
-
-            navigate('/')
         } catch (error) {
             console.log('error logging in')
         }
@@ -182,15 +190,7 @@ export default function SignUp() {
                                 </Grid>
                             </Grid>
 
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                                onClick={() => {
-                                    signup()
-                                }}
-                            >
+                            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                                 Sign Up
                             </Button>
                         </form>
