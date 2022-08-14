@@ -66,13 +66,12 @@ const Questions = () => {
 
     return (
         <>
-            <Container sx={{ marginTop: 10, marginLeft: 2 }}>
+            <Container sx={{ my: 12, p: 2, mx: 30 }}>
                 <Grid container>
-                    <Typography variant="h5" component="h1">
-                        Questions
-                    </Typography>
-
                     <Grid item xs={12} sx={{ marginTop: 2 }}>
+                        <Typography variant="h5" component="h1">
+                            Questions
+                        </Typography>
                         <Button
                             sx={{ float: 'right' }}
                             variant="contained"

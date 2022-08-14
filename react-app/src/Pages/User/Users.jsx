@@ -55,7 +55,7 @@ const Users = () => {
         usersList()
     }, [])
     return (
-        <Container sx={{ marginTop: 10, marginLeft: 2 }}>
+        <Container sx={{ marginTop: 10, marginLeft: 2, mx: 30 }}>
             <Box>
                 <Typography sx={{ fontSize: 20 }}>
                     <h3> Users </h3>

@@ -17,6 +17,8 @@ import Select from '@mui/material/Select'
 import { useState } from 'react'
 import axios, { setAxiosToken } from '../../axios'
 import { baseUrl } from '../../api'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { useDispatch } from 'react-redux'
 import { signupSchema, validateUser } from '../../Validations/LoginValidation'
@@ -71,7 +73,16 @@ export default function SignUp() {
         console.log('isValid', isValid)
 
         // TODO: display validation errors
-        if (!isValid) return
+        if (!isValid)
+            return toast.error('🦄 wrong entry!', {
+                position: 'top-center',
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            })
 
         try {
             const response = await axios({
@@ -207,6 +218,17 @@ export default function SignUp() {
 
                 <Copyright sx={{ mt: 5 }} />
             </Container>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </ThemeProvider>
     )
 }

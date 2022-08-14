@@ -4,6 +4,7 @@ import { baseUrl } from '../api'
 import { useDispatch, useSelector } from 'react-redux'
 import { SignIn } from '../store/auth'
 import axiosInstance from '../axios'
+import Pagination from '@mui/material/Pagination'
 
 const UserProfile = () => {
     const [users, setUsers] = React.useState([])
@@ -32,7 +33,7 @@ const UserProfile = () => {
     const info = auth?.user
 
     return (
-        <Container sx={{ marginTop: 10, marginLeft: 2 }}>
+        <Container sx={{ marginTop: 10, marginLeft: 2, mx: 30 }}>
             <Grid container sx={{ p: 4 }}>
                 {console.log(info)}
             </Grid>

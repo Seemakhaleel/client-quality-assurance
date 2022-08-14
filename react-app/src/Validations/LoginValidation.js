@@ -19,6 +19,6 @@ export const signupSchema = yup
         firstName: yup.string().required('First name is required'),
         lastName: yup.string().required('Last name is required')
     })
-    .concat(loginSchema)
+    .concat(loginSchema) // merge loginSchema into signupSchema because we need email and password fields in signupSchema too so why not merge them?
 
-export const validateUser = (user, schema) => schema.isValid(user)
+export const validateUser = (user, schema) => schema.isValid(user) // validateUser is a function that takes in a user and a schema and returns a boolean

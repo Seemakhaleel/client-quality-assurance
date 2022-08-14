@@ -73,7 +73,7 @@ function User() {
             <h1>Manage users</h1>
             <h3> This is user {id} </h3>
 
-            <Container sx={{ marginTop: 10, marginLeft: 2 }}>
+            <Container sx={{ marginTop: 10, marginLeft: 2, mx: 50 }}>
                 <Box p={2}>
                     <Typography> Role: {user.role}</Typography>
                     <Typography> display Name: {user.displayName}</Typography>

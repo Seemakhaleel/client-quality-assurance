@@ -11,13 +11,15 @@ import Container from '@mui/material/Container' // the container component is us
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
-import { SignIn, Logout, setToken } from '../../store/auth'
+import { SignIn, setToken } from '../../store/auth'
 import { useSelector, useDispatch } from 'react-redux'
 import axios, { setAxiosToken } from '../../axios'
 import { useNavigate } from 'react-router-dom'
 import { baseUrl } from '../../api'
 import axiosInstance from '../../axios'
 import { loginSchema, validateUser } from '../../Validations/LoginValidation'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function Copyright(props) {
     //copyright component for footer that returns a typography component that dynamically changes the copyright year
@@ -59,7 +61,7 @@ export default function Login() {
             console.log(error)
         }
     }
-
+    const notify = () => toast('Unsuccessful .')
     const handleSubmit = async (event) => {
         event.preventDefault() //so stuff doesnt refresh when clicked on the submit button
         //create object
@@ -74,8 +76,18 @@ export default function Login() {
             console.log('isValid', isValid)
 
             // TODO: display validation errors
-            if (!isValid) return
+            if (!isValid)
+                return toast.error('🦄 Incorrect password or email!', {
+                    position: 'top-center',
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                })
 
+            console.log(notify)
             const response = await axiosInstance({
                 method: 'post',
                 url: baseUrl + '/auth/login',
@@ -84,8 +96,6 @@ export default function Login() {
                     password: password
                 }
             })
-
-            // call /auth/self to ger the currentUser
 
             setAxiosToken(response.data.access)
             dispatch(setToken(response.data.access)) //dispatches the action to set the token in the redux store to the token that was returned from the server
@@ -154,6 +164,18 @@ export default function Login() {
                             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                                 Sign In
                             </Button>
+
+                            <ToastContainer
+                                position="top-center"
+                                autoClose={5000}
+                                hideProgressBar
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                            />
                         </Box>
                     </form>
                     <Box>

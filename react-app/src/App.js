@@ -18,7 +18,24 @@ import RequireAdmin from './Pages/userAuth/RequireAdmin'
 import Unautharized from './components/Unautharized'
 
 function App() {
-    const mdTheme = createTheme()
+    const mdTheme = createTheme({
+        components: {
+            MuiButton: {
+                root: {
+                    borderRadius: 0,
+                    border: '1px solid #ccc',
+                    padding: '10px 20px',
+                    fontSize: '1.2rem',
+                    fontWeight: 'bold',
+                    textTransform: 'capitalize',
+                    '&:hover': {
+                        backgroundColor: '#ccc',
+                        color: '#00'
+                    }
+                }
+            }
+        }
+    })
 
     return (
         <>
@@ -60,7 +77,14 @@ function App() {
                                 <Route path="profile" element={<UserProfile />} />
 
                                 <Route path="roles">
-                                    <Route index element={<Roles />} />
+                                    <Route
+                                        index
+                                        element={
+                                            <RequireAdmin>
+                                                <Roles />
+                                            </RequireAdmin>
+                                        }
+                                    />
                                     <Route path="role">
                                         <Route path=":id" element={<Role />} />
                                     </Route>

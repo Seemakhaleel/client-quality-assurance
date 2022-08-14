@@ -38,7 +38,7 @@ const Category = () => {
 
     return (
         <>
-            <Container sx={{ marginTop: 10, marginLeft: 2 }}>
+            <Container sx={{ marginTop: 10, mx: 30 }}>
                 <Box p={2}>
                     <Typography variant="h5">{onecategory.name}</Typography>
                     <Typography variant="body1">{onecategory.description}</Typography>

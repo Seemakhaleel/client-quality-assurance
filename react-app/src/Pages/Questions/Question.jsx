@@ -22,6 +22,23 @@ import {
 import EditAlert from './EditAlert'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+const theme = createTheme({
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: 0,
+
+                    '&:hover': {
+                        backgroundColor: ' #80d8ff',
+                        color: '#00'
+                    }
+                }
+            }
+        }
+    }
+})
 
 const Question = () => {
     // const [inputText, setInputText] = useState('')
@@ -156,7 +173,7 @@ const Question = () => {
 
     return (
         <>
-            <Container sx={{ marginTop: 10, marginLeft: 2 }}>
+            <Container sx={{ marginTop: 10, marginLeft: 2, mx: 30 }}>
                 <CssBaseline />
                 <Grid container>
                     <form>
@@ -227,16 +244,18 @@ const Question = () => {
                             />
 
                             <Grid item xs={12}>
-                                <Button
-                                    variant="contained"
-                                    onClick={() => {
-                                        postAnAnswer()
-                                        setPostAnswer('')
-                                    }}
-                                    sx={{ m: 1 }}
-                                >
-                                    POST
-                                </Button>
+                                <ThemeProvider theme={theme}>
+                                    <Button
+                                        variant="contained"
+                                        onClick={() => {
+                                            postAnAnswer()
+                                            setPostAnswer('')
+                                        }}
+                                        sx={{ m: 1 }}
+                                    >
+                                        POST
+                                    </Button>
+                                </ThemeProvider>
 
                                 <Grid item xs={12}>
                                     <Card sx={{ m: 1 }} variant="outlined">
