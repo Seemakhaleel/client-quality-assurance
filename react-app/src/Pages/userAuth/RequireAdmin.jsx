@@ -6,6 +6,6 @@ const RequireAdmin = ({ children }) => {
 
     const user = auth?.user?.role === 'admin' //if the user is an admin in my case role is string
     if (user) return children //if user is admin, return children
-    else return <Navigate to="/dashboard/notfound" replace={true} /> //if user is not admin, redirect to notfound page
+    else return <Navigate to="/dashboard/403" replace={true} /> //if user is not admin, redirect to notfound page
 }
 export default RequireAdmin

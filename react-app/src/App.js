@@ -89,7 +89,7 @@ function App() {
                                         <Route path=":id" element={<Role />} />
                                     </Route>
                                 </Route>
-                                <Route path="notfound" element={<Unautharized />} />
+                                <Route path="403" element={<Unautharized />} />
                                 <Route path="*" />
                             </Route>
                         </Route>
