@@ -25,7 +25,7 @@ const Role = () => {
     }, [])
 
     return (
-        <Container sx={{ marginTop: 10, marginLeft: 2, mx: 30 }}>
+        <Container sx={{ marginTop: 8, marginLeft: 2, mx: 30 }}>
             <Box p={2}>
                 <Typography variant="h5">{onerole.name}</Typography>
                 <Typography variant="body1">{onerole.description}</Typography>

@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogTitle, MenuItem, Select, Typography } from '@mui/material'
+import { Button, createTheme, Dialog, DialogTitle, MenuItem, Select, ThemeProvider, Typography } from '@mui/material'
 import { Box, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../../axios'
@@ -34,6 +34,23 @@ export default function Alert(props) {
     function handleChange(event) {
         setCategoryId(event.target.value)
     }
+    const theme = createTheme({
+        components: {
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: 6,
+
+                        '&:hover': {
+                            backgroundColor: ' #80d8ff',
+                            color: '#00'
+                        },
+                        backgroundColor: ' #212227'
+                    }
+                }
+            }
+        }
+    })
 
     const postQuestions = async () => {
         try {
@@ -100,13 +117,15 @@ export default function Alert(props) {
                     </Select>
                 </Box>
                 <Box m={2}>
-                    <Button
-                        onClick={() => {
-                            postQuestions()
-                        }}
-                    >
-                        Add
-                    </Button>
+                    <ThemeProvider theme={theme}>
+                        <Button
+                            onClick={() => {
+                                postQuestions()
+                            }}
+                        >
+                            Add
+                        </Button>
+                    </ThemeProvider>
                 </Box>
             </Dialog>
         </>

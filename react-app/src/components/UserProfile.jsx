@@ -1,39 +1,29 @@
-import { Box, Container, Grid, Paper, Typography } from '@mui/material'
+import { Container, Grid, Typography } from '@mui/material'
 import React from 'react'
-import { baseUrl } from '../api'
 import { useDispatch, useSelector } from 'react-redux'
-import { SignIn } from '../store/auth'
-import axiosInstance from '../axios'
-import Pagination from '@mui/material/Pagination'
 
 const UserProfile = () => {
-    const [users, setUsers] = React.useState([])
-    const dispatch = useDispatch()
     const auth = useSelector((state) => state.authentication)
 
-    const getUsers = async () => {
-        try {
-            const { data } = await axiosInstance({
-                method: 'get',
-                url: baseUrl + '/auth/self'
-            })
+    // const getUsers = async () => {
+    //     try {
+    //         const { data } = await axiosInstance({
+    //             method: 'get',
+    //             url: baseUrl + '/auth/self'
+    //         })
 
-            dispatch(SignIn(data?.user))
-            setUsers(data)
-            console.log(data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    React.useEffect(() => {
-        getUsers()
-    }, [])
+    //         dispatch(SignIn(data?.user))
+    //         setUsers(data)
+    //         console.log(data)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     const info = auth?.user
 
     return (
-        <Container sx={{ marginTop: 10, marginLeft: 2, mx: 30 }}>
+        <Container sx={{ marginTop: 8, marginLeft: 2, mx: 30 }}>
             <Grid container sx={{ p: 4 }}>
                 {console.log(info)}
             </Grid>

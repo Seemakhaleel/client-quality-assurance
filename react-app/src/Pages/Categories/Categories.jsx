@@ -60,15 +60,14 @@ const Categories = () => {
     }, [])
 
     return (
-        <Container sx={{ marginTop: 10, marginLeft: 2, mx: 30 }}>
+        <Container sx={{ marginTop: 8, marginLeft: 2, mx: 30 }}>
             <Box
                 p={2}
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    border: '1px solid gray'
+                    justifyContent: 'center'
                 }}
             >
                 <Typography variant="h4"> Question Categories</Typography>

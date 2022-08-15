@@ -28,12 +28,13 @@ const theme = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
-                    borderRadius: 0,
+                    borderRadius: 6,
 
                     '&:hover': {
                         backgroundColor: ' #80d8ff',
                         color: '#00'
-                    }
+                    },
+                    backgroundColor: ' #212227'
                 }
             }
         }
@@ -173,7 +174,7 @@ const Question = () => {
 
     return (
         <>
-            <Container sx={{ marginTop: 10, marginLeft: 2, mx: 30 }}>
+            <Container sx={{ marginTop: 8, marginLeft: 2, mx: 30 }}>
                 <CssBaseline />
                 <Grid container>
                     <form>

@@ -105,9 +105,17 @@ const AccountStyle = styled('div')(({ theme }) => ({
     marginTop: 20
 }))
 
-export default function DashBoard() {
+export default function DashBoard(props) {
     const [anchorEl, setAnchorEl] = React.useState(null)
     const options = ['English', 'كوردى']
+
+    const auth = useSelector((state) => state.authentication)
+    const { window } = props
+    const [mobileOpen, setMobileOpen] = React.useState(false)
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen)
+    }
     const open = Boolean(anchorEl)
     const { t, i18n } = useTranslation() //useTranslation is a hook that returns the current language and the function to change the language
     const handleClick = (event) => {
@@ -129,10 +137,116 @@ export default function DashBoard() {
     console.log(i18n.language)
     // console.log(t('navbar.privacypolicy'))
 
-    const auth = useSelector((state) => state.authentication)
-
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const drawer = (
+        <>
+            <Box
+                sx={{ mb: 5, mx: 2.5, mt: 2, cursor: 'pointer' }}
+                onClick={() => {
+                    navigate('/dashboard/profile')
+                }}
+            >
+                {/* <Link underline="none" to="#" sx={{ textDecoration: "none" }}> */}
+                <AccountStyle>
+                    <Avatar src={userProfile} alt="photoURL" />
+                    <Box sx={{ ml: 2 }}>
+                        <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+                            {auth?.user?.firstName}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                            {auth?.user?.role}
+                        </Typography>
+                    </Box>
+                </AccountStyle>
+                {/* </Link> */}
+            </Box>
+            <Divider />
+
+            <List>
+                <ListItem
+                    disablePadding
+                    onClick={() => {
+                        navigate('/dashboard/questions')
+                    }}
+                >
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <QuestionAnswerIcon sx={{ color: 'white' }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Questions" />
+                    </ListItemButton>
+                </ListItem>
+                <Divider />
+
+                {auth?.user?.role === 'admin' && (
+                    <ListItem
+                        disablePadding
+                        onClick={() => {
+                            navigate('/dashboard/users')
+                        }}
+                    >
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <RecentActorsIcon sx={{ color: 'white' }} />
+                            </ListItemIcon>
+                            <ListItemText primary="List of users" />
+                        </ListItemButton>
+                    </ListItem>
+                )}
+                <Divider />
+                <ListItem
+                    disablePadding
+                    onClick={() => {
+                        navigate('/dashboard/categories')
+                    }}
+                >
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <CategoryIcon sx={{ color: 'white' }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Question Categories" />
+                    </ListItemButton>
+                </ListItem>
+                <Divider />
+
+                {auth?.user?.role === 'admin' && (
+                    <ListItem
+                        disablePadding
+                        onClick={() => {
+                            navigate('/dashboard/roles')
+                        }}
+                    >
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <PeopleIcon sx={{ color: 'white' }} />
+                            </ListItemIcon>
+                            <ListItemText primary="roles" />
+                        </ListItemButton>
+                    </ListItem>
+                )}
+                <Divider />
+
+                <ListItem
+                    disablePadding
+                    onClick={() => {
+                        dispatch(Logout())
+                        navigate('/')
+                    }}
+                >
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <LogoutIcon sx={{ color: 'white' }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Logout" />
+                    </ListItemButton>
+                </ListItem>
+                <Divider />
+            </List>
+        </>
+    )
+    const container = window !== undefined ? () => window().document.body : undefined
 
     return (
         <>
@@ -141,8 +255,8 @@ export default function DashBoard() {
                     <AppBar
                         position="fixed"
                         sx={{
-                            width: `calc(100% - ${drawerWidth}px)`,
-                            ml: `${drawerWidth}px`,
+                            width: { sm: `calc(100% - ${drawerWidth}px)` },
+                            ml: { sm: `${drawerWidth}px` },
                             backgroundColor: '#eeeeee'
                         }}
                     >
@@ -152,6 +266,16 @@ export default function DashBoard() {
                                 color: 'black' // keep right padding when drawer closed
                             }}
                         >
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                edge="start"
+                                onClick={handleDrawerToggle}
+                                sx={{ mr: 2, display: { sm: 'none' } }}
+                            >
+                                <MenuIcon sx={{ color: 'black' }} />
+                            </IconButton>
+
                             <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
                                 {t('dashboard.title')}
                             </Typography>
@@ -221,134 +345,151 @@ export default function DashBoard() {
                         </Toolbar>
                     </AppBar>
                 </Box>
-
-                <Drawer
-                    PaperProps={{
-                        sx: {
-                            backgroundColor: '#1D2D44',
-                            color: 'white'
-                        }
-                    }}
-                    sx={{
-                        width: drawerWidth,
-                        flexShrink: 0,
-                        '& .MuiDrawer-paper': {
-                            width: drawerWidth,
-                            boxSizing: 'border-box'
-                        }
-                    }}
-                    variant="permanent"
-                    anchor="left"
-                >
-                    <Box
-                        sx={{ mb: 5, mx: 2.5, mt: 2, cursor: 'pointer' }}
-                        onClick={() => {
-                            navigate('/dashboard/profile')
+                <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        open={mobileOpen}
+                        onClose={handleDrawerToggle}
+                        ModalProps={{
+                            keepMounted: true // Better open performance on mobile.
+                        }}
+                        sx={{
+                            display: { xs: 'block', sm: 'none' },
+                            '& .MuiDrawer-paper': {
+                                boxSizing: 'border-box',
+                                width: drawerWidth
+                            }
                         }}
                     >
-                        {/* <Link underline="none" to="#" sx={{ textDecoration: "none" }}> */}
-                        <AccountStyle>
-                            <Avatar src={userProfile} alt="photoURL" />
-                            <Box sx={{ ml: 2 }}>
-                                <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                                    {auth?.user?.firstName}
-                                </Typography>
-                                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                    {auth?.user?.role}
-                                </Typography>
-                            </Box>
-                        </AccountStyle>
-                        {/* </Link> */}
-                    </Box>
-                    <Divider />
+                        {drawer}
+                    </Drawer>
 
-                    <List>
-                        <ListItem
-                            disablePadding
+                    <Drawer
+                        PaperProps={{
+                            sx: {
+                                backgroundColor: '#1D2D44',
+                                color: 'white'
+                            }
+                        }}
+                        sx={{
+                            width: drawerWidth,
+                            flexShrink: 0,
+                            display: { xs: 'none', sm: 'block' },
+                            '& .MuiDrawer-paper': {
+                                width: drawerWidth,
+                                boxSizing: 'border-box'
+                            }
+                        }}
+                        variant="permanent"
+                        anchor="left"
+                    >
+                        <Box
+                            sx={{ mb: 5, mx: 2.5, mt: 2, cursor: 'pointer' }}
                             onClick={() => {
-                                navigate('/dashboard/questions')
+                                navigate('/dashboard/profile')
                             }}
                         >
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <QuestionAnswerIcon sx={{ color: 'white' }} />
-                                </ListItemIcon>
-                                <ListItemText primary={t('dashboard.Questions')} />
-                            </ListItemButton>
-                        </ListItem>
+                            {/* <Link underline="none" to="#" sx={{ textDecoration: "none" }}> */}
+                            <AccountStyle>
+                                <Avatar src={userProfile} alt="photoURL" />
+                                <Box sx={{ ml: 2 }}>
+                                    <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+                                        {auth?.user?.firstName}
+                                    </Typography>
+                                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                        {auth?.user?.role}
+                                    </Typography>
+                                </Box>
+                            </AccountStyle>
+                            {/* </Link> */}
+                        </Box>
                         <Divider />
 
-                        {auth?.user?.role === 'admin' && (
+                        <List>
                             <ListItem
                                 disablePadding
                                 onClick={() => {
-                                    navigate('/dashboard/users')
+                                    navigate('/dashboard/questions')
                                 }}
                             >
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <RecentActorsIcon sx={{ color: 'white' }} />
+                                        <QuestionAnswerIcon sx={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary={t('dashboard.ListOfUsers')} />
+                                    <ListItemText primary="Questions" />
                                 </ListItemButton>
                             </ListItem>
-                        )}
-                        <Divider />
-                        <ListItem
-                            disablePadding
-                            onClick={() => {
-                                navigate('/dashboard/categories')
-                            }}
-                        >
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <CategoryIcon sx={{ color: 'white' }} />
-                                </ListItemIcon>
-                                <ListItemText primary={t('dashboard.QuestionCategories')} />
-                            </ListItemButton>
-                        </ListItem>
-                        <Divider />
+                            <Divider />
 
-                        {auth?.user?.role === 'admin' && (
+                            {auth?.user?.role === 'admin' && (
+                                <ListItem
+                                    disablePadding
+                                    onClick={() => {
+                                        navigate('/dashboard/users')
+                                    }}
+                                >
+                                    <ListItemButton>
+                                        <ListItemIcon>
+                                            <RecentActorsIcon sx={{ color: 'white' }} />
+                                        </ListItemIcon>
+                                        <ListItemText primary="List of users" />
+                                    </ListItemButton>
+                                </ListItem>
+                            )}
+                            <Divider />
                             <ListItem
                                 disablePadding
                                 onClick={() => {
-                                    navigate('/dashboard/roles')
+                                    navigate('/dashboard/categories')
                                 }}
                             >
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <PeopleIcon sx={{ color: 'white' }} />
+                                        <CategoryIcon sx={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary={t('dashboard.Roles')} />
+                                    <ListItemText primary="Question Categories" />
                                 </ListItemButton>
                             </ListItem>
-                        )}
-                        <Divider />
+                            <Divider />
 
-                        <ListItem
-                            disablePadding
-                            onClick={() => {
-                                dispatch(Logout())
-                                navigate('/')
-                            }}
-                        >
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <LogoutIcon sx={{ color: 'white' }} />
-                                </ListItemIcon>
-                                <ListItemText primary={t('dashboard.Logout')} />
-                            </ListItemButton>
-                        </ListItem>
-                        <Divider />
-                    </List>
-                    {/* </nav> */}
-                    {/* </Box> */}
-                </Drawer>
+                            {auth?.user?.role === 'admin' && (
+                                <ListItem
+                                    disablePadding
+                                    onClick={() => {
+                                        navigate('/dashboard/roles')
+                                    }}
+                                >
+                                    <ListItemButton>
+                                        <ListItemIcon>
+                                            <PeopleIcon sx={{ color: 'white' }} />
+                                        </ListItemIcon>
+                                        <ListItemText primary="roles" />
+                                    </ListItemButton>
+                                </ListItem>
+                            )}
+                            <Divider />
+
+                            <ListItem
+                                disablePadding
+                                onClick={() => {
+                                    dispatch(Logout())
+                                    navigate('/')
+                                }}
+                            >
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <LogoutIcon sx={{ color: 'white' }} />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Logout" />
+                                </ListItemButton>
+                            </ListItem>
+                            <Divider />
+                        </List>
+                    </Drawer>
+                </Box>
 
                 <Outlet />
-
-                {/* <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }} /> */}
             </Box>
 
             {/* </ThemeProvider> */}
