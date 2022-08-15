@@ -28,8 +28,11 @@ import PeopleIcon from '@mui/icons-material/People'
 import { useSelector } from 'react-redux'
 import Drawer from '@mui/material/Drawer'
 import AppBar from '@mui/material/AppBar'
-import userProfile from '../userProfile.png'
-import { Avatar } from '@mui/material'
+import userProfile from '../user.png'
+import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material'
+import LanguageIcon from '@mui/icons-material/Language'
+import { useTranslation } from 'react-i18next'
+import '../i18n'
 
 const drawerWidth = 240
 
@@ -98,59 +101,134 @@ const AccountStyle = styled('div')(({ theme }) => ({
     padding: theme.spacing(2, 2.5),
     borderRadius: Number(theme.shape.borderRadius) * 1.5,
     backgroundColor: '#F9F9F9',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    marginTop: 20
 }))
 
 export default function DashBoard() {
-    const theme = useTheme()
-    const [open, setOpen] = React.useState(false)
+    const [anchorEl, setAnchorEl] = React.useState(null)
+    const options = ['English', 'كوردى']
+    const open = Boolean(anchorEl)
+    const { t, i18n } = useTranslation() //useTranslation is a hook that returns the current language and the function to change the language
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget)
+    }
+
+    const handleClose = (e) => {
+        setAnchorEl(null)
+
+        switch (e.target.value) {
+            case 0:
+                i18n.changeLanguage('eng') //change language to english if the user clicks on english language icon
+                break
+            case 1:
+                i18n.changeLanguage('krd')
+                break
+        }
+    }
+    console.log(i18n.language)
+    // console.log(t('navbar.privacypolicy'))
+
     const auth = useSelector((state) => state.authentication)
 
-    const handleDrawerOpen = () => {
-        setOpen(!open)
-    }
-
-    const handleDrawerClose = () => {
-        setOpen(false)
-    }
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     return (
         <>
-            <Box sx={{ dispaly: 'flex', bgcolor: '#eeeeee', my: 5 }}>
+            <Box sx={{ dispaly: 'flex', backgroundColor: '#eeeeee', height: '200vh' }} dir={t('dashboard.direction')}>
                 <Box sx={{ flexGrow: 1 }}>
                     <AppBar
                         position="fixed"
                         sx={{
                             width: `calc(100% - ${drawerWidth}px)`,
                             ml: `${drawerWidth}px`,
-                            bgcolor: 'black'
+                            backgroundColor: '#eeeeee'
                         }}
                     >
                         <Toolbar
                             sx={{
                                 pr: '24px',
-                                bgcolor: '#37474f' // keep right padding when drawer closed
+                                color: 'black' // keep right padding when drawer closed
                             }}
                         >
                             <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-                                AskAway
+                                {t('dashboard.title')}
                             </Typography>
+                            {/* //////////////////////////////////////////////// */}
 
-                            <IconButton
-                                color="inherit"
-                                onClick={() => {
-                                    navigate('/dashboard/profile')
+                            <Tooltip title="Language">
+                                <IconButton
+                                    onClick={handleClick}
+                                    size="small"
+                                    aria-controls={open ? 'account-menu' : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}
+                                    sx={{
+                                        color: 'black',
+                                        marginRight: '10px',
+                                        cursor: 'pointer',
+                                        ml: 2
+                                    }}
+                                    color="inherit"
+                                >
+                                    <LanguageIcon />
+                                </IconButton>
+                            </Tooltip>
+
+                            <Menu
+                                anchorEl={anchorEl}
+                                id="account-menu"
+                                open={open}
+                                onClose={handleClose}
+                                // onClick={handleClose}
+                                PaperProps={{
+                                    elevation: 0,
+                                    sx: {
+                                        overflow: 'visible',
+                                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                        mt: 1.5,
+                                        '& .MuiAvatar-root': {
+                                            width: 32,
+                                            height: 32,
+                                            ml: -0.5,
+                                            mr: 1
+                                        },
+                                        '&:before': {
+                                            content: '""',
+                                            display: 'block',
+                                            position: 'absolute',
+                                            top: 0,
+                                            right: 14,
+                                            width: 10,
+                                            height: 10,
+                                            bgcolor: 'background.paper',
+                                            transform: 'translateY(-50%) rotate(45deg)',
+                                            zIndex: 0
+                                        }
+                                    }
                                 }}
+                                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                             >
-                                <AccountCircleIcon />
-                            </IconButton>
+                                {options.map((option, index) => (
+                                    <MenuItem key={option} value={index} onClick={handleClose}>
+                                        {option}
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                            {/* ////////////////////////////////////////////////// */}
                         </Toolbar>
                     </AppBar>
                 </Box>
 
                 <Drawer
+                    PaperProps={{
+                        sx: {
+                            backgroundColor: '#1D2D44',
+                            color: 'white'
+                        }
+                    }}
                     sx={{
                         width: drawerWidth,
                         flexShrink: 0,
@@ -163,7 +241,7 @@ export default function DashBoard() {
                     anchor="left"
                 >
                     <Box
-                        sx={{ mb: 5, mx: 2.5 }}
+                        sx={{ mb: 5, mx: 2.5, mt: 2, cursor: 'pointer' }}
                         onClick={() => {
                             navigate('/dashboard/profile')
                         }}
@@ -182,6 +260,7 @@ export default function DashBoard() {
                         </AccountStyle>
                         {/* </Link> */}
                     </Box>
+                    <Divider />
 
                     <List>
                         <ListItem
@@ -192,9 +271,9 @@ export default function DashBoard() {
                         >
                             <ListItemButton>
                                 <ListItemIcon>
-                                    <QuestionAnswerIcon />
+                                    <QuestionAnswerIcon sx={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <ListItemText primary="Questions" />
+                                <ListItemText primary={t('dashboard.Questions')} />
                             </ListItemButton>
                         </ListItem>
                         <Divider />
@@ -208,9 +287,9 @@ export default function DashBoard() {
                             >
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <RecentActorsIcon />
+                                        <RecentActorsIcon sx={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary="List of users" />
+                                    <ListItemText primary={t('dashboard.ListOfUsers')} />
                                 </ListItemButton>
                             </ListItem>
                         )}
@@ -223,9 +302,9 @@ export default function DashBoard() {
                         >
                             <ListItemButton>
                                 <ListItemIcon>
-                                    <CategoryIcon />
+                                    <CategoryIcon sx={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <ListItemText primary="Question Categories" />
+                                <ListItemText primary={t('dashboard.QuestionCategories')} />
                             </ListItemButton>
                         </ListItem>
                         <Divider />
@@ -239,9 +318,9 @@ export default function DashBoard() {
                             >
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <PeopleIcon />
+                                        <PeopleIcon sx={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary="roles" />
+                                    <ListItemText primary={t('dashboard.Roles')} />
                                 </ListItemButton>
                             </ListItem>
                         )}
@@ -256,9 +335,9 @@ export default function DashBoard() {
                         >
                             <ListItemButton>
                                 <ListItemIcon>
-                                    <LogoutIcon />
+                                    <LogoutIcon sx={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <ListItemText primary="Logout" />
+                                <ListItemText primary={t('dashboard.Logout')} />
                             </ListItemButton>
                         </ListItem>
                         <Divider />
@@ -269,7 +348,7 @@ export default function DashBoard() {
 
                 <Outlet />
 
-                <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }} />
+                {/* <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }} /> */}
             </Box>
 
             {/* </ThemeProvider> */}
