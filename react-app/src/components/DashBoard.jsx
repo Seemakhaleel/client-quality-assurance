@@ -112,12 +112,13 @@ export default function DashBoard(props) {
     const auth = useSelector((state) => state.authentication)
     const { window } = props
     const [mobileOpen, setMobileOpen] = React.useState(false)
+    const open = Boolean(anchorEl)
+    const { t, i18n } = useTranslation() //useTranslation is a hook that returns the current language and the function to change the language
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen)
     }
-    const open = Boolean(anchorEl)
-    const { t, i18n } = useTranslation() //useTranslation is a hook that returns the current language and the function to change the language
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget)
     }
@@ -175,7 +176,7 @@ export default function DashBoard(props) {
                         <ListItemIcon>
                             <QuestionAnswerIcon sx={{ color: 'white' }} />
                         </ListItemIcon>
-                        <ListItemText primary="Questions" />
+                        <ListItemText primary={t('dashboard.Questions')} />
                     </ListItemButton>
                 </ListItem>
                 <Divider />
@@ -191,7 +192,7 @@ export default function DashBoard(props) {
                             <ListItemIcon>
                                 <RecentActorsIcon sx={{ color: 'white' }} />
                             </ListItemIcon>
-                            <ListItemText primary="List of users" />
+                            <ListItemText primary={t('dashboard.ListOfUsers')} />
                         </ListItemButton>
                     </ListItem>
                 )}
@@ -206,7 +207,7 @@ export default function DashBoard(props) {
                         <ListItemIcon>
                             <CategoryIcon sx={{ color: 'white' }} />
                         </ListItemIcon>
-                        <ListItemText primary="Question Categories" />
+                        <ListItemText primary={t('dashboard.QuestionCategories')} />
                     </ListItemButton>
                 </ListItem>
                 <Divider />
@@ -222,7 +223,7 @@ export default function DashBoard(props) {
                             <ListItemIcon>
                                 <PeopleIcon sx={{ color: 'white' }} />
                             </ListItemIcon>
-                            <ListItemText primary="roles" />
+                            <ListItemText primary={t('dashboard.Roles')} />
                         </ListItemButton>
                     </ListItem>
                 )}
@@ -239,7 +240,7 @@ export default function DashBoard(props) {
                         <ListItemIcon>
                             <LogoutIcon sx={{ color: 'white' }} />
                         </ListItemIcon>
-                        <ListItemText primary="Logout" />
+                        <ListItemText primary={t('dashboard.Logout')} />
                     </ListItemButton>
                 </ListItem>
                 <Divider />
@@ -417,7 +418,7 @@ export default function DashBoard(props) {
                                     <ListItemIcon>
                                         <QuestionAnswerIcon sx={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary="Questions" />
+                                    <ListItemText primary={t('dashboard.Questions')} />
                                 </ListItemButton>
                             </ListItem>
                             <Divider />
@@ -433,7 +434,7 @@ export default function DashBoard(props) {
                                         <ListItemIcon>
                                             <RecentActorsIcon sx={{ color: 'white' }} />
                                         </ListItemIcon>
-                                        <ListItemText primary="List of users" />
+                                        <ListItemText primary={t('dashboard.ListOfUsers')} />
                                     </ListItemButton>
                                 </ListItem>
                             )}
@@ -448,7 +449,7 @@ export default function DashBoard(props) {
                                     <ListItemIcon>
                                         <CategoryIcon sx={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary="Question Categories" />
+                                    <ListItemText primary={t('dashboard.QuestionCategories')} />
                                 </ListItemButton>
                             </ListItem>
                             <Divider />
@@ -464,7 +465,7 @@ export default function DashBoard(props) {
                                         <ListItemIcon>
                                             <PeopleIcon sx={{ color: 'white' }} />
                                         </ListItemIcon>
-                                        <ListItemText primary="roles" />
+                                        <ListItemText primary={t('dashboard.Roles')} />
                                     </ListItemButton>
                                 </ListItem>
                             )}
@@ -481,7 +482,7 @@ export default function DashBoard(props) {
                                     <ListItemIcon>
                                         <LogoutIcon sx={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary="Logout" />
+                                    <ListItemText primary={t('dashboard.Logout')} />
                                 </ListItemButton>
                             </ListItem>
                             <Divider />
