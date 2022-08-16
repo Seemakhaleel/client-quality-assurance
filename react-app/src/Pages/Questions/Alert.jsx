@@ -1,4 +1,14 @@
-import { Button, createTheme, Dialog, DialogTitle, MenuItem, Select, ThemeProvider, Typography } from '@mui/material'
+import {
+    Button,
+    colors,
+    createTheme,
+    Dialog,
+    DialogTitle,
+    MenuItem,
+    Select,
+    ThemeProvider,
+    Typography
+} from '@mui/material'
 import { Box, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../../axios'
@@ -8,6 +18,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import { useNavigate, useParams } from 'react-router-dom'
 import Categories from '../Categories/Categories'
+
 export const getCategories = async (setData) => {
     try {
         const response = await axiosInstance({
@@ -43,7 +54,7 @@ export default function Alert(props) {
 
                         '&:hover': {
                             backgroundColor: ' #80d8ff',
-                            color: '#00'
+                            color: 'white'
                         },
                         backgroundColor: ' #212227'
                     }

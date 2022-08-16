@@ -42,14 +42,10 @@ const theme = createTheme({
 })
 
 const Question = () => {
-    // const [inputText, setInputText] = useState('')
-    // const [answers, setAnswers] = useState([])
     const [oneQuestion, setOneQuestion] = useState({})
     const [oneanswer, setOneAnswer] = useState([])
-    const [question, setQuestionTitle] = useState('')
-    const [description, setDescription] = useState('')
     const [postAnswer, setPostAnswer] = useState('')
-    const [open, setOpen] = React.useState(false)
+    const [openEditDialog, setOpenEditDialog] = React.useState(false)
     const navigate = useNavigate()
     const { id } = useParams()
 
@@ -162,6 +158,18 @@ const Question = () => {
             console.log('not successful')
         }
     }
+    const deleteQuestion = async (id) => {
+        try {
+            const { data } = await axiosInstance({
+                method: 'delete',
+                url: baseUrl + '/questions/' + id
+            })
+            console.log(data, 'Hello delete')
+            getQuestions()
+        } catch (error) {
+            console.log('not successful')
+        }
+    }
 
     React.useEffect(() => {
         getOneQuestion()
@@ -169,7 +177,7 @@ const Question = () => {
     }, [])
 
     const handleClickOpen = () => {
-        setOpen(true)
+        setOpenEditDialog(true)
     }
 
     return (
@@ -206,15 +214,11 @@ const Question = () => {
                                         size="small"
                                         sx={{ marginLeft: 'auto', marginTop: 10 }}
                                         onClick={() => {
-                                            axiosInstance({
-                                                method: 'delete',
-                                                url: `${baseUrl}/questions/${id}`
-                                            })
-                                            getQuestions()
+                                            deleteQuestion(oneQuestion?.id)
                                             navigate('/dashboard/questions')
                                         }}
                                     >
-                                        Delete this question
+                                        Delete
                                     </Button>
                                 </CardActions>
 
@@ -222,10 +226,10 @@ const Question = () => {
                                     edit Question
                                 </Button>
 
-                                {open && (
+                                {openEditDialog && (
                                     <EditAlert
-                                        open={open}
-                                        setOpen={setOpen}
+                                        openEditDialog={openEditDialog}
+                                        setOpenEditDialog={setOpenEditDialog}
                                         getOneQuestion={getOneQuestion}
                                         oneQuestion={oneQuestion}
                                     />

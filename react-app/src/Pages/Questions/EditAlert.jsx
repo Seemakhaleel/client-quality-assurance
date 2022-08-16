@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { TextField, Button, Dialog, DialogTitle, Typography } from '@mui/material'
+import { TextField, Button, Dialog, DialogTitle } from '@mui/material'
 
 const EditAlert = ({ oneQuestion, getOneQuestion, setOpen, open }) => {
     const [editQs, setEditQs] = React.useState(oneQuestion?.question) //

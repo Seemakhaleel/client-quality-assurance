@@ -10,11 +10,15 @@ export default function Roles() {
     let navigate = useNavigate()
     const [role, setRole] = React.useState([])
 
-    const [cols] = useState([
-        { name: 'id', label: 'ID' },
-        { name: 'name', label: 'Name' },
-        { name: 'description', label: 'Description' }
-    ])
+    const cols = React.useMemo(
+        () => [
+            //useMemo is used to optimize the performance of the component
+            { name: 'id', label: 'ID' },
+            { name: 'name', label: 'Name' },
+            { name: 'description', label: 'Description' }
+        ],
+        []
+    ) //The array that's passed as a second argument to useMemo is a dependency list, as you might guess if you put a variable inside the dependency list if it changes it'll trigger useMemo to redefine cols with the new values of the dependencies.
     const roles = async () => {
         try {
             const response = await axios({
