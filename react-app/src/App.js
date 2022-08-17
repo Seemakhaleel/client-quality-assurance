@@ -16,22 +16,31 @@ import Role from './Pages/Roles/Role'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import RequireAdmin from './Pages/userAuth/RequireAdmin'
 import Unautharized from './components/Unautharized'
+import { blue } from '@mui/material/colors'
 
 function App() {
     const mdTheme = createTheme({
+        palette: {
+            primary: {
+                light: '#8B8982',
+                main: '#969696',
+                dark: '#585555'
+            }
+        },
         components: {
             MuiButton: {
-                root: {
-                    borderRadius: 0,
-                    border: '1px solid #ccc',
-                    padding: '10px 20px',
-                    fontSize: '1.2rem',
-                    fontWeight: 'bold',
-                    textTransform: 'capitalize',
-                    '&:hover': {
-                        backgroundColor: '#ccc',
-                        color: '#00'
-                    }
+                styleOverrides: {
+                    root: ({ ownerState, theme }) => ({
+                        borderRadius: 6,
+                        '&:hover': {
+                            ...(ownerState.variant === 'contained'
+                                ? { backgroundColor: theme.palette.primary.dark }
+                                : { color: theme.palette.primary.dark })
+                        },
+                        ...(ownerState.variant === 'contained'
+                            ? { color: 'white', backgroundColor: theme.palette.primary.main }
+                            : { color: theme.palette.primary.main })
+                    })
                 }
             }
         }

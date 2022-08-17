@@ -20,6 +20,10 @@ import axiosInstance from '../../axios'
 import { loginSchema, validateUser } from '../../Validations/LoginValidation'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { IconButton, Menu, MenuItem, MenuList, Tooltip } from '@mui/material'
+import LanguageIcon from '@mui/icons-material/Language'
+import { useTranslation } from 'react-i18next'
+import '../../i18n'
 
 function Copyright(props) {
     //copyright component for footer that returns a typography component that dynamically changes the copyright year
@@ -37,16 +41,35 @@ function Copyright(props) {
 const theme = createTheme() //creates a theme for the app to use
 
 export default function Login() {
+    const [anchorEl, setAnchorEl] = React.useState(null)
+    const options = ['English', 'كوردى']
+    const open = Boolean(anchorEl)
     const [inputEmail, setInputEmail] = useState('') //initializes the state for the input text
     const [password, setPassword] = useState('')
     const auth = useSelector((state) => state.authentication) //uses the redux store to get the user, we dont need to specify the slice because we are using the entire store
     const dispatch = useDispatch() //uses the redux dispatch to dispatch the actions
     let navigate = useNavigate() //uses the navigate hook to navigate to the home page
     const location = useLocation() //uses the location hook to get the current location
+    const { t, i18n } = useTranslation()
 
     // let from = location.state?.from?.pathname || "/dashboard/questions"; //gets the location of the page that the user came from
     // //if the user came from the sign up page, the user will be redirected to the home page
 
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget)
+    }
+    const handleClose = (e) => {
+        setAnchorEl(null)
+
+        switch (e.target.value) {
+            case 0:
+                i18n.changeLanguage('eng') //change language to english if the user clicks on english language icon
+                break
+            case 1:
+                i18n.changeLanguage('krd')
+                break
+        }
+    }
     const getUsers = async () => {
         try {
             const { data } = await axiosInstance({
@@ -118,6 +141,25 @@ export default function Login() {
 
     return (
         <ThemeProvider theme={theme}>
+            <Tooltip title="Language">
+                <IconButton
+                    onClick={handleClick}
+                    size="small"
+                    aria-controls={open ? 'account-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    sx={{
+                        color: 'black',
+                        marginRight: '10px',
+                        cursor: 'pointer',
+                        ml: 2,
+                        marginTop: '10px'
+                    }}
+                    color="inherit"
+                >
+                    <LanguageIcon />
+                </IconButton>
+            </Tooltip>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
@@ -132,7 +174,7 @@ export default function Login() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        {t('signIn.signin')}
                     </Typography>
                     <form onSubmit={handleSubmit}>
                         <Box sx={{ mt: 1 }}>
@@ -141,7 +183,7 @@ export default function Login() {
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email Address"
+                                label={t('signIn.email')}
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
@@ -153,7 +195,7 @@ export default function Login() {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label={t('signIn.password')}
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
@@ -162,7 +204,7 @@ export default function Login() {
                             />
 
                             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                                Sign In
+                                {t('signIn.signin')}
                             </Button>
 
                             <ToastContainer
@@ -182,7 +224,7 @@ export default function Login() {
                         <Grid container>
                             <Grid item>
                                 <Link to="/signup" variant="body2">
-                                    Don't have an account? Sign up
+                                    {t('signIn.notSingin')}
                                 </Link>
                             </Grid>
                         </Grid>
@@ -190,6 +232,48 @@ export default function Login() {
                 </Box>
 
                 <Copyright sx={{ mt: 8, mb: 4 }} />
+
+                <Menu
+                    anchorEl={anchorEl}
+                    id="account-menu"
+                    open={open}
+                    onClose={handleClose}
+                    // onClick={handleClose}
+                    PaperProps={{
+                        elevation: 0,
+                        sx: {
+                            overflow: 'visible',
+                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                            mt: 1.5,
+                            '& .MuiAvatar-root': {
+                                width: 32,
+                                height: 32,
+                                ml: -0.5,
+                                mr: 1
+                            },
+                            '&:before': {
+                                content: '""',
+                                display: 'block',
+                                position: 'absolute',
+                                top: 0,
+                                right: 14,
+                                width: 10,
+                                height: 10,
+                                bgcolor: 'background.paper',
+                                transform: 'translateY(-50%) rotate(45deg)',
+                                zIndex: 0
+                            }
+                        }
+                    }}
+                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                >
+                    {options.map((option, index) => (
+                        <MenuItem key={option} value={index} onClick={handleClose}>
+                            {option}
+                        </MenuItem>
+                    ))}
+                </Menu>
             </Container>
         </ThemeProvider>
     )

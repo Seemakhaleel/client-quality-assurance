@@ -32,23 +32,6 @@ const Questions = () => {
     const [visibleQuestions, setVisibleQuestions] = useState([])
     const [page, setPage] = useState(1)
     const { t } = useTranslation()
-    const theme = createTheme({
-        components: {
-            MuiButton: {
-                styleOverrides: {
-                    root: {
-                        borderRadius: 6,
-
-                        '&:hover': {
-                            backgroundColor: ' #80d8ff',
-                            color: '#00'
-                        },
-                        backgroundColor: ' #212227'
-                    }
-                }
-            }
-        }
-    })
 
     const getQuestions = async () => {
         try {
@@ -102,17 +85,16 @@ const Questions = () => {
                         <Typography variant="h5" component="h1">
                             {t('dashboard.Questions')}
                         </Typography>
-                        <ThemeProvider theme={theme}>
-                            <Button
-                                sx={{ float: 'right' }}
-                                variant="contained"
-                                onClick={() => {
-                                    setOpenPopup(true)
-                                }}
-                            >
-                                {t('dashboard.AskQuestion')}
-                            </Button>
-                        </ThemeProvider>
+
+                        <Button
+                            sx={{ float: 'right' }}
+                            variant="contained"
+                            onClick={() => {
+                                setOpenPopup(true)
+                            }}
+                        >
+                            {t('dashboard.AskQuestion')}
+                        </Button>
                     </Grid>
                     <Grid item xs={12}>
                         <Cards questions={visibleQuestions} description={description} />

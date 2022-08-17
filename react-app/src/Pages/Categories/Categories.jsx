@@ -92,6 +92,7 @@ const Categories = () => {
                 <TextField label="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
 
                 <Button
+                    disabled={title === '' || description === ''}
                     sx={{
                         marginTop: '1rem',
                         color: 'black'
@@ -99,6 +100,7 @@ const Categories = () => {
                     onClick={() => {
                         postCategories()
                         setTitle('')
+                        setDescription('')
                     }}
                 >
                     {' '}

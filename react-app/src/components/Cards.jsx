@@ -49,9 +49,9 @@ export default function Cards({ questions }) {
 
                             <CardActions>
                                 <Button
+                                    variant="outlined"
                                     sx={{
                                         marginLeft: 120,
-                                        color: 'black',
                                         cursor: 'pointer'
                                     }}
                                 >

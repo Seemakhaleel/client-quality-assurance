@@ -22,24 +22,6 @@ import {
 import EditAlert from './EditAlert'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-const theme = createTheme({
-    components: {
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    borderRadius: 6,
-
-                    '&:hover': {
-                        backgroundColor: ' #80d8ff',
-                        color: '#00'
-                    },
-                    backgroundColor: ' #212227'
-                }
-            }
-        }
-    }
-})
 
 const Question = () => {
     const [oneQuestion, setOneQuestion] = useState({})
@@ -222,9 +204,7 @@ const Question = () => {
                                     </Button>
                                 </CardActions>
 
-                                <Button variant="outlined" onClick={handleClickOpen}>
-                                    edit Question
-                                </Button>
+                                <Button onClick={handleClickOpen}>edit Question</Button>
 
                                 {openEditDialog && (
                                     <EditAlert
@@ -249,18 +229,16 @@ const Question = () => {
                             />
 
                             <Grid item xs={12}>
-                                <ThemeProvider theme={theme}>
-                                    <Button
-                                        variant="contained"
-                                        onClick={() => {
-                                            postAnAnswer()
-                                            setPostAnswer('')
-                                        }}
-                                        sx={{ m: 1 }}
-                                    >
-                                        POST
-                                    </Button>
-                                </ThemeProvider>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => {
+                                        postAnAnswer()
+                                        setPostAnswer('')
+                                    }}
+                                    sx={{ m: 1 }}
+                                >
+                                    POST
+                                </Button>
 
                                 <Grid item xs={12}>
                                     <Card sx={{ m: 1 }} variant="outlined">

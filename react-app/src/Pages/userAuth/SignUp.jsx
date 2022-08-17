@@ -19,6 +19,10 @@ import axios, { setAxiosToken } from '../../axios'
 import { baseUrl } from '../../api'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { IconButton, Menu, MenuList, Tooltip } from '@mui/material'
+import LanguageIcon from '@mui/icons-material/Language'
+import { useTranslation } from 'react-i18next'
+import '../../i18n'
 
 import { useDispatch } from 'react-redux'
 import { signupSchema, validateUser } from '../../Validations/LoginValidation'
@@ -43,8 +47,26 @@ export default function SignUp() {
     const [lastName, setLastName] = React.useState('')
     const [email, setEmail] = React.useState('')
     const [roles, setRoles] = React.useState([])
-    const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { t, i18n } = useTranslation()
+    const [anchorEl, setAnchorEl] = React.useState(null)
+    const options = ['English', 'كوردى']
+    const open = Boolean(anchorEl)
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget)
+    }
+    const handleClose = (e) => {
+        setAnchorEl(null)
+
+        switch (e.target.value) {
+            case 0:
+                i18n.changeLanguage('eng') //change language to english if the user clicks on english language icon
+                break
+            case 1:
+                i18n.changeLanguage('krd')
+                break
+        }
+    }
 
     function handleChange(event) {
         // handle change for select input (role)
@@ -116,6 +138,25 @@ export default function SignUp() {
 
     return (
         <ThemeProvider theme={theme}>
+            <Tooltip title="Language">
+                <IconButton
+                    onClick={handleClick}
+                    size="small"
+                    aria-controls={open ? 'account-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    sx={{
+                        color: 'black',
+                        marginRight: '10px',
+                        cursor: 'pointer',
+                        ml: 2,
+                        marginTop: '10px'
+                    }}
+                    color="inherit"
+                >
+                    <LanguageIcon />
+                </IconButton>
+            </Tooltip>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
 
@@ -131,7 +172,7 @@ export default function SignUp() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign up
+                        {t('signUp.signup')}
                     </Typography>
                     <Box sx={{ mt: 3 }}>
                         <form onSubmit={handleSubmit}>
@@ -143,7 +184,7 @@ export default function SignUp() {
                                         required
                                         fullWidth
                                         id="firstName"
-                                        label="First Name"
+                                        label={t('signUp.firstName')}
                                         autoFocus
                                         onChange={(e) => setFirstName(e.target.value)}
                                     />
@@ -153,7 +194,7 @@ export default function SignUp() {
                                         required
                                         fullWidth
                                         id="lastName"
-                                        label="Last Name"
+                                        label={t('signUp.lastName')}
                                         name="lastName"
                                         autoComplete="family-name"
                                         onChange={(e) => setLastName(e.target.value)}
@@ -164,7 +205,7 @@ export default function SignUp() {
                                         required
                                         fullWidth
                                         id="email"
-                                        label="Email Address"
+                                        label={t('signUp.email')}
                                         name="email"
                                         autoComplete="email"
                                         onChange={(e) => setEmail(e.target.value)}
@@ -175,7 +216,7 @@ export default function SignUp() {
                                         required
                                         fullWidth
                                         name="password"
-                                        label="Password"
+                                        label={t('signUp.password')}
                                         type="password"
                                         id="password"
                                         autoComplete="new-password"
@@ -183,15 +224,8 @@ export default function SignUp() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={role}
-                                        label="role"
-                                        onChange={handleChange}
-                                        fullWidth
-                                    >
+                                    <InputLabel id="demo-simple-select-label">{t('signUp.Roles')} </InputLabel>
+                                    <Select value={role} label={t('signUp.Roles')} onChange={handleChange} fullWidth>
                                         {roles?.map((role, index) => (
                                             <MenuItem key={index} value={role.name}>
                                                 {role.name}
@@ -202,14 +236,14 @@ export default function SignUp() {
                             </Grid>
 
                             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                                Sign Up
+                                {t('signUp.signup')}
                             </Button>
                         </form>
 
                         <Grid container justifyContent="flex-end">
                             <Grid item>
                                 <Link to="/" variant="body2">
-                                    Already have an account? Sign in
+                                    {t('signUp.notSignup')}
                                 </Link>
                             </Grid>
                         </Grid>
@@ -217,6 +251,47 @@ export default function SignUp() {
                 </Box>
 
                 <Copyright sx={{ mt: 5 }} />
+                <Menu
+                    anchorEl={anchorEl}
+                    id="account-menu"
+                    open={open}
+                    onClose={handleClose}
+                    // onClick={handleClose}
+                    PaperProps={{
+                        elevation: 0,
+                        sx: {
+                            overflow: 'visible',
+                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                            mt: 1.5,
+                            '& .MuiAvatar-root': {
+                                width: 32,
+                                height: 32,
+                                ml: -0.5,
+                                mr: 1
+                            },
+                            '&:before': {
+                                content: '""',
+                                display: 'block',
+                                position: 'absolute',
+                                top: 0,
+                                right: 14,
+                                width: 10,
+                                height: 10,
+                                bgcolor: 'background.paper',
+                                transform: 'translateY(-50%) rotate(45deg)',
+                                zIndex: 0
+                            }
+                        }
+                    }}
+                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                >
+                    {options.map((option, index) => (
+                        <MenuItem key={option} value={index} onClick={handleClose}>
+                            {option}
+                        </MenuItem>
+                    ))}
+                </Menu>
             </Container>
             <ToastContainer
                 position="top-center"

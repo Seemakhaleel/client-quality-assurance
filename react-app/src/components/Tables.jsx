@@ -11,7 +11,7 @@ import Box from '@mui/material/Box'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: '#1D2D44',
+        backgroundColor: '#2C4251',
         color: 'white'
     },
     [`&.${tableCellClasses.body}`]: {

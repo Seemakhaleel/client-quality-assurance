@@ -8,9 +8,6 @@ import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -249,6 +246,8 @@ export default function DashBoard(props) {
     )
     const container = window !== undefined ? () => window().document.body : undefined
 
+    const theme = useTheme()
+
     return (
         <>
             <Box sx={{ dispaly: 'flex', backgroundColor: '#eeeeee', height: '200vh' }} dir={t('dashboard.direction')}>
@@ -369,7 +368,7 @@ export default function DashBoard(props) {
                     <Drawer
                         PaperProps={{
                             sx: {
-                                backgroundColor: '#1D2D44',
+                                backgroundColor: '#2C4251',
                                 color: 'white'
                             }
                         }}
