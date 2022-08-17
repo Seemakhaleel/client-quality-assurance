@@ -137,6 +137,7 @@ export default function DashBoard(props) {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const theme = useTheme()
 
     const drawer = (
         <>
@@ -245,8 +246,6 @@ export default function DashBoard(props) {
         </>
     )
     const container = window !== undefined ? () => window().document.body : undefined
-
-    const theme = useTheme()
 
     return (
         <>
@@ -368,7 +367,7 @@ export default function DashBoard(props) {
                     <Drawer
                         PaperProps={{
                             sx: {
-                                backgroundColor: '#2C4251',
+                                backgroundColor: theme.palette.primary.main,
                                 color: 'white'
                             }
                         }}

@@ -14,6 +14,7 @@ import { baseUrl } from '../../api'
 import axiosInstance from '../../axios'
 import { Dialog, DialogActions, DialogContent } from '@mui/material'
 import DialogContentText from '@mui/material/DialogContentText'
+import { useTheme } from '@mui/material'
 
 function User() {
     const { id } = useParams()
@@ -67,6 +68,7 @@ function User() {
             console.log('error')
         }
     }
+    const theme = useTheme()
 
     return (
         <div>
@@ -87,7 +89,7 @@ function User() {
                         variant="filled"
                         type="submit"
                         startIcon={<DeleteIcon />}
-                        sx={{ width: 200, marginLeft: 50 }}
+                        sx={{ width: 200, marginLeft: 50, backgroundColor: theme.palette.secondary.main }}
                         onClick={() => {
                             // deleteUser()
                             // navigate('/dashboard/users')

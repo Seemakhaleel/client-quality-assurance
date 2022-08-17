@@ -16,39 +16,12 @@ import Role from './Pages/Roles/Role'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import RequireAdmin from './Pages/userAuth/RequireAdmin'
 import Unautharized from './components/Unautharized'
-import { blue } from '@mui/material/colors'
+import { theme } from './Theme'
 
 function App() {
-    const mdTheme = createTheme({
-        palette: {
-            primary: {
-                light: '#8B8982',
-                main: '#969696',
-                dark: '#585555'
-            }
-        },
-        components: {
-            MuiButton: {
-                styleOverrides: {
-                    root: ({ ownerState, theme }) => ({
-                        borderRadius: 6,
-                        '&:hover': {
-                            ...(ownerState.variant === 'contained'
-                                ? { backgroundColor: theme.palette.primary.dark }
-                                : { color: theme.palette.primary.dark })
-                        },
-                        ...(ownerState.variant === 'contained'
-                            ? { color: 'white', backgroundColor: theme.palette.primary.main }
-                            : { color: theme.palette.primary.main })
-                    })
-                }
-            }
-        }
-    })
-
     return (
         <>
-            <ThemeProvider theme={mdTheme}>
+            <ThemeProvider theme={theme}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/">

@@ -22,6 +22,7 @@ import {
 import EditAlert from './EditAlert'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import { useTheme } from '@mui/material'
 
 const Question = () => {
     const [oneQuestion, setOneQuestion] = useState({})
@@ -161,6 +162,7 @@ const Question = () => {
     const handleClickOpen = () => {
         setOpenEditDialog(true)
     }
+    const theme = useTheme()
 
     return (
         <>
@@ -194,7 +196,11 @@ const Question = () => {
                                         variant="contained"
                                         color="primary"
                                         size="small"
-                                        sx={{ marginLeft: 'auto', marginTop: 10 }}
+                                        sx={{
+                                            marginLeft: 'auto',
+                                            marginTop: 10,
+                                            backgroundColor: theme.palette.secondary.main
+                                        }}
                                         onClick={() => {
                                             deleteQuestion(oneQuestion?.id)
                                             navigate('/dashboard/questions')
