@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# AskAway web application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+"AskAway" is a web application for quality assurance engineers and software engineers where quality assurance engineers ask software engineers technical questions. The third user is the admin that sees all the data for wellbeing of the organization
 
-## Available Scripts
+## How to use
 
-In the project directory, you can run:
+### Sign up
 
-### `npm start`
+-   you can sign up as either the software engineer or quality assurance
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Home page (Question Page)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+-   If you're logged in as the admin, you have full authority over all the application
+-   If you are logged in as the software engineer you can answer questions but you cannot ask.
+-   If you are logged in as the quality assurance engineer you ask questions but you cannot answer.
 
-### `npm test`
+### User Table
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+-   The admin can see a table of all the users and has the authority to delete a user
 
-### `npm run build`
+### Role and Category page
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+-   The admin can add other roles and categories for questions
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### To change language
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-   You can change the language from English to Kurdish by clicking on the earth icon.
 
-### `npm run eject`
+### Dependencies
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+-   ReactJS: [https://reactjs.org](https://reactjs.org)
+-   React-Router: [https://reactrouter.com/](https://reactrouter.com/)
+-   Material-UI: [https://material-ui.com/](https://material-ui.com/)
+-   i18next: [https://react.i18next.com/getting-started](https://react.i18next.com/getting-started)
+-   react-toastify: [https://www.npmjs.com/package/react-toastify](https://www.npmjs.com/package/react-toastify)
+-   Redux [https://redux.js.org/](https://redux.js.org/)
+-   Axios [https://axios-http.com/docs/intro](https://axios-http.com/docs/intro)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Initial Set Up
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Clone the repository.
+2. `npm install` or `yarn`.
+3. `npm start` or `yarn start` app start with your port number.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Contribution
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Fork it
+2. Create your feature branch (`git checkout -b feature/fooBar`).
+3. Commit your changes (`git commit -am 'Add some fooBar'`).
+4. Push to the branch (`git push origin feature/fooBar`).
+5. Create a new Pull Request.
