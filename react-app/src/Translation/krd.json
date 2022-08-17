@@ -1,0 +1,27 @@
+{
+    "dashboard": {
+        "title": "داشبۆرد",
+        "Listofquestions": "لیستی پرسیارەکان",
+        "AskQuestion": "پرسیار بکە",
+        "Questions": "پرسیارەکان",
+        "ListOfUsers": "لیستی بەکارهێنەرەکان",
+        "QuestionCategories": "پۆلێنەکانی پرسیارەکان",
+        "Roles": "ڕۆڵەکان",
+        "Logout": "چونەدەرەوە"
+    },
+    "signIn": {
+        "signin": "چونەژوورەوە",
+        "email": "ئیمەیل",
+        "password": "وشەی نهێنی",
+        "notSingin": "ئەکاونتت نیە؟ خۆت تۆمار بکە"
+    },
+    "signUp": {
+        "signup": "تۆماربکە",
+        "email": "ئیمەیل",
+        "password": "   وشەی نهێنی",
+        "firstName": "ناوی  یەکەم",
+        "lastName": "ناوی کۆتایی",
+        "notSignup": "ئەکاونتت نیە؟ خۆت تۆمار بکە",
+        "Roles": "ڕۆڵەکان"
+    }
+}

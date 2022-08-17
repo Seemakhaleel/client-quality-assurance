@@ -1,0 +1,27 @@
+{
+    "dashboard": {
+        "title": "Dashboard",
+        "Listofquestions": "List of questions",
+        "AskQuestion": "Ask Question",
+        "Questions": "Questions",
+        "ListOfUsers": "List Of Users",
+        "QuestionCategories": "Categoreis",
+        "Roles": "Roles",
+        "Logout": "Logout"
+    },
+    "signIn": {
+        "signin": "Login",
+        "email": "Email Address",
+        "password": "Password",
+        "notSingin": "Dont have an account? SignUp"
+    },
+    "signUp": {
+        "signup": "SignUp",
+        "email": "Email Address",
+        "password": "Password",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "notSignup": "Already have an account? Login",
+        "Roles": "Roles"
+    }
+}
