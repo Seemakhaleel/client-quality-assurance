@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { TextField, Button, Dialog, DialogTitle } from '@mui/material'
 
-const EditAlert = ({ oneQuestion, getOneQuestion, setOpen, open }) => {
+const EditAlert = ({ oneQuestion, getOneQuestion, setOpenEditDialog, openEditDialog }) => {
     const [editQs, setEditQs] = React.useState(oneQuestion?.question) //
     const [editDesc, setEditDesc] = React.useState(oneQuestion?.description)
     const [categoryId, setCategoryId] = useState(oneQuestion.categoryId)
@@ -17,7 +17,7 @@ const EditAlert = ({ oneQuestion, getOneQuestion, setOpen, open }) => {
     const navigate = useNavigate()
 
     const handleClose = () => {
-        setOpen(false)
+        setOpenEditDialog(false)
     }
 
     const UpdateQuestions = async () => {
@@ -32,7 +32,7 @@ const EditAlert = ({ oneQuestion, getOneQuestion, setOpen, open }) => {
                 }
             })
 
-            setOpen(false)
+            setOpenEditDialog(false)
             getOneQuestion()
         } catch (error) {
             console.log(error)
@@ -42,7 +42,7 @@ const EditAlert = ({ oneQuestion, getOneQuestion, setOpen, open }) => {
 
     return (
         <>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={openEditDialog} onClose={handleClose}>
                 <DialogTitle>Edit</DialogTitle>
                 <DialogContent>
                     <DialogContentText>you can edit the description and title of the question</DialogContentText>

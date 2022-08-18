@@ -161,6 +161,7 @@ const Question = () => {
 
     const handleClickOpen = () => {
         setOpenEditDialog(true)
+        console.log('Hello')
     }
     const theme = useTheme()
 
@@ -171,24 +172,54 @@ const Question = () => {
                 <Grid container>
                     <form>
                         <Grid item xs={12}>
-                            <Card sx={{ m: 1, width: 800 }} variant="outlined">
+                            <Card variant="outlined">
                                 <CardContent>
-                                    <Typography variant="h5" component="h1">
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: '40',
+                                            fontSize: '0.9rem',
+                                            lineHeight: '1.167',
+                                            letterSpacing: '-0.01562em'
+                                        }}
+                                    >
                                         Question :
                                     </Typography>
-                                    <Typography>{oneQuestion?.question}</Typography>
+                                    <Typography
+                                        variant="h5"
+                                        sx={{
+                                            fontWeight: 'bold'
+                                        }}
+                                    >
+                                        {oneQuestion?.question}
+                                    </Typography>
                                 </CardContent>
                                 <CardContent>
-                                    <Typography variant="h5" component="h1">
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontSize: '0.9rem',
+                                            lineHeight: '1.167',
+                                            letterSpacing: '-0.01562em'
+                                        }}
+                                    >
                                         description :{' '}
                                     </Typography>
-                                    <Typography>{oneQuestion?.description}</Typography>
+                                    <Typography variant="h6">{oneQuestion?.description}</Typography>
                                 </CardContent>
                                 <CardContent>
-                                    <Typography variant="h5" component="h1">
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: '100',
+                                            fontSize: '1rem',
+                                            lineHeight: '1.167',
+                                            letterSpacing: '-0.01562em'
+                                        }}
+                                    >
                                         category:{' '}
                                     </Typography>
-                                    <Typography>{oneQuestion?.categoryId}</Typography>
+                                    <Typography variant="h6">{oneQuestion?.categoryId}</Typography>
                                 </CardContent>
                                 <CardActions>
                                     <Button

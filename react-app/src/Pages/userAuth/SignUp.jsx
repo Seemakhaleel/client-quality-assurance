@@ -12,20 +12,19 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { Link, useNavigate } from 'react-router-dom'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import { useState } from 'react'
-import axios, { setAxiosToken } from '../../axios'
+import axios from '../../axios'
 import { baseUrl } from '../../api'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { IconButton, Menu, MenuList, Tooltip } from '@mui/material'
+import { IconButton, Menu, Tooltip } from '@mui/material'
 import LanguageIcon from '@mui/icons-material/Language'
 import { useTranslation } from 'react-i18next'
 import '../../i18n'
-
-import { useDispatch } from 'react-redux'
 import { signupSchema, validateUser } from '../../Validations/LoginValidation'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 function Copyright(props) {
     return (
@@ -47,6 +46,7 @@ export default function SignUp() {
     const [lastName, setLastName] = React.useState('')
     const [email, setEmail] = React.useState('')
     const [roles, setRoles] = React.useState([])
+
     const navigate = useNavigate()
     const { t, i18n } = useTranslation()
     const [anchorEl, setAnchorEl] = React.useState(null)
@@ -73,7 +73,7 @@ export default function SignUp() {
         console.log(event.target)
         setRole(event.target.value)
     }
-    const handleSubmit = async (event) => {
+    const submitForm = async (event) => {
         event.preventDefault()
         // const data = new FormData(event.currentTarget)
         // data.forEach(function (value, key) {
@@ -86,6 +86,7 @@ export default function SignUp() {
             lastName: lastName,
             displayName: firstName + ' ' + lastName,
             password: password,
+
             email: email
         }
 
@@ -125,7 +126,7 @@ export default function SignUp() {
                 method: 'get',
                 url: baseUrl + '/roles'
             })
-            console.log({ response })
+            // console.log({ response })
             setRoles(response.data.roles)
         } catch (error) {
             console.log('error logging in')
@@ -135,6 +136,10 @@ export default function SignUp() {
     React.useEffect(() => {
         getRoles()
     }, [])
+
+    const { register, handleSubmit, errors } = useForm({
+        resolver: yupResolver(signupSchema)
+    })
 
     return (
         <ThemeProvider theme={theme}>
@@ -175,7 +180,7 @@ export default function SignUp() {
                         {t('signUp.signup')}
                     </Typography>
                     <Box sx={{ mt: 3 }}>
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit(submitForm)}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
@@ -186,9 +191,11 @@ export default function SignUp() {
                                         id="firstName"
                                         label={t('signUp.firstName')}
                                         autoFocus
+                                        {...register}
                                         onChange={(e) => setFirstName(e.target.value)}
                                     />
                                 </Grid>
+                                <Typography> {errors?.firstName?.message}</Typography>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
                                         required
@@ -197,9 +204,11 @@ export default function SignUp() {
                                         label={t('signUp.lastName')}
                                         name="lastName"
                                         autoComplete="family-name"
+                                        {...register}
                                         onChange={(e) => setLastName(e.target.value)}
                                     />
                                 </Grid>
+                                <Typography> {errors?.lastName?.message}</Typography>
                                 <Grid item xs={12}>
                                     <TextField
                                         required
@@ -208,9 +217,11 @@ export default function SignUp() {
                                         label={t('signUp.email')}
                                         name="email"
                                         autoComplete="email"
+                                        {...register}
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </Grid>
+                                <Typography> {errors?.email?.message}</Typography>
                                 <Grid item xs={12}>
                                     <TextField
                                         required
@@ -220,9 +231,25 @@ export default function SignUp() {
                                         type="password"
                                         id="password"
                                         autoComplete="new-password"
+                                        {...register}
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </Grid>
+                                {/* <Typography> {errors?.password?.message}</Typography> */}
+                                {/* <Grid item xs={12}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="Confirm password"
+                                        label={t('signUp.ConfirmPassword')}
+                                        type="password"
+                                        id=" confirm password"
+                                        autoComplete="new-password"
+                                        {...register}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                </Grid>
+                                <Typography> {errors?.confirmPassword && 'Passwords should match!'}</Typography> */}
                                 <Grid item xs={12}>
                                     <InputLabel id="demo-simple-select-label">{t('signUp.Roles')} </InputLabel>
                                     <Select value={role} label={t('signUp.Roles')} onChange={handleChange} fullWidth>

@@ -22,6 +22,7 @@
         "firstName": "First Name",
         "lastName": "Last Name",
         "notSignup": "Already have an account? Login",
-        "Roles": "Roles"
+        "Roles": "Roles",
+        "ConfirmPassword": "Confirm Password"
     }
 }

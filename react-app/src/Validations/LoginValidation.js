@@ -2,7 +2,7 @@ import * as yup from 'yup'
 import { isEmail } from 'validator'
 
 export const loginSchema = yup.object().shape({
-    email: yup
+    email: yup //should be the same as the one in the backend
         .string()
         .required('Email is required')
         .test('is-email', 'Email is not valid', (value) => isEmail(value)),
@@ -17,7 +17,8 @@ export const signupSchema = yup
     .object()
     .shape({
         firstName: yup.string().required('First name is required'),
-        lastName: yup.string().required('Last name is required')
+        lastName: yup.string().required('Last name is required'),
+        confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match') //if password is not equal to confirm password, then show error
     })
     .concat(loginSchema) // merge loginSchema into signupSchema because we need email and password fields in signupSchema too so why not merge them?
 
