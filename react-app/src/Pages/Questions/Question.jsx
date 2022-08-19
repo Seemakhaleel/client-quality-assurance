@@ -167,7 +167,7 @@ const Question = () => {
 
     return (
         <>
-            <Container sx={{ marginTop: 8, marginLeft: 2, mx: 30 }}>
+            <Container>
                 <CssBaseline />
                 <Grid container>
                     <form>

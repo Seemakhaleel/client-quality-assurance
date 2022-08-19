@@ -79,7 +79,7 @@ const Questions = () => {
 
     return (
         <>
-            <Container sx={{ mx: 30, marginTop: 8 }}>
+            <Container>
                 <Grid container>
                     <Grid item xs={12}>
                         <Typography variant="h5" component="h1">

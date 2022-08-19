@@ -23,7 +23,7 @@ const UserProfile = () => {
     const info = auth?.user
 
     return (
-        <Container sx={{ marginTop: 8, marginLeft: 2, mx: 30 }}>
+        <Container>
             <Grid container sx={{ p: 4 }}>
                 {console.log(info)}
             </Grid>

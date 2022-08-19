@@ -60,7 +60,7 @@ const Categories = () => {
     }, [])
 
     return (
-        <Container sx={{ marginTop: 8, marginLeft: 2, mx: 30 }}>
+        <Container>
             <Box
                 p={2}
                 sx={{

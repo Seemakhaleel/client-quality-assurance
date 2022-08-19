@@ -1,6 +1,6 @@
 {
     "dashboard": {
-        "title": "داشبۆرد",
+        "title": "لێم بپرسە",
         "Listofquestions": "لیستی پرسیارەکان",
         "AskQuestion": "پرسیار بکە",
         "Questions": "پرسیارەکان",
@@ -25,3 +25,4 @@
         "Roles": "ڕۆڵەکان",
         "ConfirmPassword": "وشەی نهێنی دووبارە بکە"
     }
+}

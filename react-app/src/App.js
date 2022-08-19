@@ -17,6 +17,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import RequireAdmin from './Pages/userAuth/RequireAdmin'
 import Unautharized from './components/Unautharized'
 import { theme } from './Theme'
+import Layout from './components/Layout'
 
 function App() {
     return (
@@ -32,7 +33,7 @@ function App() {
                                 path="dashboard"
                                 element={
                                     <RequireAuth>
-                                        <DashBoard />
+                                        <Layout />
                                     </RequireAuth>
                                 }
                             >
