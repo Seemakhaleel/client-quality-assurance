@@ -40,17 +40,26 @@ function Copyright(props) {
 const theme = createTheme()
 
 export default function SignUp() {
-    const [password, setPassword] = useState('')
-    const [role, setRole] = React.useState('')
-    const [firstName, setFirstName] = React.useState('')
-    const [lastName, setLastName] = React.useState('')
-    const [email, setEmail] = React.useState('')
-    const [roles, setRoles] = React.useState([])
+    // const [password, setPassword] = useState('') // we dont need because we will use hook form
+    // const [role, setRole] = React.useState('')
+    // const [firstName, setFirstName] = React.useState('')
+    // const [lastName, setLastName] = React.useState('')
+    // const [email, setEmail] = React.useState('')
+    // const [roles, setRoles] = React.useState([])
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm({
+        resolver: yupResolver(signupSchema)
+    })
 
     const navigate = useNavigate()
     const { t, i18n } = useTranslation()
     const [anchorEl, setAnchorEl] = React.useState(null)
     const options = ['English', 'كوردى']
+    const [roles, setRoles] = React.useState([])
+    const [role, setRole] = React.useState([])
     const open = Boolean(anchorEl)
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget)
@@ -73,26 +82,18 @@ export default function SignUp() {
         console.log(event.target)
         setRole(event.target.value)
     }
-    const submitForm = async (event) => {
-        event.preventDefault()
+    const onSubmit = async (data) => {
+        console.log(data)
+        submitForm(data)
+    }
+    const submitForm = async (data) => {
         // const data = new FormData(event.currentTarget)
         // data.forEach(function (value, key) {
         //     user[key] = value
         // })
 
-        const user = {
-            role: role,
-            firstName: firstName,
-            lastName: lastName,
-            displayName: firstName + ' ' + lastName,
-            password: password,
+        const isValid = await validateUser(data, signupSchema)
 
-            email: email
-        }
-
-        const isValid = await validateUser(user, signupSchema)
-
-        console.log('user', user)
         console.log('isValid', isValid)
 
         // TODO: display validation errors
@@ -111,7 +112,14 @@ export default function SignUp() {
             const response = await axios({
                 method: 'post',
                 url: baseUrl + '/users/register',
-                data: user
+                data: {
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    password: data.password,
+                    role: data.role,
+                    displayName: 'displayName'
+                }
             })
 
             navigate('/')
@@ -136,10 +144,6 @@ export default function SignUp() {
     React.useEffect(() => {
         getRoles()
     }, [])
-
-    const { register, handleSubmit, errors } = useForm({
-        resolver: yupResolver(signupSchema)
-    })
 
     return (
         <ThemeProvider theme={theme}>
@@ -180,63 +184,67 @@ export default function SignUp() {
                         {t('signUp.signup')}
                     </Typography>
                     <Box sx={{ mt: 3 }}>
-                        <form onSubmit={handleSubmit(submitForm)}>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        autoComplete="given-name"
-                                        name="firstName"
-                                        required
-                                        fullWidth
-                                        id="firstName"
-                                        label={t('signUp.firstName')}
-                                        autoFocus
-                                        {...register}
-                                        onChange={(e) => setFirstName(e.target.value)}
-                                    />
-                                </Grid>
-                                <Typography> {errors?.firstName?.message}</Typography>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        id="lastName"
-                                        label={t('signUp.lastName')}
-                                        name="lastName"
-                                        autoComplete="family-name"
-                                        {...register}
-                                        onChange={(e) => setLastName(e.target.value)}
-                                    />
-                                </Grid>
-                                <Typography> {errors?.lastName?.message}</Typography>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        id="email"
-                                        label={t('signUp.email')}
-                                        name="email"
-                                        autoComplete="email"
-                                        {...register}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                    />
-                                </Grid>
-                                <Typography> {errors?.email?.message}</Typography>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        name="password"
-                                        label={t('signUp.password')}
-                                        type="password"
-                                        id="password"
-                                        autoComplete="new-password"
-                                        {...register}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                    />
-                                </Grid>
-                                {/* <Typography> {errors?.password?.message}</Typography> */}
-                                {/* <Grid item xs={12}>
+                        {/* <form onSubmit={handleSubmit(submitForm)}> */}
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoComplete="given-name"
+                                    name="firstName"
+                                    required
+                                    fullWidth
+                                    id="firstName"
+                                    label={t('signUp.firstName')}
+                                    autoFocus
+                                    {...register('firstName')}
+                                    error={errors.firstName?.message ? true : false}
+                                    helperText={errors.firstName?.message}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="lastName"
+                                    label={t('signUp.lastName')}
+                                    name="lastName"
+                                    autoComplete="family-name"
+                                    {...register('lastName')}
+                                    error={errors.lastName?.message ? true : false}
+                                    helperText={errors.lastName?.message}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label={t('signUp.email')}
+                                    name="email"
+                                    autoComplete="email"
+                                    {...register('email')}
+                                    error={errors.email?.message ? true : false}
+                                    helperText={errors.email?.message}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label={t('signUp.password')}
+                                    type="password"
+                                    id="password"
+                                    autoComplete="new-password"
+                                    {...register('password')}
+                                    error={errors.password?.message ? true : false}
+                                    helperText={errors.password?.message}
+                                />
+                            </Grid>
+                            {/* <Typography> {errors?.password?.message}</Typography> */}
+                            {/* <Grid item xs={12}>
                                     <TextField
                                         required
                                         fullWidth
@@ -250,22 +258,31 @@ export default function SignUp() {
                                     />
                                 </Grid>
                                 <Typography> {errors?.confirmPassword && 'Passwords should match!'}</Typography> */}
-                                <Grid item xs={12}>
-                                    <InputLabel id="demo-simple-select-label">{t('signUp.Roles')} </InputLabel>
-                                    <Select value={role} label={t('signUp.Roles')} onChange={handleChange} fullWidth>
-                                        {roles?.map((role, index) => (
-                                            <MenuItem key={index} value={role.name}>
-                                                {role.name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </Grid>
+                            <Grid item xs={12}>
+                                <InputLabel id="demo-simple-select-label">{t('signUp.Roles')} </InputLabel>
+                                <Select
+                                    value={role}
+                                    label={t('signUp.Roles')}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    name="role"
+                                    {...register('role')}
+                                    error={errors.role?.message ? true : false}
+                                    helperText={errors.role?.message}
+                                >
+                                    {roles?.map((role, index) => (
+                                        <MenuItem key={index} value={role.name}>
+                                            {role.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
                             </Grid>
+                        </Grid>
 
-                            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                                {t('signUp.signup')}
-                            </Button>
-                        </form>
+                        <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleSubmit(onSubmit)}>
+                            {t('signUp.signup')}
+                        </Button>
+                        {/* </form> */}
 
                         <Grid container justifyContent="flex-end">
                             <Grid item>

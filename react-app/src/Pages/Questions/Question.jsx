@@ -17,12 +17,15 @@ import {
     List,
     ListItem,
     IconButton,
-    ListItemText
+    ListItemText,
+    CardHeader
 } from '@mui/material'
 import EditAlert from './EditAlert'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useTheme } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 
 const Question = () => {
     const [oneQuestion, setOneQuestion] = useState({})
@@ -173,6 +176,31 @@ const Question = () => {
                     <form>
                         <Grid item xs={12}>
                             <Card variant="outlined">
+                                <CardHeader
+                                    action={
+                                        <>
+                                            <IconButton
+                                                sx={{ color: theme.palette.primary.main }}
+                                                onClick={handleClickOpen}
+                                            >
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton
+                                                sx={{ color: theme.palette.secondary.main }}
+                                                color="secondary"
+                                                onClick={() => {
+                                                    deleteQuestion(oneQuestion?.id)
+                                                    navigate('/dashboard/questions')
+                                                }}
+                                            >
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </>
+                                    }
+                                    subheader={new Date(oneQuestion.created_at).toDateString()}
+                                    title={oneQuestion?.title}
+                                    // disableTypography={false}
+                                />
                                 <CardContent>
                                     <Typography
                                         variant="h6"
@@ -221,27 +249,6 @@ const Question = () => {
                                     </Typography>
                                     <Typography variant="h6">{oneQuestion?.categoryId}</Typography>
                                 </CardContent>
-                                <CardActions>
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        size="small"
-                                        sx={{
-                                            marginLeft: 'auto',
-                                            marginTop: 10,
-                                            backgroundColor: theme.palette.secondary.main
-                                        }}
-                                        onClick={() => {
-                                            deleteQuestion(oneQuestion?.id)
-                                            navigate('/dashboard/questions')
-                                        }}
-                                    >
-                                        Delete
-                                    </Button>
-                                </CardActions>
-
-                                <Button onClick={handleClickOpen}>edit Question</Button>
 
                                 {openEditDialog && (
                                     <EditAlert
@@ -251,34 +258,9 @@ const Question = () => {
                                         oneQuestion={oneQuestion}
                                     />
                                 )}
-                            </Card>
-                        </Grid>
-
-                        <Grid item xs={8}>
-                            <TextField
-                                placeholder="Answer "
-                                multiline
-                                maxRows={4}
-                                variant="outlined"
-                                fullWidth
-                                value={postAnswer}
-                                onChange={(e) => setPostAnswer(e.target.value)}
-                            />
-
-                            <Grid item xs={12}>
-                                <Button
-                                    variant="contained"
-                                    onClick={() => {
-                                        postAnAnswer()
-                                        setPostAnswer('')
-                                    }}
-                                    sx={{ m: 1 }}
-                                >
-                                    POST
-                                </Button>
 
                                 <Grid item xs={12}>
-                                    <Card sx={{ m: 1 }} variant="outlined">
+                                    <Card sx={{ m: 1 }}>
                                         <CardContent>
                                             <Typography variant="h6">Answers :</Typography>
                                             {oneanswer
@@ -308,6 +290,31 @@ const Question = () => {
                                         </CardContent>
                                     </Card>
                                 </Grid>
+                            </Card>
+                        </Grid>
+
+                        <Grid item xs={8}>
+                            <TextField
+                                placeholder="Answer "
+                                multiline
+                                maxRows={4}
+                                variant="outlined"
+                                fullWidth
+                                value={postAnswer}
+                                onChange={(e) => setPostAnswer(e.target.value)}
+                            />
+
+                            <Grid item xs={12}>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => {
+                                        postAnAnswer()
+                                        setPostAnswer('')
+                                    }}
+                                    sx={{ m: 1 }}
+                                >
+                                    POST
+                                </Button>
                             </Grid>
                         </Grid>
                     </form>

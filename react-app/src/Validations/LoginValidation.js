@@ -18,7 +18,8 @@ export const signupSchema = yup
     .shape({
         firstName: yup.string().required('First name is required'),
         lastName: yup.string().required('Last name is required'),
-        confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match') //if password is not equal to confirm password, then show error
+        role: yup.string().required('Role is required')
+        // confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match') //if password is not equal to confirm password, then show error
     })
     .concat(loginSchema) // merge loginSchema into signupSchema because we need email and password fields in signupSchema too so why not merge them?
 
