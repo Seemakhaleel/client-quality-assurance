@@ -25,6 +25,9 @@ import LanguageIcon from '@mui/icons-material/Language'
 import { useTranslation } from 'react-i18next'
 import '../../i18n'
 
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+
 function Copyright(props) {
     //copyright component for footer that returns a typography component that dynamically changes the copyright year
 
@@ -41,11 +44,18 @@ function Copyright(props) {
 const theme = createTheme() //creates a theme for the app to use
 
 export default function Login() {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm({
+        resolver: yupResolver(loginSchema)
+    })
     const [anchorEl, setAnchorEl] = React.useState(null)
     const options = ['English', 'كوردى']
     const open = Boolean(anchorEl)
-    const [inputEmail, setInputEmail] = useState('') //initializes the state for the input text
-    const [password, setPassword] = useState('')
+    // const [inputEmail, setInputEmail] = useState('') //initializes the state for the input text
+    // const [password, setPassword] = useState('')
     const auth = useSelector((state) => state.authentication) //uses the redux store to get the user, we dont need to specify the slice because we are using the entire store
     const dispatch = useDispatch() //uses the redux dispatch to dispatch the actions
     let navigate = useNavigate() //uses the navigate hook to navigate to the home page
@@ -85,13 +95,15 @@ export default function Login() {
         }
     }
     const notify = () => toast('Unsuccessful .')
-    const handleSubmit = async (event) => {
-        event.preventDefault() //so stuff doesnt refresh when clicked on the submit button
-        //create object
+    const onSubmit = async (data) => {
+        console.log(data)
+        handleFormSubmit(data)
+    }
+    const handleFormSubmit = async (data) => {
         try {
             const user = {
-                email: inputEmail,
-                password: password
+                email: data.inputEmail,
+                password: data.password
             }
             console.log(user)
             const isValid = await validateUser(user, loginSchema)
@@ -115,8 +127,8 @@ export default function Login() {
                 method: 'post',
                 url: baseUrl + '/auth/login',
                 data: {
-                    email: inputEmail,
-                    password: password
+                    email: data.inputEmail,
+                    password: data.password
                 }
             })
 
@@ -176,50 +188,52 @@ export default function Login() {
                     <Typography component="h1" variant="h5">
                         {t('signIn.signin')}
                     </Typography>
-                    <form onSubmit={handleSubmit}>
-                        <Box sx={{ mt: 1 }}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label={t('signIn.email')}
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                                value={inputEmail}
-                                onChange={(e) => setInputEmail(e.target.value)}
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label={t('signIn.password')}
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
+                    {/* <form onSubmit={handleSubmit}> */}
+                    <Box sx={{ mt: 1 }}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label={t('signIn.email')}
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                            {...register('email')}
+                            error={errors.email ? true : false}
+                            helperText={errors.email ? errors.email.message : ''}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label={t('signIn.password')}
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            {...register('password')}
+                            error={errors.password ? true : false}
+                            helperText={errors.password ? errors.password.message : ''}
+                        />
 
-                            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                                {t('signIn.signin')}
-                            </Button>
+                        <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleSubmit(onSubmit)}>
+                            {t('signIn.signin')}
+                        </Button>
 
-                            <ToastContainer
-                                position="top-center"
-                                autoClose={5000}
-                                hideProgressBar
-                                newestOnTop={false}
-                                closeOnClick
-                                rtl={false}
-                                pauseOnFocusLoss
-                                draggable
-                                pauseOnHover
-                            />
-                        </Box>
-                    </form>
+                        <ToastContainer
+                            position="top-center"
+                            autoClose={5000}
+                            hideProgressBar
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                        />
+                    </Box>
+                    {/* </form> */}
                     <Box>
                         <Grid container>
                             <Grid item>
