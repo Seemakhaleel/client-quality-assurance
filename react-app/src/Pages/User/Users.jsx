@@ -28,10 +28,6 @@ const Users = () => {
         {
             name: 'lastName',
             label: 'Last Name'
-        },
-        {
-            name: 'action',
-            label: 'action'
         }
     ])
     const SelectedRow = (id) => {

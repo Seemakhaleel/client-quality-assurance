@@ -30,7 +30,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     }
 }))
 
-export default function Tables({ users, cols, SelectedRow }) {
+export default function Tables({ users, cols, SelectedRow, hasEditing = true }) {
+    //hasEditing is a boolean that determines if the table has editing capabilities
     return (
         <>
             <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
@@ -48,6 +49,7 @@ export default function Tables({ users, cols, SelectedRow }) {
                                     {col.label}{' '}
                                 </StyledTableCell>
                             ))}
+                            {hasEditing && <StyledTableCell align="center"> Edit </StyledTableCell>}
                         </StyledTableRow>
                     </TableHead>
 
@@ -64,6 +66,18 @@ export default function Tables({ users, cols, SelectedRow }) {
                                 }}
                             >
                                 {cols.map((col, index) => (
+                                    <TableCell align="center" key={index}>
+                                        {user[col.name]}
+                                    </TableCell>
+                                ))}
+                                {hasEditing && (
+                                    <TableCell align="right">
+                                        <IconButton onClick={() => SelectedRow(user.id)}>
+                                            <EditIcon sx={{ color: '#272E4F' }} />
+                                        </IconButton>
+                                    </TableCell>
+                                )}
+                                {/* {cols.map((col, index) => (
                                     <>
                                         {index === cols.length - 1 ? ( // -1 because the last col is the edit button
                                             <TableCell align="center">
@@ -77,7 +91,7 @@ export default function Tables({ users, cols, SelectedRow }) {
                                             </TableCell>
                                         )}
                                     </>
-                                ))}
+                                ))} */}
                             </StyledTableRow>
                         ))}
                     </TableBody>

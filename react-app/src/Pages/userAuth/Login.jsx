@@ -101,12 +101,7 @@ export default function Login() {
     }
     const handleFormSubmit = async (data) => {
         try {
-            const user = {
-                email: data.inputEmail,
-                password: data.password
-            }
-            console.log(user)
-            const isValid = await validateUser(user, loginSchema)
+            const isValid = await validateUser(data, loginSchema)
 
             console.log('isValid', isValid)
 
@@ -127,7 +122,7 @@ export default function Login() {
                 method: 'post',
                 url: baseUrl + '/auth/login',
                 data: {
-                    email: data.inputEmail,
+                    email: data.email,
                     password: data.password
                 }
             })
