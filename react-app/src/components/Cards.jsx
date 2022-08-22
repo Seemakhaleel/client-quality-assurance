@@ -39,8 +39,10 @@ export default function Cards({ questions }) {
                             <Typography variant="h5" component="div">
                                 {ques.question}
                             </Typography>
-                            <Typography variant="body2">{ques.description}</Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                            <Typography variant="body2" component="p">
+                                {ques.description}
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary" component="span">
                                 <Chip
                                     color="primary"
                                     label={categories.map((cat) => (cat.id === ques.categoryId ? cat.name : null))} //  this map is to get the category name from the categories array

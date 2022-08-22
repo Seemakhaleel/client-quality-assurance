@@ -46,7 +46,7 @@ const AccountStyle = styled('div')(({ theme }) => ({
 const drawerWidth = 240
 
 function Layout(props) {
-    const { window, children } = props
+    const { window } = props
     const [mobileOpen, setMobileOpen] = React.useState(false)
 
     const dispatch = useDispatch()

@@ -5,9 +5,8 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { styled } from '@mui/material/styles'
-import { IconButton, Paper, TableContainer, Typography } from '@mui/material'
+import { IconButton, Paper, TableContainer } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
-import Box from '@mui/material/Box'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

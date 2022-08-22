@@ -24,7 +24,9 @@ import { IconButton, Menu, MenuItem, MenuList, Tooltip } from '@mui/material'
 import LanguageIcon from '@mui/icons-material/Language'
 import { useTranslation } from 'react-i18next'
 import '../../i18n'
-
+import { useTheme } from '@mui/material/styles'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
+import Brightness7Icon from '@mui/icons-material/Brightness7'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
@@ -41,9 +43,27 @@ function Copyright(props) {
     )
 }
 
-const theme = createTheme() //creates a theme for the app to use
-
 export default function Login() {
+    const [mode, setMode] = React.useState('light')
+    const colorMode = React.useMemo(
+        () => ({
+            toggleColorMode: () => {
+                setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
+            }
+        }),
+        []
+    )
+
+    const theme = React.useMemo(
+        () =>
+            createTheme({
+                palette: {
+                    mode
+                }
+            }),
+        [mode]
+    )
+
     const {
         register,
         handleSubmit,
@@ -148,6 +168,21 @@ export default function Login() {
 
     return (
         <ThemeProvider theme={theme}>
+            <Box
+                sx={{
+                    width: '7%',
+                    marginLeft: '90%'
+                }}
+            >
+                {theme.palette.mode}
+                <IconButton
+                    sx={{ display: 'flex', cursor: 'pointer', ml: 2, flexDirection: 'row', marginLeft: '900' }}
+                    onClick={colorMode.toggleColorMode}
+                    color="inherit"
+                >
+                    {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                </IconButton>
+            </Box>
             <Tooltip title="Language">
                 <IconButton
                     onClick={handleClick}
@@ -157,18 +192,17 @@ export default function Login() {
                     aria-expanded={open ? 'true' : undefined}
                     sx={{
                         color: 'black',
+
                         marginRight: '10px',
                         cursor: 'pointer',
                         ml: 2,
                         marginTop: '10px'
                     }}
-                    color="inherit"
                 >
                     <LanguageIcon />
                 </IconButton>
             </Tooltip>
             <Container component="main" maxWidth="xs">
-                <CssBaseline />
                 <Box
                     sx={{
                         marginTop: 8,
@@ -239,9 +273,7 @@ export default function Login() {
                         </Grid>
                     </Box>
                 </Box>
-
                 <Copyright sx={{ mt: 8, mb: 4 }} />
-
                 <Menu
                     anchorEl={anchorEl}
                     id="account-menu"
@@ -283,6 +315,7 @@ export default function Login() {
                         </MenuItem>
                     ))}
                 </Menu>
+                <CssBaseline />
             </Container>
         </ThemeProvider>
     )

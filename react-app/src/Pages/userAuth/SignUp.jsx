@@ -118,7 +118,7 @@ export default function SignUp() {
                     email: data.email,
                     password: data.password,
                     role: data.role,
-                    displayName: 'displayName'
+                    displayName: data.displayName
                 }
             })
 
