@@ -64,7 +64,11 @@ function Layout(props) {
     const [anchorEl, setAnchorEl] = React.useState(null)
     const open = Boolean(anchorEl)
 
-    const options = ['English', 'كوردى']
+    const options = [
+        { id: 'eng', name: 'English' },
+
+        { id: 'krd', name: 'کوردی' }
+    ]
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget)
@@ -245,8 +249,13 @@ function Layout(props) {
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
                         {options.map((option, index) => (
-                            <MenuItem key={option} value={index} onClick={handleClose}>
-                                {option}
+                            <MenuItem
+                                key={option}
+                                value={index}
+                                onClick={handleClose}
+                                selected={i18n.language === option.id}
+                            >
+                                {option.name}
                             </MenuItem>
                         ))}
                     </Menu>

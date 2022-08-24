@@ -1,10 +1,11 @@
 import { Container, Grid, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
 const UserProfile = () => {
     const auth = useSelector((state) => state.authentication)
-
+    const { t, i18n } = useTranslation()
     // const getUsers = async () => {
     //     try {
     //         const { data } = await axiosInstance({
@@ -23,7 +24,7 @@ const UserProfile = () => {
     const info = auth?.user
 
     return (
-        <Container>
+        <Container dir={t('userProfile.direction')}>
             <Grid container sx={{ p: 4 }}>
                 {console.log(info)}
             </Grid>
@@ -32,9 +33,16 @@ const UserProfile = () => {
             </Grid>
             <Grid item xs={12} sx={{ p: 4 }}>
                 <Typography>ID : {info?.id}</Typography>
-                <Typography>First Name : {info?.firstName}</Typography>
-                <Typography>Last Name : {info?.lastName}</Typography>
-                <Typography>Role: {info?.role}</Typography>
+                <Typography>
+                    {t('userProfile.firstName')} :{info?.firstName}
+                </Typography>
+                <Typography>
+                    {' '}
+                    {t('userProfile.lastName')}:{info?.lastName}
+                </Typography>
+                <Typography>
+                    {t('userProfile.role')}: {info?.role}
+                </Typography>
             </Grid>
         </Container>
     )
