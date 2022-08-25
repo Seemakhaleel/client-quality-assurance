@@ -20,7 +20,7 @@ export default function Cards({ questions }) {
     // console.log(categories[0].name)
     return (
         <>
-            <Container display="flex" flexDirection="column" maxWidth="xs">
+            <Container display="flex" flexDirection="column">
                 {questions.map((ques) => (
                     <Card
                         key={ques.id}

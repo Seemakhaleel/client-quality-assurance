@@ -33,13 +33,8 @@ export default function Tables({ users, cols, SelectedRow, hasEditing = true }) 
     //hasEditing is a boolean that determines if the table has editing capabilities
     return (
         <>
-            <TableContainer component={Paper} sx={{ maxHeight: 440 }} maxWidth="xs">
-                <Table
-                    sx={{
-                        minWidth: 650
-                    }}
-                    size="huge"
-                >
+            <TableContainer component={Paper} sx={{ maxHeight: 440 }} maxWidth="sx">
+                <Table size="huge">
                     <TableHead>
                         <StyledTableRow>
                             {cols.map((col, index) => (
