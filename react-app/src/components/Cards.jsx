@@ -20,7 +20,7 @@ export default function Cards({ questions }) {
     // console.log(categories[0].name)
     return (
         <>
-            <Box display="flex" flexDirection="column">
+            <Container display="flex" flexDirection="column" maxWidth="xs">
                 {questions.map((ques) => (
                     <Card
                         key={ques.id}
@@ -63,7 +63,7 @@ export default function Cards({ questions }) {
                         </CardContent>
                     </Card>
                 ))}
-            </Box>
+            </Container>
             {/* <Container sx={{ marginTop: 10 }}>
                 <Grid container>
                     <Grid item xs={12} md={4}>

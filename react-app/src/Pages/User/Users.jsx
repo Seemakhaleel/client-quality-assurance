@@ -4,7 +4,7 @@ import Tables from '../../components/Tables'
 import { useNavigate } from 'react-router-dom'
 import axios, { setAxiosToken } from '../../axios'
 import { baseUrl } from '../../api'
-import { Container } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 import { Box, Typography } from '@mui/material'
 
 const Users = () => {
@@ -51,16 +51,16 @@ const Users = () => {
         usersList()
     }, [])
     return (
-        <Container>
+        <Grid container padding={4}>
             <Box>
-                <Typography sx={{ fontSize: 20 }}>
-                    <h3> Users </h3>
+                <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+                    Users
                 </Typography>
 
                 <Typography>You can delete users here.</Typography>
             </Box>
             <Tables users={users} cols={cols} SelectedRow={SelectedRow} />
-        </Container>
+        </Grid>
     )
 }
 
