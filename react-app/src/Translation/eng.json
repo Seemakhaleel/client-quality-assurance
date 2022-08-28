@@ -1,11 +1,11 @@
 {
     "dashboard": {
-        "title": "Dashboard",
+        "title": "Ask me ",
         "Listofquestions": "List of questions",
         "AskQuestion": "Ask Question",
         "Questions": "Questions",
         "ListOfUsers": "List Of Users",
-        "QuestionCategories": "Categoreis",
+        "QuestionCategories": "Categories",
         "Roles": "Roles",
         "Logout": "Logout"
     },
@@ -22,6 +22,53 @@
         "firstName": "First Name",
         "lastName": "Last Name",
         "notSignup": "Already have an account? Login",
-        "Roles": "Roles"
+        "Roles": "Roles",
+        "ConfirmPassword": "Confirm Password"
+    },
+    "userProfile": {
+        "direction": "ltr",
+        "profilePage": "User Profile",
+        "info": "Here you can see your information",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email Address",
+        "role": "User Role"
+    },
+    "question": {
+        "direction": "ltr",
+        "Content": "Content",
+        "Category": "Category",
+        "Answers": "Answers",
+        "YourAnswer": "Your Answer",
+        "postAnswer": "Post Your Answer",
+        "info": "There are no answers!"
+    },
+    "listOfUser": {
+        "ListOfUsers": "List Of Users",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "Role": "Role",
+        "Email": "Email",
+        "Action": "Action",
+        "User": "User",
+        "Update": "Update",
+        "Delete": "Delete"
+    },
+    "listOfCategory": {
+        "ListOfCatogries": "List Of Categories",
+        "id": "ID",
+        "Name": "Name",
+        "Action": "Action",
+        "Category": "Category",
+        "Update": "Update",
+        "Delete": "Delete",
+        "AddCategory": "Add Category",
+        "info": "fill the all the fields below to create a category",
+        "submit": "submit"
+    },
+    "listOfRoles": {
+        "ListOfRoles": "List of Roles",
+        "id": "ID",
+        "Name": "Name"
     }
 }

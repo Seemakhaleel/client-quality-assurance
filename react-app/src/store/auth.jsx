@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+    isAuthenticationLoading: true, // it's for when we're checking the existence of the token
     isAuthenticated: false, //if the user is authenticated or not (true or false)
     token: null, //token is the token that is returned from the server when a user logs in successfully and is used to authenticate the user
     user: null
@@ -19,6 +20,11 @@ const slice = createSlice({
             localStorage.setItem('token', state.token) //set the token in local storage so that the user can be logged in next time they visit the site without having to log in again
         },
 
+        setIsAuthenticationLoading: (state, action) => {
+            //this is for when we're checking the existence of the token
+            state.isAuthenticationLoading = action.payload
+        },
+
         SignIn: (state, action) => {
             //SignIn is the action name
             state.user = action.payload
@@ -35,4 +41,4 @@ const slice = createSlice({
 
 export default slice.reducer
 
-export const { SignIn, Logout, setToken } = slice.actions //actions are the functions that dispatch the action to the reducer
+export const { SignIn, Logout, setToken, setIsAuthenticationLoading } = slice.actions //actions are the functions that dispatch the action to the reducer

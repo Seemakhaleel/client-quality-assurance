@@ -17,12 +17,15 @@ import {
     List,
     ListItem,
     IconButton,
-    ListItemText
+    ListItemText,
+    CardHeader
 } from '@mui/material'
 import EditAlert from './EditAlert'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useTheme } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 
 const Question = () => {
     const [oneQuestion, setOneQuestion] = useState({})
@@ -161,56 +164,91 @@ const Question = () => {
 
     const handleClickOpen = () => {
         setOpenEditDialog(true)
+        console.log('Hello')
     }
     const theme = useTheme()
 
     return (
         <>
-            <Container sx={{ marginTop: 8, marginLeft: 2, mx: 30 }}>
+            <Container>
                 <CssBaseline />
                 <Grid container>
                     <form>
                         <Grid item xs={12}>
-                            <Card sx={{ m: 1, width: 800 }} variant="outlined">
+                            <Card variant="outlined">
+                                <CardHeader
+                                    action={
+                                        <>
+                                            <IconButton
+                                                sx={{ color: theme.palette.primary.main }}
+                                                onClick={handleClickOpen}
+                                            >
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton
+                                                sx={{ color: theme.palette.secondary.main }}
+                                                color="secondary"
+                                                onClick={() => {
+                                                    deleteQuestion(oneQuestion?.id)
+                                                    navigate('/dashboard/questions')
+                                                }}
+                                            >
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </>
+                                    }
+                                    subheader={new Date(oneQuestion.created_at).toDateString()}
+                                    title={oneQuestion?.title}
+                                    // disableTypography={false}
+                                />
                                 <CardContent>
-                                    <Typography variant="h5" component="h1">
-                                        Question :
-                                    </Typography>
-                                    <Typography>{oneQuestion?.question}</Typography>
-                                </CardContent>
-                                <CardContent>
-                                    <Typography variant="h5" component="h1">
-                                        description :{' '}
-                                    </Typography>
-                                    <Typography>{oneQuestion?.description}</Typography>
-                                </CardContent>
-                                <CardContent>
-                                    <Typography variant="h5" component="h1">
-                                        category:{' '}
-                                    </Typography>
-                                    <Typography>{oneQuestion?.categoryId}</Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        size="small"
+                                    <Typography
+                                        variant="h6"
                                         sx={{
-                                            marginLeft: 'auto',
-                                            marginTop: 10,
-                                            backgroundColor: theme.palette.secondary.main
-                                        }}
-                                        onClick={() => {
-                                            deleteQuestion(oneQuestion?.id)
-                                            navigate('/dashboard/questions')
+                                            fontWeight: '40',
+                                            fontSize: '0.9rem',
+                                            lineHeight: '1.167',
+                                            letterSpacing: '-0.01562em'
                                         }}
                                     >
-                                        Delete
-                                    </Button>
-                                </CardActions>
-
-                                <Button onClick={handleClickOpen}>edit Question</Button>
+                                        Question :
+                                    </Typography>
+                                    <Typography
+                                        variant="h5"
+                                        sx={{
+                                            fontWeight: 'bold'
+                                        }}
+                                    >
+                                        {oneQuestion?.question}
+                                    </Typography>
+                                </CardContent>
+                                <CardContent>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontSize: '0.9rem',
+                                            lineHeight: '1.167',
+                                            letterSpacing: '-0.01562em'
+                                        }}
+                                    >
+                                        description :{' '}
+                                    </Typography>
+                                    <Typography variant="h6">{oneQuestion?.description}</Typography>
+                                </CardContent>
+                                <CardContent>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: '100',
+                                            fontSize: '1rem',
+                                            lineHeight: '1.167',
+                                            letterSpacing: '-0.01562em'
+                                        }}
+                                    >
+                                        category:{' '}
+                                    </Typography>
+                                    <Typography variant="h6">{oneQuestion?.categoryId}</Typography>
+                                </CardContent>
 
                                 {openEditDialog && (
                                     <EditAlert
@@ -220,34 +258,9 @@ const Question = () => {
                                         oneQuestion={oneQuestion}
                                     />
                                 )}
-                            </Card>
-                        </Grid>
-
-                        <Grid item xs={8}>
-                            <TextField
-                                placeholder="Answer "
-                                multiline
-                                maxRows={4}
-                                variant="outlined"
-                                fullWidth
-                                value={postAnswer}
-                                onChange={(e) => setPostAnswer(e.target.value)}
-                            />
-
-                            <Grid item xs={12}>
-                                <Button
-                                    variant="contained"
-                                    onClick={() => {
-                                        postAnAnswer()
-                                        setPostAnswer('')
-                                    }}
-                                    sx={{ m: 1 }}
-                                >
-                                    POST
-                                </Button>
 
                                 <Grid item xs={12}>
-                                    <Card sx={{ m: 1 }} variant="outlined">
+                                    <Card sx={{ m: 1 }}>
                                         <CardContent>
                                             <Typography variant="h6">Answers :</Typography>
                                             {oneanswer
@@ -277,6 +290,31 @@ const Question = () => {
                                         </CardContent>
                                     </Card>
                                 </Grid>
+                            </Card>
+                        </Grid>
+
+                        <Grid item xs={8}>
+                            <TextField
+                                placeholder="Answer "
+                                multiline
+                                maxRows={4}
+                                variant="outlined"
+                                fullWidth
+                                value={postAnswer}
+                                onChange={(e) => setPostAnswer(e.target.value)}
+                            />
+
+                            <Grid item xs={12}>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => {
+                                        postAnAnswer()
+                                        setPostAnswer('')
+                                    }}
+                                    sx={{ m: 1 }}
+                                >
+                                    POST
+                                </Button>
                             </Grid>
                         </Grid>
                     </form>

@@ -39,10 +39,10 @@ export default function Roles() {
     }
 
     return (
-        <Container sx={{ marginTop: 8, marginLeft: 2, mx: 30 }}>
+        <Container>
             <Box p={2}>
                 <Typography variant="h5">List of Roles</Typography>
-                <Tables cols={cols} users={role} SelectedRow={SelectedRow} />
+                <Tables cols={cols} users={role} SelectedRow={SelectedRow} hasEditing={false} />
             </Box>
         </Container>
     )
