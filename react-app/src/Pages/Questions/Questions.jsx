@@ -6,7 +6,7 @@ import { Container } from '@mui/system'
 import { Button, createTheme, Grid, Pagination, ThemeProvider } from '@mui/material'
 import axiosInstance from '../../axios'
 import { baseUrl } from '../../api'
-import axios from '../../axios'
+
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 const limit = 4 //number of questions to show per page, we have 8 questions so 8/2 = 4 questions per page and we have 4 pages
@@ -46,11 +46,6 @@ const Questions = () => {
             console.log('error')
         }
     }
-    // const test = async () => {
-    //     const response = await getQuestions()
-    //     console.log(response.data.questions, 'rrrrrrrrrrrrrrrr')
-    //     setQuestions(response.data.questions)
-    // }
 
     React.useEffect(() => {
         getQuestions()

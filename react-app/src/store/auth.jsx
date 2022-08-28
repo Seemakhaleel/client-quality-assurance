@@ -21,6 +21,7 @@ const slice = createSlice({
         },
 
         setIsAuthenticationLoading: (state, action) => {
+            //this is for when we're checking the existence of the token
             state.isAuthenticationLoading = action.payload
         },
 

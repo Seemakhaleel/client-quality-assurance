@@ -44,9 +44,10 @@ const RequireAuth = ({ children }) => {
 
     React.useEffect(() => {
         if (isAuthenticated) {
+            //if the user is authenticated, run the getSelf function
             getSelf()
         }
-    }, [isAuthenticated])
+    }, [isAuthenticated]) // this dependency is used to check if the user is authenticated or not
 
     // TODO: Create a loding page component to display
     if (isAuthenticationLoading) return <LinearProgress />
