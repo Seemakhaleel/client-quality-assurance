@@ -1,4 +1,4 @@
-import { Box, Chip } from '@mui/material'
+import { Box, Chip, Grid } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
@@ -20,50 +20,53 @@ export default function Cards({ questions }) {
     // console.log(categories[0].name)
     return (
         <>
-            <Container display="flex" flexDirection="column">
-                {questions.map((ques) => (
-                    <Card
-                        key={ques.id}
-                        onClick={() => {
-                            return navigate('/dashboard/questions/' + ques.id)
-                        }}
-                        sx={{
-                            cursor: 'pointer',
-                            my: 2
-                        }}
-                    >
-                        <CardContent>
-                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                {new Date(ques.dateCreated).toDateString()}
-                            </Typography>
-                            <Typography variant="h5" component="div">
-                                {ques.question}
-                            </Typography>
-                            <Typography variant="body2" component="p">
-                                {ques.description}
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary" component="span">
-                                <Chip
-                                    color="primary"
-                                    label={categories.map((cat) => (cat.id === ques.categoryId ? cat.name : null))} //  this map is to get the category name from the categories array
-                                />
-                            </Typography>
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    {questions.map((ques) => (
+                        <Card
+                            key={ques.id}
+                            onClick={() => {
+                                return navigate('/dashboard/questions/' + ques.id)
+                            }}
+                            sx={{
+                                cursor: 'pointer',
+                                my: 2
+                            }}
+                        >
+                            <CardContent>
+                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                    {new Date(ques.dateCreated).toDateString()}
+                                </Typography>
+                                <Typography variant="h5" component="div">
+                                    {ques.question}
+                                </Typography>
+                                <Typography variant="body2" component="p">
+                                    {ques.description}
+                                </Typography>
+                                <Typography sx={{ mb: 1.5 }} color="text.secondary" component="span">
+                                    <Chip
+                                        color="primary"
+                                        label={categories.map((cat) => (cat.id === ques.categoryId ? cat.name : null))} //  this map is to get the category name from the categories array
+                                    />
+                                </Typography>
 
-                            <CardActions>
-                                <Button
-                                    variant="outlined"
-                                    sx={{
-                                        marginLeft: 120,
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    Answers
-                                </Button>
-                            </CardActions>
-                        </CardContent>
-                    </Card>
-                ))}
-            </Container>
+                                <CardActions>
+                                    <Button
+                                        variant="outlined"
+                                        sx={{
+                                            marginLeft: 120,
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        Answers
+                                    </Button>
+                                </CardActions>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </Grid>
+            </Grid>
+
             {/* <Container sx={{ marginTop: 10 }}>
                 <Grid container>
                     <Grid item xs={12} md={4}>

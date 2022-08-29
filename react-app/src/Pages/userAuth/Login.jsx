@@ -44,25 +44,25 @@ function Copyright(props) {
 }
 
 export default function Login() {
-    const [mode, setMode] = React.useState('light')
-    const colorMode = React.useMemo(
-        () => ({
-            toggleColorMode: () => {
-                setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
-            }
-        }),
-        []
-    )
+    // const [mode, setMode] = React.useState('light')
+    // const colorMode = React.useMemo(
+    //     () => ({
+    //         toggleColorMode: () => {
+    //             setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
+    //         }
+    //     }),
+    //     []
+    // )
 
-    const theme = React.useMemo(
-        () =>
-            createTheme({
-                palette: {
-                    mode
-                }
-            }),
-        [mode]
-    )
+    // const theme = React.useMemo(
+    //     () =>
+    //         createTheme({
+    //             palette: {
+    //                 mode
+    //             }
+    //         }),
+    //     [mode]
+    // )
 
     const {
         register,
@@ -167,156 +167,166 @@ export default function Login() {
     }, [auth.isAuthenticated])
 
     return (
-        <ThemeProvider theme={theme}>
-            <Box
-                sx={{
-                    width: '7%',
-                    marginLeft: '90%'
-                }}
-            >
-                {theme.palette.mode}
-                <IconButton
-                    sx={{ display: 'flex', cursor: 'pointer', ml: 2, flexDirection: 'row', marginLeft: '900' }}
-                    onClick={colorMode.toggleColorMode}
-                    color="inherit"
-                >
-                    {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-                </IconButton>
-            </Box>
-            <Tooltip title="Language">
-                <IconButton
-                    onClick={handleClick}
-                    size="small"
-                    aria-controls={open ? 'account-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    sx={{
-                        color: 'black',
+        // <ThemeProvider theme={theme}>
+        // <Box
+        //     sx={{
+        //         width: '7%',
+        //         marginLeft: '90%'
+        //     }}
+        // >
+        //     {theme.palette.mode}
+        //     <IconButton
+        //         sx={{ display: 'flex', cursor: 'pointer', ml: 2, flexDirection: 'row', marginLeft: '900' }}
+        //         onClick={colorMode.toggleColorMode}
+        //         color="inherit"
+        //     >
+        //         {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+        //     </IconButton>
+        // </Box>
+        <div>
+            <Grid container spacing={4}>
+                <Grid item xs={12}>
+                    <Tooltip title="Language">
+                        <IconButton
+                            onClick={handleClick}
+                            size="small"
+                            aria-controls={open ? 'account-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            sx={{
+                                color: 'black',
 
-                        marginRight: '10px',
-                        cursor: 'pointer',
-                        ml: 2,
-                        marginTop: '10px'
-                    }}
-                >
-                    <LanguageIcon />
-                </IconButton>
-            </Tooltip>
-            <Container component="main" maxWidth="xs">
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center'
-                    }}
-                >
-                    <Avatar sx={{ m: 1, bgcolor: '' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        {t('signIn.signin')}
-                    </Typography>
-                    {/* <form onSubmit={handleSubmit}> */}
-                    <Box sx={{ mt: 1 }}>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label={t('signIn.email')}
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                            {...register('email')}
-                            error={errors.email ? true : false}
-                            helperText={errors.email ? errors.email.message : ''}
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label={t('signIn.password')}
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            {...register('password')}
-                            error={errors.password ? true : false}
-                            helperText={errors.password ? errors.password.message : ''}
-                        />
+                                marginRight: '10px',
+                                cursor: 'pointer',
+                                ml: 2,
+                                marginTop: '10px'
+                            }}
+                        >
+                            <LanguageIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Container component="main" maxWidth="xs">
+                        <Box
+                            sx={{
+                                marginTop: 8,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Avatar sx={{ m: 1, bgcolor: '' }}>
+                                <LockOutlinedIcon />
+                            </Avatar>
+                            <Typography component="h1" variant="h5">
+                                {t('signIn.signin')}
+                            </Typography>
+                            {/* <form onSubmit={handleSubmit}> */}
+                            <Box sx={{ mt: 1 }}>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label={t('signIn.email')}
+                                    name="email"
+                                    autoComplete="email"
+                                    autoFocus
+                                    {...register('email')}
+                                    error={errors.email ? true : false}
+                                    helperText={errors.email ? errors.email.message : ''}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label={t('signIn.password')}
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    {...register('password')}
+                                    error={errors.password ? true : false}
+                                    helperText={errors.password ? errors.password.message : ''}
+                                />
 
-                        <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleSubmit(onSubmit)}>
-                            {t('signIn.signin')}
-                        </Button>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                    onClick={handleSubmit(onSubmit)}
+                                >
+                                    {t('signIn.signin')}
+                                </Button>
 
-                        <ToastContainer
-                            position="top-center"
-                            autoClose={5000}
-                            hideProgressBar
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                        />
-                    </Box>
-                    {/* </form> */}
-                    <Box>
-                        <Grid container>
-                            <Grid item>
-                                <Link to="/signup" variant="body2">
-                                    {t('signIn.notSingin')}
-                                </Link>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
-                <Menu
-                    anchorEl={anchorEl}
-                    id="account-menu"
-                    open={open}
-                    onClose={handleClose}
-                    // onClick={handleClose}
-                    PaperProps={{
-                        elevation: 0,
-                        sx: {
-                            overflow: 'visible',
-                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                            mt: 1.5,
-                            '& .MuiAvatar-root': {
-                                width: 32,
-                                height: 32,
-                                ml: -0.5,
-                                mr: 1
-                            },
-                            '&:before': {
-                                content: '""',
-                                display: 'block',
-                                position: 'absolute',
-                                top: 0,
-                                right: 14,
-                                width: 10,
-                                height: 10,
-                                bgcolor: 'background.paper',
-                                transform: 'translateY(-50%) rotate(45deg)',
-                                zIndex: 0
-                            }
-                        }
-                    }}
-                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                >
-                    {options.map((option, index) => (
-                        <MenuItem key={option} value={index} onClick={handleClose}>
-                            {option}
-                        </MenuItem>
-                    ))}
-                </Menu>
-                <CssBaseline />
-            </Container>
-        </ThemeProvider>
+                                <ToastContainer
+                                    position="top-center"
+                                    autoClose={5000}
+                                    hideProgressBar
+                                    newestOnTop={false}
+                                    closeOnClick
+                                    rtl={false}
+                                    pauseOnFocusLoss
+                                    draggable
+                                    pauseOnHover
+                                />
+                            </Box>
+                            {/* </form> */}
+                            <Box>
+                                <Grid container>
+                                    <Grid item>
+                                        <Link to="/signup" variant="body2">
+                                            {t('signIn.notSingin')}
+                                        </Link>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        </Box>
+                        <Copyright sx={{ mt: 8, mb: 4 }} />
+                        <Menu
+                            anchorEl={anchorEl}
+                            id="account-menu"
+                            open={open}
+                            onClose={handleClose}
+                            // onClick={handleClose}
+                            PaperProps={{
+                                elevation: 0,
+                                sx: {
+                                    overflow: 'visible',
+                                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                    mt: 1.5,
+                                    '& .MuiAvatar-root': {
+                                        width: 32,
+                                        height: 32,
+                                        ml: -0.5,
+                                        mr: 1
+                                    },
+                                    '&:before': {
+                                        content: '""',
+                                        display: 'block',
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 14,
+                                        width: 10,
+                                        height: 10,
+                                        bgcolor: 'background.paper',
+                                        transform: 'translateY(-50%) rotate(45deg)',
+                                        zIndex: 0
+                                    }
+                                }
+                            }}
+                            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                        >
+                            {options.map((option, index) => (
+                                <MenuItem key={option} value={index} onClick={handleClose}>
+                                    {option}
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                        <CssBaseline />
+                    </Container>
+                </Grid>
+            </Grid>
+        </div>
     )
 }
