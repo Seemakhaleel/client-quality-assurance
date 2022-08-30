@@ -291,7 +291,7 @@ function Layout(props) {
                     {drawer}
                 </Drawer>
             </Box>
-            <Box component="main" sx={{ flexGrow: 1, m: 2, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+            <Box component="main" sx={{ flexGrow: 1, m: 2, width: '50px' }}>
                 <Toolbar />
                 <Outlet />
             </Box>
