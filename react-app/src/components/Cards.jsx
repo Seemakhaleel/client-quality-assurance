@@ -30,7 +30,8 @@ export default function Cards({ questions }) {
                             }}
                             sx={{
                                 cursor: 'pointer',
-                                my: 2
+                                my: 2,
+                                boxShadow: '0px 15px 25px rgba(50, 50, 50, 0.4)'
                             }}
                         >
                             <CardContent>
