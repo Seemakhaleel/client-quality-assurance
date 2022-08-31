@@ -5,10 +5,9 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import { Container } from '@mui/system'
+
 import { useNavigate } from 'react-router-dom'
 import { getCategories } from '../Pages/Questions/Alert'
-import { hover } from '@testing-library/user-event/dist/hover'
 
 export default function Cards({ questions }) {
     const navigate = useNavigate()
