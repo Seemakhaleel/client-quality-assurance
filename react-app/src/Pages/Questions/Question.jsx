@@ -7,19 +7,7 @@ import Typography from '@mui/material/Typography'
 import axiosInstance from '../../axios'
 import { baseUrl } from '../../api'
 import CssBaseline from '@mui/material/CssBaseline'
-import {
-    Grid,
-    Card,
-    CardContent,
-    CardActions,
-    Select,
-    Container,
-    List,
-    ListItem,
-    IconButton,
-    ListItemText,
-    CardHeader
-} from '@mui/material'
+import { Grid, Card, CardContent, Container, List, ListItem, IconButton, ListItemText, CardHeader } from '@mui/material'
 import EditAlert from './EditAlert'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
@@ -32,6 +20,7 @@ const Question = () => {
     const [oneanswer, setOneAnswer] = useState([])
     const [postAnswer, setPostAnswer] = useState('')
     const [openEditDialog, setOpenEditDialog] = React.useState(false)
+    const [bestAnswe, setBestAnswer] = useState('')
     const navigate = useNavigate()
     const { id } = useParams()
 
@@ -150,16 +139,30 @@ const Question = () => {
                 method: 'delete',
                 url: baseUrl + '/questions/' + id
             })
-            console.log(data, 'Hello delete')
+
             getQuestions()
         } catch (error) {
             console.log('not successful')
+        }
+    }
+    const bestAnswer = async () => {
+        try {
+            const { data } = await axiosInstance({
+                method: 'put',
+                url: baseUrl + '/answers/' + '/set-as-best-answer'
+            })
+            console.log(data?.answer, 'Hell000000000000')
+            setBestAnswer(data?.answer)
+            getAnswers()
+        } catch {
+            console.log('error choosing best answer')
         }
     }
 
     React.useEffect(() => {
         getOneQuestion()
         getAnswers()
+        bestAnswer()
     }, [])
 
     const handleClickOpen = () => {
