@@ -1,8 +1,5 @@
 import * as React from 'react'
-import MenuItem from '@mui/material/MenuItem'
-import FormHelperText from '@mui/material/FormHelperText'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
+
 import { useParams } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -15,6 +12,7 @@ import axiosInstance from '../../axios'
 import { Dialog, DialogActions, DialogContent } from '@mui/material'
 import DialogContentText from '@mui/material/DialogContentText'
 import { useTheme } from '@mui/material'
+import { theme } from '../../Theme'
 
 function User() {
     const { id } = useParams()
@@ -68,7 +66,7 @@ function User() {
             console.log('error')
         }
     }
-    const theme = useTheme()
+    // const theme = useTheme()
 
     return (
         <div>

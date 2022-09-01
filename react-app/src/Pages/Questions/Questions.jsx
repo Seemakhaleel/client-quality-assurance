@@ -107,8 +107,9 @@ const Questions = () => {
                 </Grid>
             </Grid>
             {/* </Container> */}
-            <Alert openPopup={openPopup} setOpenPopup={setOpenPopup}></Alert>
+            <Alert getQuestions={getQuestions} openPopup={openPopup} setOpenPopup={setOpenPopup}></Alert>
         </>
+        //send getQuestions as a prop to the Alert component so that the Alert component can call getQuestions when the user clicks the 'close' button
     )
 }
 export default Questions

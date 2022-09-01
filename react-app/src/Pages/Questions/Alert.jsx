@@ -33,14 +33,14 @@ export const getCategories = async (setData) => {
 }
 
 export default function Alert(props) {
-    const { openPopup, setOpenPopup } = props
+    const { getQuestions, openPopup, setOpenPopup } = props
     const [description, setDescription] = useState('')
     const [question, setQuestion] = useState('')
     const [isClosed, setIsClosed] = useState(false)
     const [hasBestAnswer, setHasBestAnswer] = useState(false)
     const [categoryId, setCategoryId] = useState('')
     const [categories, setCategories] = useState([])
-    const [choosedCategory, setChoosedCategory] = useState('')
+    const [choosedCategory, setChoosedCategory] = useState([])
 
     function handleChange(event) {
         setCategoryId(event.target.value)
@@ -76,7 +76,7 @@ export default function Alert(props) {
                     hasBestAnswer: hasBestAnswer
                 }
             })
-
+            getQuestions()
             setOpenPopup(false)
         } catch (error) {
             console.log(error)
@@ -108,24 +108,25 @@ export default function Alert(props) {
                         variant="outlined"
                         fullWidth
                     />
-
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={choosedCategory}
-                        label="role"
-                        displayEmpty
-                        onChange={(e) => {
-                            handleChange(e)
-                        }}
-                        fullWidth
-                    >
-                        {categories.map((category) => (
-                            <MenuItem key={category.id} value={category.id}>
-                                {category.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    {categories.length > 0 && (
+                        <Select
+                            defaultValue=" "
+                            value={choosedCategory}
+                            label="role"
+                            displayEmpty
+                            multiple
+                            onChange={(e) => {
+                                handleChange(e)
+                            }}
+                            fullWidth
+                        >
+                            {categories.map((category) => (
+                                <MenuItem key={category.id} value={category.id}>
+                                    {category.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    )}
                 </Box>
                 <Box m={2}>
                     <ThemeProvider theme={theme}>

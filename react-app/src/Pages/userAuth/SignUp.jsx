@@ -59,7 +59,7 @@ export default function SignUp() {
     const [anchorEl, setAnchorEl] = React.useState(null)
     const options = ['English', 'كوردى']
     const [roles, setRoles] = React.useState([])
-    const [role, setRole] = React.useState([])
+    const [role, setRole] = React.useState()
     const open = Boolean(anchorEl)
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget)
@@ -134,7 +134,7 @@ export default function SignUp() {
                 method: 'get',
                 url: baseUrl + '/roles'
             })
-            // console.log({ response })
+
             setRoles(response.data.roles)
         } catch (error) {
             console.log('error logging in')
@@ -144,6 +144,8 @@ export default function SignUp() {
     React.useEffect(() => {
         getRoles()
     }, [])
+
+    console.log({ roles })
 
     return (
         <ThemeProvider theme={theme}>
@@ -266,9 +268,10 @@ export default function SignUp() {
                                     onChange={handleChange}
                                     fullWidth
                                     name="role"
+                                    defaultValue=""
                                     {...register('role')}
                                     error={errors.role?.message ? true : false}
-                                    helperText={errors.role?.message}
+                                    MenuProps={{ helperText: errors.role?.message }}
                                 >
                                     {roles?.map((role, index) => (
                                         <MenuItem key={index} value={role.name}>
