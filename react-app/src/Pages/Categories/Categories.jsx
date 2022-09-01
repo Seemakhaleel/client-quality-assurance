@@ -9,10 +9,11 @@ import {
     Box,
     TextField,
     Typography,
-    ListItemButton
+    ListItemButton,
+    IconButton
 } from '@mui/material'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
-
+import CategoryIcon from '@mui/icons-material/Category'
 import { Container } from '@mui/system'
 import React from 'react'
 import axios from '../../axios'
@@ -72,7 +73,13 @@ const Categories = () => {
             >
                 <Typography variant="h4"> Question Categories</Typography>
                 {category.map((category) => (
-                    <ListItem>
+                    <ListItem
+                        secondaryAction={
+                            <IconButton size="small">
+                                <CategoryIcon />
+                            </IconButton>
+                        }
+                    >
                         <ListItemButton
                             key={category.id}
                             onClick={() => navigate('/dashboard/categories/' + category.id)}

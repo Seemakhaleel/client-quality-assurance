@@ -7,20 +7,34 @@ import Typography from '@mui/material/Typography'
 import axiosInstance from '../../axios'
 import { baseUrl } from '../../api'
 import CssBaseline from '@mui/material/CssBaseline'
-import { Grid, Card, CardContent, Container, List, ListItem, IconButton, ListItemText, CardHeader } from '@mui/material'
+import {
+    Grid,
+    Card,
+    CardContent,
+    Container,
+    List,
+    ListItem,
+    IconButton,
+    ListItemText,
+    CardHeader,
+    ListItemButton,
+    ListItemIcon,
+    Divider
+} from '@mui/material'
 import EditAlert from './EditAlert'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useTheme } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import { Box } from '@mui/system'
 
 const Question = () => {
     const [oneQuestion, setOneQuestion] = useState({})
     const [oneanswer, setOneAnswer] = useState([])
     const [postAnswer, setPostAnswer] = useState('')
     const [openEditDialog, setOpenEditDialog] = React.useState(false)
-    const [bestAnswe, setBestAnswer] = useState('')
+    // const [bestAnswe, setBestAnswer] = useState('')
     const navigate = useNavigate()
     const { id } = useParams()
 
@@ -149,10 +163,10 @@ const Question = () => {
         try {
             const { data } = await axiosInstance({
                 method: 'put',
-                url: baseUrl + '/answers/' + '/set-as-best-answer'
+                url: baseUrl + '/answers/set-as-best-answer'
             })
             console.log(data?.answer, 'Hell000000000000')
-            setBestAnswer(data?.answer)
+            // setBestAnswer(data?.answer)
             getAnswers()
         } catch {
             console.log('error choosing best answer')
@@ -162,7 +176,7 @@ const Question = () => {
     React.useEffect(() => {
         getOneQuestion()
         getAnswers()
-        bestAnswer()
+        // bestAnswer()
     }, [])
 
     const handleClickOpen = () => {
@@ -175,152 +189,150 @@ const Question = () => {
         <>
             <Container>
                 <CssBaseline />
-                <Grid container>
-                    <form>
-                        <Grid item xs={12}>
-                            <Card variant="outlined">
-                                <CardHeader
-                                    action={
-                                        <>
-                                            <IconButton
-                                                sx={{ color: theme.palette.primary.main }}
-                                                onClick={handleClickOpen}
-                                            >
-                                                <EditIcon />
+                <Grid container spacing={4}>
+                    <Grid item xs={12}>
+                        <Card variant="outlined">
+                            <CardHeader
+                                action={
+                                    <>
+                                        <IconButton
+                                            sx={{ color: theme.palette.primary.main }}
+                                            onClick={handleClickOpen}
+                                        >
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton
+                                            sx={{ color: theme.palette.secondary.main }}
+                                            color="secondary"
+                                            onClick={() => {
+                                                deleteQuestion(oneQuestion?.id)
+                                                navigate('/dashboard/questions')
+                                            }}
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </>
+                                }
+                                subheader={new Date(oneQuestion.created_at).toDateString()}
+                                title={oneQuestion?.title}
+                                // disableTypography={false}
+                            />
+                            <CardContent>
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontWeight: '40',
+                                        fontSize: '0.9rem',
+                                        lineHeight: '1.167',
+                                        letterSpacing: '-0.01562em'
+                                    }}
+                                >
+                                    Question :
+                                </Typography>
+                                <Typography
+                                    variant="h5"
+                                    sx={{
+                                        fontWeight: 'bold'
+                                    }}
+                                >
+                                    {oneQuestion?.question}
+                                </Typography>
+                            </CardContent>
+                            <CardContent>
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontSize: '0.9rem',
+                                        lineHeight: '1.167',
+                                        letterSpacing: '-0.01562em'
+                                    }}
+                                >
+                                    description :{' '}
+                                </Typography>
+                                <Typography variant="h6">{oneQuestion?.description}</Typography>
+                            </CardContent>
+                            <CardContent>
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontWeight: '100',
+                                        fontSize: '1rem',
+                                        lineHeight: '1.167',
+                                        letterSpacing: '-0.01562em'
+                                    }}
+                                >
+                                    category:{' '}
+                                </Typography>
+                                <Typography variant="h6">{oneQuestion?.categoryId}</Typography>
+                            </CardContent>
+
+                            {openEditDialog && (
+                                <EditAlert
+                                    openEditDialog={openEditDialog}
+                                    setOpenEditDialog={setOpenEditDialog}
+                                    getOneQuestion={getOneQuestion}
+                                    oneQuestion={oneQuestion}
+                                />
+                            )}
+                        </Card>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <Typography variant="h6" fontWeight={600}>
+                            Answers
+                        </Typography>
+                        {oneanswer
+                            .filter((answer) => answer?.questionId == id)
+                            .map((answer) => (
+                                <Card sx={{ my: 2, width: '100%' }} key={answer?.id}>
+                                    <CardContent
+                                        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                                    >
+                                        <Typography>{answer?.answer}</Typography>
+
+                                        <Box display="flex">
+                                            <IconButton color="primary" onClick={bestAnswer()}>
+                                                <ThumbUpIcon />
                                             </IconButton>
+
                                             <IconButton
-                                                sx={{ color: theme.palette.secondary.main }}
-                                                color="secondary"
+                                                color="error"
                                                 onClick={() => {
-                                                    deleteQuestion(oneQuestion?.id)
-                                                    navigate('/dashboard/questions')
+                                                    deleteAnswer(answer?.id)
                                                 }}
                                             >
-                                                <DeleteIcon />
+                                                <DeleteOutlineIcon />
                                             </IconButton>
-                                        </>
-                                    }
-                                    subheader={new Date(oneQuestion.created_at).toDateString()}
-                                    title={oneQuestion?.title}
-                                    // disableTypography={false}
-                                />
-                                <CardContent>
-                                    <Typography
-                                        variant="h6"
-                                        sx={{
-                                            fontWeight: '40',
-                                            fontSize: '0.9rem',
-                                            lineHeight: '1.167',
-                                            letterSpacing: '-0.01562em'
-                                        }}
-                                    >
-                                        Question :
-                                    </Typography>
-                                    <Typography
-                                        variant="h5"
-                                        sx={{
-                                            fontWeight: 'bold'
-                                        }}
-                                    >
-                                        {oneQuestion?.question}
-                                    </Typography>
-                                </CardContent>
-                                <CardContent>
-                                    <Typography
-                                        variant="h6"
-                                        sx={{
-                                            fontSize: '0.9rem',
-                                            lineHeight: '1.167',
-                                            letterSpacing: '-0.01562em'
-                                        }}
-                                    >
-                                        description :{' '}
-                                    </Typography>
-                                    <Typography variant="h6">{oneQuestion?.description}</Typography>
-                                </CardContent>
-                                <CardContent>
-                                    <Typography
-                                        variant="h6"
-                                        sx={{
-                                            fontWeight: '100',
-                                            fontSize: '1rem',
-                                            lineHeight: '1.167',
-                                            letterSpacing: '-0.01562em'
-                                        }}
-                                    >
-                                        category:{' '}
-                                    </Typography>
-                                    <Typography variant="h6">{oneQuestion?.categoryId}</Typography>
-                                </CardContent>
+                                        </Box>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                    </Grid>
 
-                                {openEditDialog && (
-                                    <EditAlert
-                                        openEditDialog={openEditDialog}
-                                        setOpenEditDialog={setOpenEditDialog}
-                                        getOneQuestion={getOneQuestion}
-                                        oneQuestion={oneQuestion}
-                                    />
-                                )}
+                    <Grid item xs={8}>
+                        <TextField
+                            placeholder="Answer "
+                            multiline
+                            maxRows={4}
+                            variant="outlined"
+                            fullWidth
+                            value={postAnswer}
+                            onChange={(e) => setPostAnswer(e.target.value)}
+                        />
 
-                                <Grid item xs={12}>
-                                    <Card sx={{ m: 1 }}>
-                                        <CardContent>
-                                            <Typography variant="h6">Answers :</Typography>
-                                            {oneanswer
-                                                .filter((answer) => answer?.questionId == id)
-                                                .map((answer) => (
-                                                    <List key={answer?.id}>
-                                                        <ListItem>
-                                                            <ListItemText>{answer?.answer}</ListItemText>
-                                                            <Grid item xs={2}>
-                                                                <ListItem>
-                                                                    <IconButton edge="end">
-                                                                        <ThumbUpIcon />
-                                                                    </IconButton>
-                                                                    <IconButton
-                                                                        edge="end"
-                                                                        onClick={() => {
-                                                                            deleteAnswer(answer?.id)
-                                                                        }}
-                                                                    >
-                                                                        <DeleteOutlineIcon />
-                                                                    </IconButton>
-                                                                </ListItem>
-                                                            </Grid>
-                                                        </ListItem>
-                                                    </List>
-                                                ))}
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            </Card>
+                        <Grid item xs={12}>
+                            <Button
+                                variant="contained"
+                                onClick={() => {
+                                    postAnAnswer()
+                                    setPostAnswer('')
+                                }}
+                                sx={{ m: 1 }}
+                            >
+                                POST
+                            </Button>
                         </Grid>
-
-                        <Grid item xs={8}>
-                            <TextField
-                                placeholder="Answer "
-                                multiline
-                                maxRows={4}
-                                variant="outlined"
-                                fullWidth
-                                value={postAnswer}
-                                onChange={(e) => setPostAnswer(e.target.value)}
-                            />
-
-                            <Grid item xs={12}>
-                                <Button
-                                    variant="contained"
-                                    onClick={() => {
-                                        postAnAnswer()
-                                        setPostAnswer('')
-                                    }}
-                                    sx={{ m: 1 }}
-                                >
-                                    POST
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </form>
+                    </Grid>
                 </Grid>
             </Container>
         </>
